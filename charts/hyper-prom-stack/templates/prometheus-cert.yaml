@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: prometheus-tls-cert
+  namespace: monitoring
+spec:
+  secretName: prometheus-tls-cert
+  commonName: prometheus.hypermedia.au
+  dnsNames:
+    - prometheus.hypermedia.au
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

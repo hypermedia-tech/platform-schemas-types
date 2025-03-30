@@ -1,0 +1,40 @@
+domainName: ""
+
+kube-prometheus-stack:
+  alertmanager:
+    alertmanagerSpec:
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: "nfs-client"
+            accessModes: [ "ReadWriteOnce" ]
+            resources:
+              requests:
+                storage: 100Mi
+  prometheus:
+    prometheusSpec:
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: "nfs-client"
+            accessModes: [ "ReadWriteOnce" ]
+            resources:
+              requests:
+                storage: 1Gi
+
+  grafana:
+    additionalDataSources:
+      - name: loki-logs
+        access: proxy
+        #     basicAuth: true
+        #     secureJsonData:
+        #         basicAuthPassword: pass
+        #     basicAuthUser: daco
+        editable: false
+        jsonData:
+          tlsSkipVerify: true
+          customHttpHeaders:
+            X-Scope-OrgID: "1"
+        orgId: 1
+        type: loki
+        url: http://loki-gateway.loki.svc.cluster.local

@@ -1,0 +1,6 @@
+dependencies:
+- name: dynamodb
+  repository: https://keyporttech.github.io/helm-charts/
+  version: 0.1.27
+digest: sha256:8d7643934684d31169fab3d09ba96eaabcd029b018d38662384aa719ab8720ea
+generated: "2025-03-31T00:51:55.939316+10:00"

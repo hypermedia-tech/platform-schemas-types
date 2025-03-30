@@ -1,5 +1,5 @@
 apiVersion: v2
-name:
+name: hyper-ngrok
 description: A chart wrapping  with overridable env affordances
 type: application
 version: 0.0.1
@@ -7,6 +7,6 @@ version: 0.0.1
 appVersion: "1.0"
 
 dependencies:
-  - name: ""
-    version: ""
-    repository: ""
+  - name: ngrok-operator
+    version: 0.17.1
+    repository: https://charts.ngrok.com

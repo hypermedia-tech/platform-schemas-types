@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pgadmin-tls-cert
+  namespace: postgres
+spec:
+  secretName: pgadmin-tls-cert
+  commonName: pgadmin.hypermedia.au
+  dnsNames:
+    - pgadmin.hypermedia.au
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

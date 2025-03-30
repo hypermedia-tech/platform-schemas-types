@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pihole-tls-cert
+  namespace: pihole-system
+spec:
+  secretName: pihole-tls-cert
+  commonName: pihole.hypermedia.au
+  dnsNames:
+    - pihole.hypermedia.au
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

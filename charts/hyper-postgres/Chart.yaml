@@ -1,5 +1,5 @@
 apiVersion: v2
-name:
+name: hyper-postgres
 description: A chart wrapping  with overridable env affordances
 type: application
 version: 0.0.1
@@ -7,6 +7,6 @@ version: 0.0.1
 appVersion: "1.0"
 
 dependencies:
-  - name: ""
-    version: ""
-    repository: ""
+  - name: "postgresql"
+    version: "15.5.10"
+    repository: https://charts.bitnami.com/bitnami

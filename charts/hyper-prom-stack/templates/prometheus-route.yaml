@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: prometheus-http-route
+  namespace: monitoring
+spec:
+  hostnames:
+    - "prometheus.hypermedia.au"
+  parentRefs:
+    - name: prometheus-gateway
+      namespace: monitoring
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: prometheus-stack-kube-prom-prometheus
+          port: 9090
