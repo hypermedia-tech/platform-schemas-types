@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: jaeger-tls-cert
+  namespace: istio-system
+spec:
+  secretName: jaeger-tls-cert
+  commonName: jaeger.hypermedia.au
+  dnsNames:
+    - jaeger.hypermedia.au
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

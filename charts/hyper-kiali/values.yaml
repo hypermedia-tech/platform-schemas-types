@@ -1,0 +1,34 @@
+hostName: ""
+ingressMode: ambient
+grafanaUrl: &grafana ""
+jaegerUrl: &jaeger ""
+kiali-operator:
+  spec:
+    deployment:
+      ingress:
+        enabled: true
+  cr:
+    create: true
+    namespace: istio-system
+    spec:
+      auth:
+        strategy: "anonymous"
+      external_services:
+        grafana:
+          auth:
+            type: basic
+            username: "admin"
+            password: "prom-operator"
+          external_url: *grafana
+          internal_url: http://prometheus-stack-grafana.monitoring
+        prometheus:
+          url: http://prometheus-stack-kube-prom-prometheus.monitoring:9090
+        istio:
+          config_map_name: "istio"
+          istio_injection_annotation: "istio.io/dataplane-mode"
+        tracing:
+          enabled: true
+          provider: jaeger
+          internal_url: http://jaeger-query.istio-system:16685
+          external_url: *jaeger
+          use_grpc: true

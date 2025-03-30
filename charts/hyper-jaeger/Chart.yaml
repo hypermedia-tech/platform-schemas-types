@@ -1,12 +1,12 @@
 apiVersion: v2
-name:
-description: A chart wrapping  with overridable env affordances
+name: hyper-jaeger
+description: A chart wrapping jaeger tracing interface with overridable env affordances
 type: application
 version: 0.0.1
 
 appVersion: "1.0"
 
 dependencies:
-  - name: ""
-    version: ""
-    repository: ""
+  - name: jaeger
+    version: 3.4.0
+    repository: https://jaegertracing.github.io/helm-charts
