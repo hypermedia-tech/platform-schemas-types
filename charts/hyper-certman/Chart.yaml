@@ -1,0 +1,12 @@
+apiVersion: v2
+name: hyper-certman
+description: A chart wrapping cert man with overridable env affordances
+type: application
+version: 0.0.1
+
+appVersion: "1.0"
+
+dependencies:
+  - name: cert-manager
+    version: "1.17.1"
+    repository: "https://charts.jetstack.io"

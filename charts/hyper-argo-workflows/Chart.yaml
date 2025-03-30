@@ -1,6 +1,6 @@
 apiVersion: v2
-name: proto
-description: A Helm chart for Kubernetes
+name: hyper-argo-workflows
+description: A chart wrapping argo-workflows man with overridable env affordances
 type: application
 version: 0.0.1
 
