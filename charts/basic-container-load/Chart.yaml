@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: "1.0"
 description: Basic Container Service Template.
 name: basic-container-load
-version: 0.0.2
+version: 0.0.1
 maintainers:
   - name: delProfundo
     email: bruno@hypermedia.au
