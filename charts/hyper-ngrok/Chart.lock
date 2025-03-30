@@ -1,0 +1,6 @@
+dependencies:
+- name: ngrok-operator
+  repository: https://charts.ngrok.com
+  version: 0.17.1
+digest: sha256:593f59dd4b4bb9e8ac376021d274edf58620af4a06ec37f6dce4d031d56cc361
+generated: "2025-03-31T00:43:23.888779+10:00"
