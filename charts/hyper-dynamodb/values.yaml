@@ -1,0 +1,2 @@
+storageType: pvc
+storage: 500Mi
