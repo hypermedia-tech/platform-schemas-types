@@ -1,0 +1,31 @@
+apiVersion: v1
+entries:
+  basic-container-load:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-30T05:09:11.280854492Z"
+    description: Basic Container Service Template.
+    digest: fc2995d9e97f88ffefdbd0a31b81fbb42329e0af05ea02673c8222b6d65d50a4
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: basic-container-load
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/basic-container-load-0.0.1/basic-container-load-0.0.1.tgz
+    version: 0.0.1
+  proto:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-30T05:09:11.405222456Z"
+    dependencies:
+    - name: argo-workflows
+      repository: https://argoproj.github.io/argo-helm
+      version: 0.45.11
+    description: A Helm chart for Kubernetes
+    digest: eabab9e8d18a658991f39787bc7f4eab3f77164738750faddb7de032c84f29ad
+    name: proto
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
+    version: 0.0.1
+generated: "2025-03-30T05:09:11.405250299Z"
