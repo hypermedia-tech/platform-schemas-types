@@ -1,0 +1,68 @@
+serviceName: &svcName basic-service
+nameOverride: *svcName
+basicMonitoring:
+  enabled: true
+namespace: default
+environment: unset
+stripe: unset
+serviceAccount: ""
+revisionHistoryLimit: 2
+ingress:
+  enabled: false
+  host: ""
+service:
+  port: 80
+key: "abc"
+container:
+  vault:
+    key: "path_to_secret"
+    server: "http://vault.vault.svc.cluster.local:8200"
+    role: "external-secrets-role"
+  secretStore:
+    name: "es-secret-store"
+  replicas: 0
+  image:
+    repository: unset
+    tag: latest
+  containerPorts:
+  - portName: "http"
+    portNumber: 8080
+    protocol: "TCP"
+    servicePort: 80
+  resources:
+    requests:
+      cpu: "0.2"
+      memory: "100Mi"
+    limits:
+      cpu: "0.5"
+      memory: "256Mi"
+  secretRefreshInterval: 5m
+  livenessProbe:
+    enabled: true
+    type: "http"
+    path: "/v1/health"
+    port: 8080
+    scheme: "HTTP"
+    initialDelaySeconds: 10
+    timeoutSeconds: 10
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    enabled: true
+    type: "http"
+    path: "/v1/health"
+    port: 8080
+    scheme: "HTTP"
+    initialDelaySeconds: 10
+    timeoutSeconds: 3
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 3
+  hpa:
+    enabled: false
+    targetCpu: 80
+    minReplicas: 1
+    maxReplicas: 3
+  environment: []
+  secrets: []

@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "basicMonitoring": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "container": {
+      "properties": {
+        "containerPorts": {
+          "items": {
+            "properties": {
+              "portName": {
+                "type": "string"
+              },
+              "portNumber": {
+                "type": "integer"
+              },
+              "protocol": {
+                "type": "string"
+              },
+              "servicePort": {
+                "type": "integer"
+              }
+            },
+            "type": "object",
+            "additionalProperties": false
+          },
+          "type": "array"
+        },
+        "environment": {
+          "type": "array"
+        },
+        "hpa": {
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "maxReplicas": {
+              "type": "integer"
+            },
+            "minReplicas": {
+              "type": "integer"
+            },
+            "targetCpu": {
+              "type": "integer"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "image": {
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "livenessProbe": {
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "failureThreshold": {
+              "type": "integer"
+            },
+            "initialDelaySeconds": {
+              "type": "integer"
+            },
+            "path": {
+              "type": "string"
+            },
+            "periodSeconds": {
+              "type": "integer"
+            },
+            "port": {
+              "type": "integer"
+            },
+            "scheme": {
+              "type": "string"
+            },
+            "successThreshold": {
+              "type": "integer"
+            },
+            "timeoutSeconds": {
+              "type": "integer"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "readinessProbe": {
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "failureThreshold": {
+              "type": "integer"
+            },
+            "initialDelaySeconds": {
+              "type": "integer"
+            },
+            "path": {
+              "type": "string"
+            },
+            "periodSeconds": {
+              "type": "integer"
+            },
+            "port": {
+              "type": "integer"
+            },
+            "scheme": {
+              "type": "string"
+            },
+            "successThreshold": {
+              "type": "integer"
+            },
+            "timeoutSeconds": {
+              "type": "integer"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "replicas": {
+          "type": "integer"
+        },
+        "resources": {
+          "properties": {
+            "limits": {
+              "properties": {
+                "cpu": {
+                  "type": "string"
+                },
+                "memory": {
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "requests": {
+              "properties": {
+                "cpu": {
+                  "type": "string"
+                },
+                "memory": {
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "secretRefreshInterval": {
+          "type": "string"
+        },
+        "secretStore": {
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "secrets": {
+          "type": "array"
+        },
+        "vault": {
+          "properties": {
+            "key": {
+              "type": "string"
+            },
+            "server": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "environment": {
+      "type": "string"
+    },
+    "ingress": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "host": {
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "key": {
+      "type": "string"
+    },
+    "nameOverride": {
+      "type": "string"
+    },
+    "namespace": {
+      "type": "string"
+    },
+    "revisionHistoryLimit": {
+      "type": "integer"
+    },
+    "service": {
+      "properties": {
+        "port": {
+          "type": "integer"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "serviceAccount": {
+      "type": "string"
+    },
+    "serviceName": {
+      "type": "string"
+    },
+    "stripe": {
+      "type": "string"
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}
