@@ -1,0 +1,7 @@
+namespace: ngrok-ingress
+ingressMode: ambient
+secretRefreshInterval: 1h
+argoNgrokEndpoint: ""
+clusterIssuer:
+  name: letsencrypt-prod
+  kind: ClusterIssuer
