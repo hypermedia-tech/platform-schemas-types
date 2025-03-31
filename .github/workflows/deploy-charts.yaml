@@ -27,6 +27,20 @@ jobs:
       - name: add repos
         run: |
           helm repo add argo https://argoproj.github.io/argo-helm
+          helm repo add cert-manager  https://charts.jetstack.io
+          helm repo add argo-workflows https://argoproj.github.io/argo-helm
+          helm repo add crossplane  https://charts.crossplane.io/stable
+          helm repo add komoplane https://helm-charts.komodor.io
+          helm repo add dynamodb https://keyporttech.github.io/helm-charts/
+          helm repo add jaeger https://jaegertracing.github.io/helm-charts
+          helm repo add k6-operator https://grafana.github.io/helm-charts
+          helm repo add kiali-operator "https://kiali.org/helm-charts"
+          helm repo add minio https://operator.min.io
+          helm repo add ngrok-operator https://charts.ngrok.com
+          helm repo add pihole https://mojo2600.github.io/pihole-kubernetes
+          helm repo add postgres https://charts.bitnami.com/bitnami
+          helm repo add pgadmin4 https://helm.runix.net
+          helm repo add kube-prometheus-stack https://prometheus-community.github.io/helm-charts
 
       - name: Run chart-releaser
         uses: stecky/yet-another-chart-releaser-action@v1
