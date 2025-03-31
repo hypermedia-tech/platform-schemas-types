@@ -1,2 +1,9 @@
-storageType: pvc
-storage: 500Mi
+hostName: ""
+ingressMode: ambient
+namespace: dynamodb
+clusterIssuer:
+  name: letsencrypt-prod
+  kind: ClusterIssuer
+dynamodb:
+  storageType: pvc
+  storage: 500Mi

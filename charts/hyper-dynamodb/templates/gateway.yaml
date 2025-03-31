@@ -2,8 +2,8 @@
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
-  name: argo-workflows-gateway
-  namespace: {{ .Values.namespace | default "argo" }}
+  name: dynamodb-gateway
+  namespace: {{ .Values.namespace | default "dynamodb" }}
 spec:
   gatewayClassName: istio
   listeners:
@@ -14,6 +14,7 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-          - name: {{ .Values.name }}-tls-cert
+          - name: dynamodb-tls-cert
             kind: Secret
+            namespace: dynamodb
 {{- end }}
