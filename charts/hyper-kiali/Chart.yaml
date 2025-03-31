@@ -1,6 +1,6 @@
 apiVersion: v2
 name: hyper-kiali
-description: A chart wrapping kiali  with overridable env affordances
+description: A chart wrapping kiali with overridable env affordances
 type: application
 version: 0.0.1
 

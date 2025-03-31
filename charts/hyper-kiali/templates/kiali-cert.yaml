@@ -3,13 +3,13 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: kiali-tls-cert
-  namespace: istio-system
+  namespace: {{ .Values.namespace | default "kiali-system" }}
 spec:
   secretName: kiali-tls-cert
   commonName: {{ .Values.hostName }}
   dnsNames:
     - {{ .Values.hostName }}
   issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
+    name: {{ .Values.clusterIssuer.name }}
+    kind: {{ .Values.clusterIssuer.kind }}
 {{- end }}
