@@ -13,6 +13,207 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/basic-container-load-0.0.1/basic-container-load-0.0.1.tgz
     version: 0.0.1
+  hyper-argo-workflows:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:23.720333221Z"
+    dependencies:
+    - name: argo-workflows
+      repository: https://argoproj.github.io/argo-helm
+      version: 0.45.11
+    description: A chart wrapping argo-workflows man with overridable env affordances
+    digest: 7ca4cc7240768ef4fb7de503e645c5f3c74c24a88ae18e5de3eb5d59e4e5f29f
+    name: hyper-argo-workflows
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-argo-workflows-0.0.1/hyper-argo-workflows-0.0.1.tgz
+    version: 0.0.1
+  hyper-argocd:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:23.887889983Z"
+    dependencies:
+    - name: argo-cd
+      repository: https://argoproj.github.io/argo-helm
+      version: 7.7.11
+    description: A chart wrapping kiali  with overridable env affordances
+    digest: d4e5ba02ad10009616eb82d542823834ab198e3bd026e038450ed13b6c37e950
+    name: hyper-argocd
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-argocd-0.0.1/hyper-argocd-0.0.1.tgz
+    version: 0.0.1
+  hyper-certman:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:24.032081068Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: 1.17.1
+    description: A chart wrapping cert man with overridable env affordances
+    digest: 8c4fbe79e3aea59d84788e5895b36bd62b77227ca35549f2fd341deecd976569
+    name: hyper-certman
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-certman-0.0.1/hyper-certman-0.0.1.tgz
+    version: 0.0.1
+  hyper-crossplane:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:24.180465956Z"
+    dependencies:
+    - name: crossplane
+      repository: https://charts.crossplane.io/stable
+      version: 1.19.0
+    - name: komoplane
+      repository: https://helm-charts.komodor.io
+      version: 0.1.6
+    description: A chart wrapping crossplane controller with overridable env affordances
+    digest: a22d1a73932f9b77a47ad0baa8c5918268868ab247a3cc4497321dca68e02b10
+    name: hyper-crossplane
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-crossplane-0.0.1/hyper-crossplane-0.0.1.tgz
+    version: 0.0.1
+  hyper-dynamodb:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:24.307184304Z"
+    dependencies:
+    - name: dynamodb
+      repository: https://keyporttech.github.io/helm-charts/
+      version: 0.1.27
+    description: A chart wrapping  with overridable env affordances
+    digest: 0a16c61c9184fdc2f108b9b71534ae38f1da2571b0bc9329136704fdf7f6a70c
+    name: hyper-dynamodb
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-dynamodb-0.0.1/hyper-dynamodb-0.0.1.tgz
+    version: 0.0.1
+  hyper-jaeger:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:24.475526694Z"
+    dependencies:
+    - name: jaeger
+      repository: https://jaegertracing.github.io/helm-charts
+      version: 3.4.0
+    description: A chart wrapping jaeger tracing interface with overridable env affordances
+    digest: 62d113a834315f90a3d3ddf5cd85fdb3b1aa235d541353efaf3f1b83d1182631
+    name: hyper-jaeger
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-jaeger-0.0.1/hyper-jaeger-0.0.1.tgz
+    version: 0.0.1
+  hyper-k6:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:24.635440194Z"
+    dependencies:
+    - name: k6-operator
+      repository: https://grafana.github.io/helm-charts
+      version: 3.11.1
+    description: A chart wrapping k6man with overridable env affordances
+    digest: d7140491e9ba32034bd7368a7b88c12039256c43e19d599750ba994008f56d3f
+    name: hyper-k6
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-k6-0.0.1/hyper-k6-0.0.1.tgz
+    version: 0.0.1
+  hyper-kiali:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:24.751242125Z"
+    dependencies:
+    - name: kiali-operator
+      repository: https://kiali.org/helm-charts
+      version: 2.7.1
+    description: A chart wrapping kiali with overridable env affordances
+    digest: d2eab51f672f839a8ab279e531de412a09ec619c2ebb589e42392b0080492041
+    name: hyper-kiali
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-kiali-0.0.1/hyper-kiali-0.0.1.tgz
+    version: 0.0.1
+  hyper-minio-tenant:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:24.867189458Z"
+    dependencies:
+    - name: tenant
+      repository: https://operator.min.io
+      version: 7.0.0
+    description: A chart wrapping  with overridable env affordances
+    digest: 3cd2c3009edf28c56ea1b20ea61d26ebb79b0c5473c357bbaf323e6592bb0cf9
+    name: hyper-minio-tenant
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-minio-tenant-0.0.1/hyper-minio-tenant-0.0.1.tgz
+    version: 0.0.1
+  hyper-ngrok:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:25.005837665Z"
+    dependencies:
+    - name: ngrok-operator
+      repository: https://charts.ngrok.com
+      version: 0.17.1
+    description: A chart wrapping  with overridable env affordances
+    digest: 153414b80f2564e416f9d49f06120a221dc0dbbb03a8feb4347eb11ccc4d276e
+    name: hyper-ngrok
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-ngrok-0.0.1/hyper-ngrok-0.0.1.tgz
+    version: 0.0.1
+  hyper-pihole:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:25.133051327Z"
+    dependencies:
+    - name: pihole
+      repository: https://mojo2600.github.io/pihole-kubernetes
+      version: 2.29.1
+    description: A chart wrapping  with overridable env affordances
+    digest: 6380564dc625b7150a748489291baba8d2f00576c7885178b4004e215582ae8b
+    name: hyper-pihole
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-pihole-0.0.1/hyper-pihole-0.0.1.tgz
+    version: 0.0.1
+  hyper-postgres:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:25.281219781Z"
+    dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.10
+    - name: pgadmin4
+      repository: https://helm.runix.net
+      version: 1.36.0
+    description: A chart wrapping  with overridable env affordances
+    digest: 660e20ae491d3b39a0d78ff98c2d121c2b9a4ac52fea66dbb96db930eaf0703e
+    name: hyper-postgres
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-postgres-0.0.1/hyper-postgres-0.0.1.tgz
+    version: 0.0.1
+  hyper-prometheus-stack:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-03-31T10:59:25.440034684Z"
+    dependencies:
+    - name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 70.2.0
+    description: A chart wrapping kube prom stack with overridable env affordances
+    digest: c0cef1bc015952f7f43970f2967466debd39b0344a504e99078017177b260c25
+    name: hyper-prometheus-stack
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-prometheus-stack-0.0.1/hyper-prometheus-stack-0.0.1.tgz
+    version: 0.0.1
   proto:
   - apiVersion: v2
     appVersion: "1.0"
@@ -28,4 +229,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-03-30T05:09:11.405250299Z"
+generated: "2025-03-31T10:59:25.440046717Z"
