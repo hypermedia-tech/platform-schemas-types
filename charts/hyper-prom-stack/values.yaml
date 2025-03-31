@@ -1,5 +1,9 @@
 domainName: ""
-
+namespace: monitoring
+ingressMode: ambient
+clusterIssuer:
+  name: letsencrypt-prod
+  kind: ClusterIssuer
 kube-prometheus-stack:
   alertmanager:
     alertmanagerSpec:

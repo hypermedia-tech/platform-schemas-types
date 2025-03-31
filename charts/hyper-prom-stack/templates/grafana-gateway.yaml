@@ -2,17 +2,17 @@ apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: grafana-gateway
-  namespace: monitoring
+  namespace: {{ .Values.namespace | default "monitoring"}}
 spec:
   gatewayClassName: istio
   listeners:
     - name: https
       port: 443
       protocol: HTTPS
-      hostname: grafana.hypermedia.au
+      hostname: grafana.{{ .Values.domainName }}
       tls:
         mode: Terminate
         certificateRefs:
           - name: grafana-tls-cert
             kind: Secret
-            namespace: monitoring
+            namespace: {{ .Values.namespace | default "monitoring"}}
