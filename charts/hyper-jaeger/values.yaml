@@ -1,5 +1,9 @@
 hostName: ""
 ingressMode: ambient
+namespace: istio-system
+clusterIssuer:
+  name: letsencrypt-prod
+  kind: ClusterIssuer
 jaeger:
   allInOne:
     enabled: true
