@@ -1,0 +1,6 @@
+uIhostName: ""
+namespace: postgres
+ingressMode: ambient
+clusterIssuer:
+  name: letsencrypt-prod
+  kind: ClusterIssuer

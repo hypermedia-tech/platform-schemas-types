@@ -1,0 +1,51 @@
+hostName: &hostname ""
+ingressMode: nginx
+namespace: pihole-system
+clusterIssuer:
+  name: letsencrypt-prod
+  kind: ClusterIssuer
+
+pihole:
+  extraEnvVars:
+    FTLCONF_dns_listeningMode: "ALL"
+  ingress:
+    enabled: true
+    ingressClassName: nginx-internal
+    path: /
+    hosts:
+      - *hostname
+    tls:
+      - secretName: pihole-tls-cert
+        hosts:
+          - *hostname
+  virtualHost: *hostname
+  serviceDhcp:
+    enabled: false
+  serviceWeb:
+    http:
+      enabled: true
+      port: 80
+    https:
+      enabled: true
+      port: 443
+    annotations:
+      metallb.universe.tf/allow-shared-ip: pihole-web-svc
+    type: ClusterIP
+  serviceDns:
+#    loadBalancerIP:
+    annotations:
+      metallb.universe.tf/allow-shared-ip: pihole-dns-svc
+    type: LoadBalancer
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  persistentVolumeClaim:
+    enabled: true
+    size: "500Mi"
+  dnsmasq:
+    customDnsEntries: []

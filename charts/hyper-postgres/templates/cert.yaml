@@ -1,13 +1,15 @@
+{{- if .Values.uIhostName }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: pgadmin-tls-cert
-  namespace: postgres
+  namespace: {{ .Values.namespace | default "postgres" }}
 spec:
   secretName: pgadmin-tls-cert
-  commonName: pgadmin.hypermedia.au
+  commonName: {{ .Values.uIhostName }}
   dnsNames:
-    - pgadmin.hypermedia.au
+    - {{ .Values.uIhostName }}
   issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
+    name: {{ .Values.clusterIssuer.name }}
+    kind: {{ .Values.clusterIssuer.kind }}
+{{- end }}
