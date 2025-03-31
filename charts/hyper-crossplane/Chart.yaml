@@ -1,0 +1,15 @@
+apiVersion: v2
+name: hyper-crossplane
+description: A chart wrapping crossplane controller with overridable env affordances
+type: application
+version: 0.0.1
+
+appVersion: "1.0"
+
+dependencies:
+  - name: crossplane
+    version: 1.19.0
+    repository: https://charts.crossplane.io/stable
+  - name: komoplane
+    version: 0.1.6
+    repository: https://helm-charts.komodor.io

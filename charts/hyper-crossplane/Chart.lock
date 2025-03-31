@@ -1,0 +1,9 @@
+dependencies:
+- name: crossplane
+  repository: https://charts.crossplane.io/stable
+  version: 1.19.0
+- name: komoplane
+  repository: https://helm-charts.komodor.io
+  version: 0.1.6
+digest: sha256:64c325ceaffd3e9ab2aabdbe6db116b5abc3ba8377a4058dd05b93a067d4b35a
+generated: "2025-03-31T10:53:06.618475+10:00"

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: komoplane-tls-cert
+  namespace: crossplane-system
+spec:
+  secretName: komoplane-tls-cert
+  commonName: komo.hypermedia.au
+  dnsNames:
+    - komo.hypermedia.au
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
