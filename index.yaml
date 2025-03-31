@@ -79,6 +79,20 @@ entries:
   hyper-dynamodb:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-03-31T11:14:34.359034866Z"
+    dependencies:
+    - name: dynamodb
+      repository: https://keyporttech.github.io/helm-charts/
+      version: 0.1.27
+    description: A chart wrapping dynamodb with overridable env affordances
+    digest: e99ff390780d2172fa48a0aa51ba88817137c36a300a816cc5619ff90f5d0b3d
+    name: hyper-dynamodb
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-dynamodb-0.0.2/hyper-dynamodb-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-03-31T10:59:24.307184304Z"
     dependencies:
     - name: dynamodb
@@ -229,4 +243,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-03-31T10:59:25.440046717Z"
+generated: "2025-03-31T11:14:34.359045657Z"
