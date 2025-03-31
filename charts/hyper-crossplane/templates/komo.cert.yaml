@@ -1,13 +1,15 @@
+{{- if .Values.uiHostName }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: komoplane-tls-cert
-  namespace: crossplane-system
+  namespace: {{ .Values.namespace | default "crossplane-system" }}
 spec:
   secretName: komoplane-tls-cert
-  commonName: komo.hypermedia.au
+  commonName: {{ .Values.uiHostName }}
   dnsNames:
-    - komo.hypermedia.au
+    - {{ .Values.uiHostName }}
   issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
+    name: {{ .Values.securityStore.name }}
+    kind: {{ .Values.securityStore.kind }}
+  {{- end }}

@@ -1,0 +1,21 @@
+namespace: &ns crossplane-system
+ingressMode: ambient
+uiHostName: ""
+securityStore:
+  kind: ClusterSecretStore
+  name: vault-backend
+crossplane:
+  nameOverride: ""
+  fullnameOverride: ""
+  namespace: &ns
+
+  metrics:
+    enabled: true
+    service:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+    serviceMonitor:
+      enabled: true
+      namespace: crossplane-system
+      labels: { }
