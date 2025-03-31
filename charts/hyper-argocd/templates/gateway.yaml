@@ -8,7 +8,7 @@ spec:
     - name: https
       port: 443
       protocol: HTTPS
-      hostname: argocd.hypermedia.au
+      hostname: {{ .Values.hostName }}
       tls:
         mode: Terminate
         certificateRefs:

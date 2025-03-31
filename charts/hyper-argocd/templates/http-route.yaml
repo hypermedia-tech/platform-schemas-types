@@ -4,7 +4,7 @@ metadata:
   name: argocd-http-route
 spec:
   hostnames:
-    - "argocd.hypermedia.au"
+    - {{ .Values.hostName }}
   parentRefs:
     - name: argocd-gateway
   rules:

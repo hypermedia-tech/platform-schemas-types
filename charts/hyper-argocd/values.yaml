@@ -1,0 +1,70 @@
+hostName: &hostname ""
+secretRefreshInterval: 1h
+helmRepository: https://hypermedia-tech.github.io/hyper-chart-repo/
+bootstrapRepoUrl: https://github.com/hypermedia-tech/control-plane-bootstrap
+bootstrapProjectName: default
+bootstrapRepoName: control-plane-bootstrap
+securityStore:
+  kind: ClusterSecretStore
+  name: vault-backend
+ingressMode: ambient
+argo-cd:
+  # COLD_START: disable insecure, for now we need to log in and press button
+  configs:
+    params:
+      server.insecure: false
+    cm:
+      resource.exclusions: |
+        - apiGroups:
+          - "*"
+          kinds:
+          - ProviderConfigUsage
+      application.resourceTrackingMethod: annotation
+      '"kustomize.buildOptions"': --enable-helm
+    secret:
+      argocdServerAdminPassword: ""
+      argocdServerAdminPasswordMtime: "2025-01-02T16:20:00Z"
+      githubSecret: $argocd-github-webhook:token
+  global:
+    domain: *hostname
+  server:
+    service:
+      type: ClusterIP
+      annotations:
+        ambient.istio.io/enabled: "true"
+        service.istio.io/canonical-name: "argocd-server"
+    ingress:
+      enabled: false
+  repoServer:
+    extraContainers:
+      - name: kustomized-helm
+        tty: true
+        stdin: true
+        command: [ /var/run/argocd/argocd-cmp-server ]
+        image: alpine/k8s:1.27.16
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: [ "ALL" ]
+          seccompProfile:
+            type: RuntimeDefault
+        volumeMounts:
+          - mountPath: /var/run/argocd
+            name: var-files
+          - mountPath: /home/argocd/cmp-server/plugins
+            name: plugins
+          - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+            subPath: kustomized-helm.yaml
+            name: kustomized-helm
+          # Starting with v2.4, do NOT mount the same tmp volume as the repo-server container. The filesystem separation helps
+          # mitigate path traversal attacks.
+          - mountPath: /tmp
+            name: cmp-tmp
+    volumes:
+      - configMap:
+          name: kustomized-helm
+        name: kustomized-helm
+      - emptyDir: { }
+        name: cmp-tmp

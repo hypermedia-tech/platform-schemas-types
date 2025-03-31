@@ -3,4 +3,6 @@ kind: Namespace
 metadata:
   name: argocd
   labels:
+    {{- if eq .Values.ingressMode "ambient" }}
     istio.io/dataplane-mode: ambient
+    {{- end }}

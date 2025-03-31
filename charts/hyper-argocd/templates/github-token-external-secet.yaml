@@ -4,10 +4,10 @@ metadata:
   name: github-token
   namespace: argocd
 spec:
-  refreshInterval: "1h"
+  refreshInterval: {{ .Values.secretRefreshInterval }}
   secretStoreRef:
-    kind: ClusterSecretStore
-    name: vault-backend
+    kind: {{ .Values.securityStore.kind }}
+    name: {{ .Values.securityStore.name }}
   target:
     name: github-token
     creationPolicy: Owner

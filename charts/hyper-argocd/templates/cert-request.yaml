@@ -5,9 +5,9 @@ metadata:
   namespace: "argocd"
 spec:
   secretName: "argocd-server-tls"
-  commonName: "argocd.hypermedia.au"
+  commonName: {{ .Values.hostName }}
   dnsNames:
-    - "argocd.hypermedia.au"
+    - {{ .Values.hostName }}
   issuerRef:
     name: "letsencrypt-prod"
     kind: "ClusterIssuer"

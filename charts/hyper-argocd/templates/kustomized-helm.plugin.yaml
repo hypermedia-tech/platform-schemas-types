@@ -15,7 +15,7 @@ data:
       init:
         command: ["/bin/sh", "-c"]
         args: [
-          'export HOME=/tmp && helm repo add hyper-helm https://hypermedia-tech.github.io/hyper-helm-charts && helm repo update'
+          'export HOME=/tmp && helm repo add hyper-helm {{ .Values.helmRepository }} && helm repo update'
         ]
       generate:
         command: ["/bin/sh", "-c"]
