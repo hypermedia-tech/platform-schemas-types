@@ -10,6 +10,6 @@ spec:
   dnsNames:
     - console.{{ .Values.hostName }}
   issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
+    name: {{ .Values.clusterIssuer.name }}
+    kind: {{ .Values.clusterIssuer.kind }}
   {{- end }}

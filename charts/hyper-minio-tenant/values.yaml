@@ -1,7 +1,9 @@
 hostName: ""
 ingressMode: ambient
 namespace: &ns minio
-
+clusterIssuer:
+  name: letsencrypt-prod
+  kind: ClusterIssuer
 tenant:
   tenant:
     name: hyper-store
