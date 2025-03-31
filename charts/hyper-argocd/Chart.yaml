@@ -1,8 +1,8 @@
 apiVersion: v2
 name: hyper-argocd
-description: A chart wrapping kiali  with overridable env affordances
+description: A chart wrapping argcd  with overridable env affordances
 type: application
-version: 0.0.1
+version: 0.0.2
 
 appVersion: "1.0"
 
