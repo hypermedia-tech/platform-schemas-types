@@ -3,7 +3,7 @@ secretRefreshInterval: 1h
 helmRepository: https://hypermedia-tech.github.io/hyper-chart-repo/
 bootstrapRepoUrl: https://github.com/hypermedia-tech/hyper-addon-catalog
 bootstrapProjectName: default
-bootstrapRepoName: control-plane-bootstrap
+bootstrapRepoName: hyper-addon-catalog
 securityStore:
   kind: ClusterSecretStore
   name: vault-backend
