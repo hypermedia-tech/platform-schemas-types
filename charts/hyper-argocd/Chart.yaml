@@ -2,7 +2,7 @@ apiVersion: v2
 name: hyper-argocd
 description: A chart wrapping argcd  with overridable env affordances
 type: application
-version: 0.0.16
+version: 0.0.17
 
 appVersion: "1.0"
 
