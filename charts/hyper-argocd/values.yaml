@@ -1,7 +1,7 @@
 hostName: &hostname ""
 secretRefreshInterval: 1h
 helmRepository: https://hypermedia-tech.github.io/hyper-chart-repo/
-bootstrapRepoUrl: https://github.com/hypermedia-tech/control-plane-bootstrap
+bootstrapRepoUrl: https://github.com/hypermedia-tech/hyper-addon-catlog
 bootstrapProjectName: default
 bootstrapRepoName: control-plane-bootstrap
 securityStore:
