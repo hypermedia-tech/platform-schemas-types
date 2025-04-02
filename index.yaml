@@ -57,6 +57,20 @@ entries:
   hyper-argocd:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-02T15:23:15.522913781Z"
+    dependencies:
+    - name: argo-cd
+      repository: https://argoproj.github.io/argo-helm
+      version: 7.7.11
+    description: A chart wrapping argcd  with overridable env affordances
+    digest: 8f75f4606b24d5fbcff09ca26dccb6dde093f864147516df4baca7d31c67b3f4
+    name: hyper-argocd
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-argocd-0.0.20/hyper-argocd-0.0.20.tgz
+    version: 0.0.20
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-02T15:20:12.160619578Z"
     dependencies:
     - name: argo-cd
@@ -667,4 +681,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-02T15:20:12.160777121Z"
+generated: "2025-04-02T15:23:15.523103469Z"
