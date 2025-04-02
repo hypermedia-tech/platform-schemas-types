@@ -22,7 +22,7 @@ argo-cd:
       application.resourceTrackingMethod: annotation
       '"kustomize.buildOptions"': --enable-helm
     secret:
-      argocdServerAdminPassword: $2b$10$Bqrj.64AfEk3VwHpmw..KeOQpmaVm9Q8.UK5Ydj8YJjPW4GodXbjG
+      argocdServerAdminPassword: ""
       argocdServerAdminPasswordMtime: "2025-01-02T16:20:00Z"
       githubSecret: $argocd-github-webhook:token
   global:
