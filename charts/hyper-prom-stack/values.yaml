@@ -1,4 +1,3 @@
-domainName: ""
 namespace: monitoring
 ingressMode: ambient
 clusterIssuer:
@@ -26,19 +25,19 @@ kube-prometheus-stack:
               requests:
                 storage: 1Gi
 
-  grafana:
-    additionalDataSources:
-      - name: loki-logs
-        access: proxy
-        #     basicAuth: true
-        #     secureJsonData:
-        #         basicAuthPassword: pass
-        #     basicAuthUser: daco
-        editable: false
-        jsonData:
-          tlsSkipVerify: true
-          customHttpHeaders:
-            X-Scope-OrgID: "1"
-        orgId: 1
-        type: loki
-        url: http://loki-gateway.loki.svc.cluster.local
+#  grafana:
+#    additionalDataSources:
+#      - name: loki-logs
+#        access: proxy
+#        basicAuth: true
+#        secureJsonData:
+#           basicAuthPassword: pass
+#        basicAuthUser: daco
+#        editable: false
+#        jsonData:
+#          tlsSkipVerify: true
+#          customHttpHeaders:
+#            X-Scope-OrgID: "1"
+#        orgId: 1
+#        type: loki
+#        url: http://loki-gateway.loki.svc.cluster.local

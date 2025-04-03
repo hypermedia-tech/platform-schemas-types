@@ -1,3 +1,4 @@
+{{- if .Values.domainName }}
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -16,3 +17,4 @@ spec:
           - name: grafana-tls-cert
             kind: Secret
             namespace: {{ .Values.namespace | default "monitoring"}}
+  {{- end }}
