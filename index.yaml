@@ -646,6 +646,20 @@ entries:
   hyper-pihole:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-03T07:08:25.684231715Z"
+    dependencies:
+    - name: pihole
+      repository: https://mojo2600.github.io/pihole-kubernetes
+      version: 2.29.1
+    description: A chart wrapping pihole with overridable env affordances
+    digest: d3a2156fe2db661a1b366724dbba8102f688e6570a3ae75bad8679ba5dae5235
+    name: hyper-pihole
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-pihole-0.0.4/hyper-pihole-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-03-31T11:20:40.636154671Z"
     dependencies:
     - name: pihole
@@ -751,4 +765,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-03T05:47:24.237369723Z"
+generated: "2025-04-03T07:08:25.684402626Z"
