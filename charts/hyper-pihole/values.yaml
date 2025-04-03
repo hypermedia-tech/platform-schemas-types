@@ -1,11 +1,12 @@
 hostName: &hostname ""
 ingressMode: nginx
-namespace: pihole-system
+namespace: &ns pihole-system
 clusterIssuer:
   name: letsencrypt-prod
   kind: ClusterIssuer
 
 pihole:
+  namespaceOverride: *ns
   extraEnvVars:
     FTLCONF_dns_listeningMode: "ALL"
   ingress:
