@@ -1,9 +1,10 @@
 hostName: ""
 ingressMode: ambient
-namespace: dynamodb
+namespace: &ns dynamodb
 clusterIssuer:
   name: letsencrypt-prod
   kind: ClusterIssuer
 dynamodb:
+  nameOverride: *ns
   storageType: pvc
   storage: 500Mi
