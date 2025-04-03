@@ -3,5 +3,5 @@ ingressMode: ambient
 secretRefreshInterval: 1h
 #argoNgrokEndpoint: ""
 secretStore:
-  name: vaultBackend
+  name: vault-backend
   kind: ClusterSecretStore
