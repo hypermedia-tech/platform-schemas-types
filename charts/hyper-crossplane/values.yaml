@@ -1,9 +1,9 @@
 namespace: &ns crossplane-system
 ingressMode: ambient
 uiHostName: ""
-securityStore:
-  kind: ClusterSecretStore
-  name: vault-backend
+certIssuer:
+  kind: ClusterIssuer
+  name: letsencrypt-prod
 crossplane:
   nameOverride: ""
   fullnameOverride: ""

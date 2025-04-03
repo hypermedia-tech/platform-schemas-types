@@ -10,6 +10,6 @@ spec:
   dnsNames:
     - {{ .Values.uiHostName }}
   issuerRef:
-    name: {{ .Values.securityStore.name }}
-    kind: {{ .Values.securityStore.kind }}
+    name: {{ .Values.certIssuer.name }}
+    kind: {{ .Values.certIssuer.kind }}
   {{- end }}
