@@ -6,7 +6,6 @@ clusterIssuer:
   kind: ClusterIssuer
 
 pihole:
-  namespaceOverride: *ns
   extraEnvVars:
     FTLCONF_dns_listeningMode: "ALL"
   ingress:
@@ -14,12 +13,12 @@ pihole:
     ingressClassName: nginx-internal
     path: /
     hosts:
-      - *hostname
+      - '*hostname'
     tls:
       - secretName: pihole-tls-cert
         hosts:
-          - *hostname
-  virtualHost: *hostname
+          - '*hostname'
+  virtualHost: '*hostname'
   serviceDhcp:
     enabled: false
   serviceWeb:
