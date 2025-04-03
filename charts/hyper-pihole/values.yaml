@@ -9,16 +9,16 @@ pihole:
   extraEnvVars:
     FTLCONF_dns_listeningMode: "ALL"
   ingress:
-    enabled: true
-    ingressClassName: nginx-internal
-    path: /
-    hosts:
-      - '*hostname'
-    tls:
-      - secretName: pihole-tls-cert
-        hosts:
-          - '*hostname'
-  virtualHost: '*hostname'
+    enabled: false
+#    ingressClassName: nginx-internal
+#    path: /
+#    hosts:
+#      - '*hostname'
+#    tls:
+#      - secretName: pihole-tls-cert
+#        hosts:
+#          - '*hostname'
+#  virtualHost: '*hostname'
   serviceDhcp:
     enabled: false
   serviceWeb:
