@@ -1,4 +1,4 @@
-
+namespace: &ns cert-manager
 ingressMode: ambient
 refreshInterval: 1h
 issuerRegion: us-west-2
@@ -10,5 +10,6 @@ credentials:
   email: ""
 dnsZones: []
 cert-manager:
+  namespace: *ns
   crds:
     enabled: true
