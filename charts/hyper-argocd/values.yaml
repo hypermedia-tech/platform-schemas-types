@@ -1,4 +1,5 @@
 hostName: &hostname ""
+namespace: "argocd"
 secretRefreshInterval: 1h
 helmRepository: https://hypermedia-tech.github.io/hyper-chart-repo/
 bootstrapRepoUrl: https://github.com/hypermedia-tech/hyper-addon-catalog
