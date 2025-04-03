@@ -4,13 +4,14 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: 'kustomized-helm'
-  namespace: argocd
+  namespace: '{{ .Values.namespace | default "argocd" }}'
 data:
   kustomized-helm.yaml: |
     apiVersion: argoproj.io/v1alpha1
     kind: ConfigManagementPlugin
     metadata:
       name: 'kustomized-helm'
+      namespace: '{{ .Values.namespace | default "argocd" }}'
     spec:
       init:
         command: ["/bin/sh", "-c"]

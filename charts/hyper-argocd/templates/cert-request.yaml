@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: "argocd-server-tls"
-  namespace: "argocd"
+  namespace: {{ .Values.namespace | default "argocd" }}
 spec:
   secretName: "argocd-server-tls"
   commonName: {{ .Values.hostName }}
