@@ -104,3 +104,10 @@ loki:
     replicas: 0
   bloomGateway:
     replicas: 0
+
+promtail:
+  config:
+    # publish data to loki
+    clients:
+      - url: http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push
+        tenant_id: 1
