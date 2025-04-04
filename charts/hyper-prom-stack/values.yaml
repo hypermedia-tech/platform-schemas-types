@@ -4,6 +4,8 @@ clusterIssuer:
   name: letsencrypt-prod
   kind: ClusterIssuer
 kube-prometheus-stack:
+  crds:
+    enabled: false
   alertmanager:
     alertmanagerSpec:
       storage:
