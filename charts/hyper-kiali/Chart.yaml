@@ -1,12 +1,12 @@
 apiVersion: v2
 name: hyper-kiali
-description: A chart wrapping kiali with overridable env affordances
+description: A chart wrapping loki with overridable env affordances
 type: application
 version: 0.0.8
 
 appVersion: "1.0"
 
 dependencies:
-  - name: kiali-operator
-    version: 2.7.1
-    repository: "https://kiali.org/helm-charts"
+  - name: loki
+    version: 6.28.0
+    repository: https://grafana.github.io/helm-charts
