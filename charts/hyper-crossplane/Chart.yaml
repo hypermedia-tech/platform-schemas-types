@@ -2,7 +2,7 @@ apiVersion: v2
 name: hyper-crossplane
 description: A chart wrapping crossplane controller with overridable env affordances
 type: application
-version: 0.0.6
+version: 0.0.7
 
 appVersion: "1.0"
 
