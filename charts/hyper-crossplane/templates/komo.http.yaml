@@ -15,6 +15,6 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: {{ .Values.env }}-{{ .Values.stripe }}-crossplane-komoplane
+        - name: komoplane
           port: 8090
   {{- end }}
