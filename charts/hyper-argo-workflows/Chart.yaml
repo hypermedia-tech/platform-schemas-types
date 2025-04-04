@@ -2,7 +2,7 @@ apiVersion: v2
 name: hyper-argo-workflows
 description: A chart wrapping argo-workflows man with overridable env affordances
 type: application
-version: 0.0.4
+version: 0.0.5
 
 appVersion: "1.0"
 
