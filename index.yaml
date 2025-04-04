@@ -423,6 +423,23 @@ entries:
   hyper-crossplane:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-04T00:57:37.805285434Z"
+    dependencies:
+    - name: crossplane
+      repository: https://charts.crossplane.io/stable
+      version: 1.19.0
+    - name: komoplane
+      repository: https://helm-charts.komodor.io
+      version: 0.1.6
+    description: A chart wrapping crossplane controller with overridable env affordances
+    digest: 152082ca91f734bd8762ac3c2c91bcd7d93eeeb7d9bbf34c1114f56d9371029e
+    name: hyper-crossplane
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-crossplane-0.0.7/hyper-crossplane-0.0.7.tgz
+    version: 0.0.7
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-04T00:40:10.352883409Z"
     dependencies:
     - name: crossplane
@@ -914,4 +931,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-04T00:40:10.353035042Z"
+generated: "2025-04-04T00:57:37.805506939Z"
