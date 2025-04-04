@@ -642,6 +642,20 @@ entries:
   hyper-jaeger:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-04T08:20:34.517312287Z"
+    dependencies:
+    - name: jaeger
+      repository: https://jaegertracing.github.io/helm-charts
+      version: 3.4.0
+    description: A chart wrapping jaeger tracing interface with overridable env affordances
+    digest: 21a823c132d3433e1f27d85c8d7727585c4624f1f670bb192ba2c0b4d1302d5e
+    name: hyper-jaeger
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-jaeger-0.0.3/hyper-jaeger-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-03-31T11:20:39.952963305Z"
     dependencies:
     - name: jaeger
@@ -1116,4 +1130,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-04T08:15:08.485478929Z"
+generated: "2025-04-04T08:20:34.51753317Z"
