@@ -799,6 +799,23 @@ entries:
   hyper-loki:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-04T10:05:44.16358064Z"
+    dependencies:
+    - name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 6.28.0
+    - name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.16.6
+    description: A chart wrapping loki with overridable env affordances
+    digest: 32372b7bccd331903d38417c858bf5ecc3dfde122bf4babf3dbb39f41943c730
+    name: hyper-loki
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-loki-0.1.1/hyper-loki-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-04T09:56:03.885821358Z"
     dependencies:
     - name: loki
@@ -1191,4 +1208,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-04T09:56:03.886038413Z"
+generated: "2025-04-04T10:05:44.163866773Z"
