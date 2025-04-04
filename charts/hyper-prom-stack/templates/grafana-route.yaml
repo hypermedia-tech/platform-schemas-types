@@ -20,4 +20,7 @@ spec:
       backendRefs:
         - name: prometheus-stack-grafana
           port: 80
+          group: ''
+          kind: Service
+          weight: 1
 {{- end }}

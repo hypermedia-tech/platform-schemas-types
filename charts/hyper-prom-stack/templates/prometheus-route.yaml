@@ -19,5 +19,8 @@ spec:
             value: /
       backendRefs:
         - name: prometheus-stack-kube-prom-prometheus
+          group: ''
+          kind: Service
+          weight: 1
           port: 9090
 {{- end }}
