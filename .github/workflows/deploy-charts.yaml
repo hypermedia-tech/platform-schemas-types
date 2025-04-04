@@ -7,6 +7,8 @@ on:
     paths:
       - charts/**
 
+env:
+  HELM_EXPERIMENTAL_OCI: 1
 jobs:
   release:
     runs-on: ubuntu-latest
