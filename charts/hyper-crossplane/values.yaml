@@ -1,4 +1,5 @@
 namespace: &ns crossplane-system
+
 ingressMode: ambient
 uiHostName: ""
 certIssuer:
@@ -37,7 +38,7 @@ komoplane:
 
   imagePullSecrets: [ ]
   nameOverride: "komoplane"
-  fullnameOverride: ""
+  fullnameOverride: "komoplane"
 
   serviceAccount:
     # Specifies whether a service account should be created
