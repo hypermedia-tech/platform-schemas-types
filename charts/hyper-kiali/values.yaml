@@ -1,7 +1,5 @@
 hostName: ""
 ingressMode: ambient
-grafanaUrl: &grafana ""
-jaegerUrl: &jaeger ""
 namespace: kiali-system
 clusterIssuer:
   name: letsencrypt-prod
