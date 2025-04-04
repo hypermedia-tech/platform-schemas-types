@@ -36,7 +36,7 @@ komoplane:
     tag: ""
 
   imagePullSecrets: [ ]
-  nameOverride: ""
+  nameOverride: "komoplane"
   fullnameOverride: ""
 
   serviceAccount:
