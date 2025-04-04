@@ -28,6 +28,20 @@ entries:
   hyper-argo-workflows:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-04T02:13:32.207568126Z"
+    dependencies:
+    - name: argo-workflows
+      repository: https://argoproj.github.io/argo-helm
+      version: 0.45.11
+    description: A chart wrapping argo-workflows man with overridable env affordances
+    digest: 99cc89aee08044542abe40c370fb8ca51c7f52d793a792ffb545ecc917cccb79
+    name: hyper-argo-workflows
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-argo-workflows-0.0.4/hyper-argo-workflows-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-04T02:06:40.050935002Z"
     dependencies:
     - name: argo-workflows
@@ -962,4 +976,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-04T02:06:40.051118579Z"
+generated: "2025-04-04T02:13:32.207754154Z"
