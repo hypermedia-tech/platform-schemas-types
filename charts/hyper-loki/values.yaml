@@ -1,5 +1,6 @@
 namespace: loki
 secretRefreshInterval: 1h
+ingressMode: ambient
 secretStore:
   name: vault-backend
   kind: ClusterSecretStore
