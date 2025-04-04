@@ -15,6 +15,6 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: hyper-argo-workflows-server
+        - name: workflows
           port: 2746
 {{- end -}}

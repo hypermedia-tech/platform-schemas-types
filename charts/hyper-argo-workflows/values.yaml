@@ -6,6 +6,7 @@ commonLabels:
 
 argo-workflows:
   namespaceOverride: *ns
+  nameOverride: workflows
   server:
     authModes:
       - server
