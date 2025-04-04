@@ -700,6 +700,20 @@ entries:
   hyper-kiali:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-04T08:10:18.042845979Z"
+    dependencies:
+    - name: kiali-operator
+      repository: https://kiali.org/helm-charts
+      version: 2.7.1
+    description: A chart wrapping kiali with overridable env affordances
+    digest: c648fc6b587ae7d9ec6470656adc7b94c0ff8af84f54c893d41a2064980d258c
+    name: hyper-kiali
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-kiali-0.0.6/hyper-kiali-0.0.6.tgz
+    version: 0.0.6
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-04T08:07:02.65005487Z"
     dependencies:
     - name: kiali-operator
@@ -1088,4 +1102,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-04T08:07:02.65028092Z"
+generated: "2025-04-04T08:10:18.043128548Z"
