@@ -16,5 +16,6 @@ spec:
         certificateRefs:
           - name: prometheus-tls-cert
             kind: Secret
-            namespace: monitoring
+            namespace: {{ .Values.namespace | default "monitoring"}}
+            group: ''
 {{- end }}

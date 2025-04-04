@@ -10,6 +10,8 @@ spec:
   parentRefs:
     - name: grafana-gateway
       namespace: monitoring
+      kind: Gateway
+      group: gateway.networking.k8s.io
   rules:
     - matches:
         - path:

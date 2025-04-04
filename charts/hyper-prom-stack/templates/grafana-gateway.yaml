@@ -17,4 +17,5 @@ spec:
           - name: grafana-tls-cert
             kind: Secret
             namespace: {{ .Values.namespace | default "monitoring"}}
+            group: ''
   {{- end }}
