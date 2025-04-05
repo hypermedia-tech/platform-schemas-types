@@ -859,6 +859,17 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-loki-0.0.1/hyper-loki-0.0.1.tgz
     version: 0.0.1
+  hyper-metallb-config:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-04-05T09:25:41.195438009Z"
+    description: A chart to supply address pools in each target cluster
+    digest: 2f20e1dd7aab2a44a9bc049ff71cb5e02f8dd65772c4879c361e6693ef239e25
+    name: hyper-metallb-config
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-metallb-config-0.0.1/hyper-metallb-config-0.0.1.tgz
+    version: 0.0.1
   hyper-minio-tenant:
   - apiVersion: v2
     appVersion: "1.0"
@@ -1208,4 +1219,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-04T10:05:44.163866773Z"
+generated: "2025-04-05T09:25:41.195664702Z"
