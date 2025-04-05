@@ -1,0 +1,7 @@
+apiVersion: v2
+name: hyper-metallb-config
+description: A chart to supply address pools in each target cluster
+type: application
+version: 0.0.1
+
+appVersion: "1.0"

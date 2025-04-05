@@ -1,0 +1,9 @@
+
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: {{ .Values.poolName | default "local-pool"}}
+  namespace: metallb-system
+spec:
+  addresses:
+    - {{ .Values.addresses | default "192.168.1.0/192.168.1.250" }}
