@@ -28,6 +28,20 @@ entries:
   hyper-argo-workflows:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-05T16:11:26.390331828Z"
+    dependencies:
+    - name: argo-workflows
+      repository: https://argoproj.github.io/argo-helm
+      version: 0.45.11
+    description: A chart wrapping argo-workflows man with overridable env affordances
+    digest: 64993b35e59a160ba01e3ce2eb30abf962b808beaab0fc093813d4f7a793daae
+    name: hyper-argo-workflows
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-argo-workflows-1.0.0/hyper-argo-workflows-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-04T02:21:17.93930967Z"
     dependencies:
     - name: argo-workflows
@@ -97,6 +111,20 @@ entries:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-argo-workflows-0.0.1/hyper-argo-workflows-0.0.1.tgz
     version: 0.0.1
   hyper-argocd:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-04-05T16:11:26.510184809Z"
+    dependencies:
+    - name: argo-cd
+      repository: https://argoproj.github.io/argo-helm
+      version: 7.7.11
+    description: A chart wrapping argcd  with overridable env affordances
+    digest: e2cc52aa940695632472fe36895d5cc626c8e04cbe8f84dc2bf0a63b03ab5797
+    name: hyper-argocd
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-argocd-1.0.0/hyper-argocd-1.0.0.tgz
+    version: 1.0.0
   - apiVersion: v2
     appVersion: "1.0"
     created: "2025-04-03T04:12:17.212244885Z"
@@ -422,6 +450,20 @@ entries:
   hyper-certman:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-05T16:11:26.61223471Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: 1.17.1
+    description: A chart wrapping cert man with overridable env affordances
+    digest: f5514b22cc934a2b45e23bb2694824fb8f4cbc7bf912fa2ee8607cbf817f7827
+    name: hyper-certman
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-certman-1.0.0/hyper-certman-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-03T10:58:20.356759083Z"
     dependencies:
     - name: cert-manager
@@ -463,6 +505,23 @@ entries:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-certman-0.0.1/hyper-certman-0.0.1.tgz
     version: 0.0.1
   hyper-crossplane:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-04-05T16:11:26.699636881Z"
+    dependencies:
+    - name: crossplane
+      repository: https://charts.crossplane.io/stable
+      version: 1.19.0
+    - name: komoplane
+      repository: https://helm-charts.komodor.io
+      version: 0.1.6
+    description: A chart wrapping crossplane controller with overridable env affordances
+    digest: 0ab28bea0e8e8a5ca80a25b9ee504235236a69eb5778d722309cce8743bb8731
+    name: hyper-crossplane
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-crossplane-1.0.0/hyper-crossplane-1.0.0.tgz
+    version: 1.0.0
   - apiVersion: v2
     appVersion: "1.0"
     created: "2025-04-04T01:02:18.28699997Z"
@@ -585,6 +644,20 @@ entries:
   hyper-dynamodb:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-05T16:11:26.776851983Z"
+    dependencies:
+    - name: dynamodb
+      repository: https://keyporttech.github.io/helm-charts/
+      version: 0.1.27
+    description: A chart wrapping dynamodb with overridable env affordances
+    digest: fbc6f32e92ac6c0f0e74d711d0feaa5c654ab7a2a4776d188e3692e45cb9f1d9
+    name: hyper-dynamodb
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-dynamodb-1.0.0/hyper-dynamodb-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-03T05:47:24.237182885Z"
     dependencies:
     - name: dynamodb
@@ -642,6 +715,20 @@ entries:
   hyper-jaeger:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-05T16:11:26.931401801Z"
+    dependencies:
+    - name: jaeger
+      repository: https://jaegertracing.github.io/helm-charts
+      version: 3.4.0
+    description: A chart wrapping jaeger tracing interface with overridable env affordances
+    digest: 9eae6192b54242e037fcec72bc0861541af2edcf38f4e32a438425dcb0bdbc7c
+    name: hyper-jaeger
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-jaeger-1.0.0/hyper-jaeger-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-04T08:20:34.517312287Z"
     dependencies:
     - name: jaeger
@@ -685,6 +772,20 @@ entries:
   hyper-k6:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-05T16:11:27.027560757Z"
+    dependencies:
+    - name: k6-operator
+      repository: https://grafana.github.io/helm-charts
+      version: 3.11.1
+    description: A chart wrapping k6man with overridable env affordances
+    digest: 327552398d211ad01a0a3c4d9659620813c163a90650d808221b94f47c997e56
+    name: hyper-k6
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-k6-1.0.0/hyper-k6-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-03-31T11:20:40.085910981Z"
     dependencies:
     - name: k6-operator
@@ -712,6 +813,20 @@ entries:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-k6-0.0.1/hyper-k6-0.0.1.tgz
     version: 0.0.1
   hyper-kiali:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-04-05T16:11:27.152813651Z"
+    dependencies:
+    - name: kiali-operator
+      repository: https://kiali.org/helm-charts
+      version: 2.7.1
+    description: A chart wrapping kiali with overridable env affordances
+    digest: 21514decd7fac0ec6e7a7d4367b52d868eebecc9c7ac6786b2c5e6a0b5d2f8e7
+    name: hyper-kiali
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-kiali-1.0.0/hyper-kiali-1.0.0.tgz
+    version: 1.0.0
   - apiVersion: v2
     appVersion: "1.0"
     created: "2025-04-04T08:15:08.485223957Z"
@@ -799,6 +914,23 @@ entries:
   hyper-loki:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-05T16:11:27.253069772Z"
+    dependencies:
+    - name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 6.28.0
+    - name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.16.6
+    description: A chart wrapping loki with overridable env affordances
+    digest: 652a06454af775e1ae087da071dc21e182e77dbeab84cc04d6f526de6b88ab34
+    name: hyper-loki
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-loki-1.0.0/hyper-loki-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-05T10:50:12.670182973Z"
     dependencies:
     - name: loki
@@ -879,6 +1011,16 @@ entries:
   hyper-metallb-config:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-05T16:11:27.355445247Z"
+    description: A chart to supply address pools in each target cluster
+    digest: 5af703d1fff48e115b0192af23b33d9a4e3a2ecb6d8162d7a72f07fa4f7197bf
+    name: hyper-metallb-config
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-metallb-config-1.0.0/hyper-metallb-config-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-05T10:50:12.776083213Z"
     description: A chart to supply address pools in each target cluster
     digest: c9dc2b0fec369e8c3385775f4e3b59243354d7b9761b3e7a0a5fbb967e083ed9
@@ -898,6 +1040,20 @@ entries:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-metallb-config-0.0.1/hyper-metallb-config-0.0.1.tgz
     version: 0.0.1
   hyper-minio-tenant:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-04-05T16:11:27.43599477Z"
+    dependencies:
+    - name: tenant
+      repository: https://operator.min.io
+      version: 7.0.0
+    description: A chart wrapping a minio tenancy with overridable env affordances
+    digest: 6484e230a86266145c18f10842b6c4cabc796e9d0dfab5d3b0069e0c53b1c0b5
+    name: hyper-minio-tenant
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-minio-tenant-1.0.0/hyper-minio-tenant-1.0.0.tgz
+    version: 1.0.0
   - apiVersion: v2
     appVersion: "1.0"
     created: "2025-03-31T11:20:40.34103127Z"
@@ -927,6 +1083,20 @@ entries:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-minio-tenant-0.0.1/hyper-minio-tenant-0.0.1.tgz
     version: 0.0.1
   hyper-ngrok:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-04-05T16:11:27.55435104Z"
+    dependencies:
+    - name: ngrok-operator
+      repository: https://charts.ngrok.com
+      version: 0.17.1
+    description: A chart wrapping ngrok with overridable env affordances
+    digest: 1881747578f64f5743929c77668340604189e65dd0868e50746461d275db7baa
+    name: hyper-ngrok
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-ngrok-1.0.0/hyper-ngrok-1.0.0.tgz
+    version: 1.0.0
   - apiVersion: v2
     appVersion: "1.0"
     created: "2025-04-03T14:54:26.255488585Z"
@@ -1000,6 +1170,20 @@ entries:
   hyper-pihole:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-05T16:11:27.659312699Z"
+    dependencies:
+    - name: pihole
+      repository: https://mojo2600.github.io/pihole-kubernetes
+      version: 2.29.1
+    description: A chart wrapping pihole with overridable env affordances
+    digest: 938fd2517777dcb67b965c44608049382d0812d72d9fa3e8c9d3da9d0bb1d492
+    name: hyper-pihole
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-pihole-1.0.0/hyper-pihole-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-03T13:06:07.858278218Z"
     dependencies:
     - name: pihole
@@ -1071,6 +1255,23 @@ entries:
   hyper-postgres:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-05T16:11:27.740936578Z"
+    dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.10
+    - name: pgadmin4
+      repository: https://helm.runix.net
+      version: 1.36.0
+    description: A chart wrapping postgres and pgadmin with overridable env affordances
+    digest: a1fb3fb1deb2858af5f773aa4cdb4db1b3447f17c3b5c3c89d78c4e01d2c4eaa
+    name: hyper-postgres
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-postgres-1.0.0/hyper-postgres-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-03-31T11:20:40.776423511Z"
     dependencies:
     - name: postgresql
@@ -1104,6 +1305,20 @@ entries:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-postgres-0.0.1/hyper-postgres-0.0.1.tgz
     version: 0.0.1
   hyper-prometheus-stack:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-04-05T16:11:27.890560793Z"
+    dependencies:
+    - name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 70.2.0
+    description: A chart wrapping kube prom stack with overridable env affordances
+    digest: 4e500e8d52e91205d7a066d4ff79df7cbcbb2f6f497936b8717571381c2e0a70
+    name: hyper-prometheus-stack
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-prometheus-stack-1.0.0/hyper-prometheus-stack-1.0.0.tgz
+    version: 1.0.0
   - apiVersion: v2
     appVersion: "1.0"
     created: "2025-04-04T07:24:23.66201142Z"
@@ -1246,4 +1461,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-05T10:50:12.776359665Z"
+generated: "2025-04-05T16:11:27.89084878Z"
