@@ -2,7 +2,7 @@ apiVersion: v2
 name: hyper-dynamodb
 description: A chart wrapping dynamodb with overridable env affordances
 type: application
-version: 0.0.4
+version: 1.0.0
 
 appVersion: "1.0"
 
