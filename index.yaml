@@ -799,6 +799,23 @@ entries:
   hyper-loki:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-05T10:50:12.670182973Z"
+    dependencies:
+    - name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 6.28.0
+    - name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.16.6
+    description: A chart wrapping loki with overridable env affordances
+    digest: 8bd4e397b740aff2248ac00b9280ce275cff0849aa6d47f159786d5f061a1c23
+    name: hyper-loki
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-loki-0.1.2/hyper-loki-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-04T10:05:44.16358064Z"
     dependencies:
     - name: loki
@@ -860,6 +877,16 @@ entries:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-loki-0.0.1/hyper-loki-0.0.1.tgz
     version: 0.0.1
   hyper-metallb-config:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-04-05T10:50:12.776083213Z"
+    description: A chart to supply address pools in each target cluster
+    digest: c9dc2b0fec369e8c3385775f4e3b59243354d7b9761b3e7a0a5fbb967e083ed9
+    name: hyper-metallb-config
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-metallb-config-0.0.2/hyper-metallb-config-0.0.2.tgz
+    version: 0.0.2
   - apiVersion: v2
     appVersion: "1.0"
     created: "2025-04-05T09:25:41.195438009Z"
@@ -1219,4 +1246,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-05T09:25:41.195664702Z"
+generated: "2025-04-05T10:50:12.776359665Z"
