@@ -1,6 +1,0 @@
-dependencies:
-- name: grafana-operator
-  repository: https://charts.bitnami.com/bitnami
-  version: 4.9.10
-digest: sha256:b4fad53a66ded40ebb006dbecc100fa8e9cb60dcb89939eea6c55919c4fc2830
-generated: "2025-04-04T20:27:02.970205+10:00"
