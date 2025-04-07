@@ -1085,6 +1085,20 @@ entries:
   hyper-ngrok:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-07T01:39:31.061939112Z"
+    dependencies:
+    - name: ngrok-operator
+      repository: https://charts.ngrok.com
+      version: 0.17.1
+    description: A chart wrapping ngrok with overridable env affordances
+    digest: 943786b37e0f61a5b4c18506b2bbca4c3a1a182d6bbad9e6a10f0c82507d1066
+    name: hyper-ngrok
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-ngrok-1.0.4/hyper-ngrok-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-07T00:50:29.937387716Z"
     dependencies:
     - name: ngrok-operator
@@ -1503,4 +1517,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-07T00:50:29.93760893Z"
+generated: "2025-04-07T01:39:31.062154737Z"
