@@ -1391,6 +1391,20 @@ entries:
   hyper-prometheus-stack:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-07T05:13:46.565882902Z"
+    dependencies:
+    - name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 70.4.1
+    description: A chart wrapping kube prom stack with overridable env affordances
+    digest: e64363903c7c07306f53f74c27ba1cc9b1ea3f0ac2e4b764a14a4c9c28d6ad5a
+    name: hyper-prometheus-stack
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-prometheus-stack-1.0.3/hyper-prometheus-stack-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-07T04:42:24.790472061Z"
     dependencies:
     - name: kube-prometheus-stack
@@ -1573,4 +1587,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-07T05:08:08.911885051Z"
+generated: "2025-04-07T05:13:46.566117829Z"
