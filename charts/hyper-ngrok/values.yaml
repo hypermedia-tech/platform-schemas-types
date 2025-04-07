@@ -4,3 +4,7 @@ secretRefreshInterval: 1h
 secretStore:
   name: vault-backend
   kind: ClusterSecretStore
+
+ngrok-operator:
+  ingress:
+    watchNamespace: "argocd"
