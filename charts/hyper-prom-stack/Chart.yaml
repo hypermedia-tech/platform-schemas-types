@@ -2,11 +2,11 @@ apiVersion: v2
 name: hyper-prometheus-stack
 description: A chart wrapping kube prom stack with overridable env affordances
 type: application
-version: 1.0.1
+version: 1.0.2
 
 appVersion: "1.0"
 
 dependencies:
   - name: kube-prometheus-stack
-    version: 70.2.0
+    version: 70.4.1
     repository: https://prometheus-community.github.io/helm-charts
