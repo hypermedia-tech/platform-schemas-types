@@ -27,20 +27,17 @@ kube-prometheus-stack:
               requests:
                 storage: 1Gi
 
-  grafana:
-    additionalDataSources:
-      - name: loki-logs
-        access: proxy
-        basicAuth: false
-        secureJsonData:
-           httpHeaderValue1: 'HeaderValue'
-           httpHeaderValue2: '1'
-        editable: true
-        jsonData:
-          tlsSkipVerify: true
-          httpHeaderName1: 'HeaderName'
-          httpHeaderName2: 'X-Scope-OrgID'
-        orgId: 1
-        type: loki
-        url: http://loki-gateway.loki.svc.cluster.local
-        version: 1
+#  grafana:
+#    additionalDataSources:
+#      - name: loki-logs
+#        access: proxy
+#        basicAuth: false
+#        secureJsonData:
+#           httpHeaderValue1: '1'
+#        editable: true
+#        jsonData:
+#          httpHeaderName1: 'X-Scope-OrgID'
+#        orgId: 1
+#        type: loki
+#        url: http://loki-gateway.loki.svc.cluster.local
+#        version: 1
