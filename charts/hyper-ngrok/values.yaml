@@ -1,7 +1,6 @@
-namespace: ngrok-ingress
-#ingressMode: ambient
+
 secretRefreshInterval: 1h
-#argoNgrokEndpoint: "frankly-supreme-oyster.ngrok-free.app"
+
 secretStore:
   name: vault-backend
   kind: ClusterSecretStore
