@@ -31,15 +31,15 @@ kube-prometheus-stack:
     additionalDataSources:
       - name: loki-logs
         access: proxy
-        basicAuth: true
+        basicAuth: false
         secureJsonData:
-           basicAuthPassword: pass
-        basicAuthUser: daco
+           httpHeaderValue1: 'HeaderValue'
+           httpHeaderValue2: '1'
         editable: true
         jsonData:
           tlsSkipVerify: true
-          customHttpHeaders:
-            X-Scope-OrgID: "1"
+          httpHeaderName1: 'HeaderName'
+          httpHeaderName2: 'X-Scope-OrgID'
         orgId: 1
         type: loki
         url: http://loki-gateway.loki.svc.cluster.local
