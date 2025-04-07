@@ -11,6 +11,10 @@ securityStore:
 ingressMode: ambient
 argo-cd:
   # COLD_START: disable insecure, for now we need to log in and press button
+  controller:
+    serviceMonitor:
+      enabled: true
+
   configs:
     params:
       server.insecure: false
