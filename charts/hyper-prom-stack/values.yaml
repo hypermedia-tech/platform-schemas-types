@@ -5,7 +5,7 @@ clusterIssuer:
   kind: ClusterIssuer
 kube-prometheus-stack:
   crds:
-    enabled: false
+    enabled: true
   alertmanager:
     alertmanagerSpec:
       storage:
