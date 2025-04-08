@@ -9,6 +9,7 @@ securityStore:
   kind: ClusterSecretStore
   name: vault-backend
 ingressMode: ambient
+
 argo-cd:
   # COLD_START: disable insecure, for now we need to log in and press button
   controller:
