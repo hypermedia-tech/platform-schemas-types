@@ -21,5 +21,5 @@ data:
       generate:
         command: ["/bin/sh", "-c"]
         args: [
-          'export HOME=/tmp && kustomize build --enable-helm > ../../../../base/all.yaml && kustomize build ../../../../base'
+          'export HOME=/tmp && kustomize build --enable-helm > ../../../base/all.yaml && kustomize build ../../../base'
         ]
