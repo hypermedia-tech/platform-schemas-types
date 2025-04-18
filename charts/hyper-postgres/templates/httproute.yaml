@@ -14,5 +14,5 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: pgadmin4
+        - name: postgresql-pgadmin4
           port: 80
