@@ -1409,6 +1409,23 @@ entries:
   hyper-postgres:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-18T06:11:03.592086821Z"
+    dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.10
+    - name: pgadmin4
+      repository: https://helm.runix.net
+      version: 1.36.0
+    description: A chart wrapping postgres and pgadmin with overridable env affordances
+    digest: 5ad07f9916876019a5fc591733ec824bdd062417a2a29275cb0e8eff8f053019
+    name: hyper-postgres
+    type: application
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-postgres-1.0.1/hyper-postgres-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-05T16:11:27.740936578Z"
     dependencies:
     - name: postgresql
@@ -1685,4 +1702,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-13T02:28:39.749202039Z"
+generated: "2025-04-18T06:11:03.592789093Z"
