@@ -13,7 +13,7 @@ metadata:
     hypermedia.au/workload-type: service
   #   backstage.io/techdocs-ref: dir:.
   labels:
-    "scaffold-eligible": "true"
+    scaffold-eligible: "true"
 spec:
   type: helm-chart
   owner: gitops-management
