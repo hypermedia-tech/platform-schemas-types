@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: basic-container-load
+  description: Base chart for stateless user space service workloads
+  links:
+    - url: https://hypertech.slack.com/messages/help-me
+      title: Support Channel
+      icon: chat
+  annotations:
+    github.com/project-slug: hypermedia-tech/hyper-chart-repo
+    hypermedia.au/chart-path: charts/basic-container-load
+    hypermedia.au/workload-type: service
+  #   backstage.io/techdocs-ref: dir:.
+spec:
+  type: helm-chart
+  owner: gitops-management
+  lifecycle: production
+  system: gitops-services
+  domain: hyper-platform
