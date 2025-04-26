@@ -11,6 +11,7 @@ metadata:
     github.com/project-slug: hypermedia-tech/hyper-chart-repo
     hypermedia.au/chart-path: charts/basic-container-load
     hypermedia.au/workload-type: service
+    hypermedia.au/helm-registry: "https://hypermedia-tech.github.io/hyper-chart-repo"
   #   backstage.io/techdocs-ref: dir:.
   labels:
     scaffold-eligible: "true"
