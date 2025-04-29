@@ -10,6 +10,9 @@
       "type": "object",
       "additionalProperties": false
     },
+    "serviceCatalog": {
+      "type": "string"
+    },
     "container": {
       "properties": {
         "containerPorts": {
