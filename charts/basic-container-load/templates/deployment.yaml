@@ -26,7 +26,7 @@ spec:
       labels:
         app: {{ .Values.serviceName }}
         version: {{ .Values.container.image.tag | quote }}
-        catalog:
+        catalog: {{ .Values.serviceCatalog }}
     spec:
       {{- if .Values.serviceAccount }}
       serviceAccountName: {{ .Values.serviceAccount }}
