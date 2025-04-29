@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.serviceName }}
+    catalog {{ .Values.serviceCatalog }}
 spec:
   ports:
     {{- range .Values.container.containerPorts }}
