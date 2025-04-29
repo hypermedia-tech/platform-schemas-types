@@ -1,5 +1,6 @@
 serviceName: &svcName basic-service
 nameOverride: *svcName
+serviceCatalog: unset
 basicMonitoring:
   enabled: true
 namespace: default
