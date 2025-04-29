@@ -3,6 +3,18 @@ entries:
   basic-container-load:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-04-29T11:25:17.686067922Z"
+    description: Basic Container Service Template.
+    digest: 56d65cf1b297298d4fbb3e9ff35bddad480f846bd535784c037755b4531c4cf0
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: basic-container-load
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/basic-container-load-0.0.4/basic-container-load-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-04-26T07:26:52.961558251Z"
     description: Basic Container Service Template.
     digest: b2dc92b8c1239c12c6a5860bd70620084cf768b3b4105216756a62f6f8c58a48
@@ -1714,4 +1726,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
-generated: "2025-04-26T07:26:52.962032423Z"
+generated: "2025-04-29T11:25:17.686536406Z"
