@@ -1,0 +1,7 @@
+site_name: 'hyper-chart-repo'
+
+nav:
+  - Home: index.mdf
+
+plugins:
+  - techdocs-core
