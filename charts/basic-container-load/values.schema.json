@@ -181,6 +181,7 @@
           "properties": {
             "selector": {
               "type": "object",
+
               "additionalProperties": {
                 "type": "string"
               }
