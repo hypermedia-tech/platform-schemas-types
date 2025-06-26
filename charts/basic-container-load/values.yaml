@@ -20,7 +20,8 @@ container:
     server: "http://vault.vault.svc.cluster.local:8200"
     role: "external-secrets-role"
   secretStore:
-    name: "vault-backend"
+    selector:
+      environment: unset
   replicas: 0
   image:
     repository: unset

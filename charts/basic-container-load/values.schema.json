@@ -179,8 +179,11 @@
         },
         "secretStore": {
           "properties": {
-            "name": {
-              "type": "string"
+            "selector": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
             }
           },
           "type": "object",
