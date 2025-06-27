@@ -53,10 +53,8 @@ jobs:
       - name: Identify changed charts
         id: list-changed
         run: |
-          # This is the critical change: Use --target-branch to explicitly compare
-          # against the current branch (main). This allows ct to correctly identify
-          # changes when pushing directly to main.
-          changed_list=$(ct list-changed --target-branch ${{ github.ref_name }})
+          # Compare against the previous commit instead of the branch
+          changed_list=$(ct list-changed --since HEAD~1)
           
           echo "Charts detected as changed: $changed_list"
           
