@@ -53,35 +53,22 @@ jobs:
       - name: Identify changed charts
         id: list-changed
         run: |
-          set -euxo pipefail # Exit immediately if a command exits with a non-zero status.
-                             # Exit if a command in a pipeline fails.
-                             # Treat unset variables as an error.
-
-          echo "Running ct list-changed..."
-          # Capture the output of ct list-changed.
-          # ct list-changed can sometimes exit with 1 if no changes are found,
-          # but we want to capture its stdout regardless.
-          # We'll redirect stderr to /dev/null to avoid noisy output if it's just "no changes".
-          # And use || true to prevent the script from failing if ct list-changed exits with 1.
-          ct_output_file="ct_list_changed_output.txt"
-          ct list-changed 2>/dev/null | tee "$ct_output_file" || true
-
-          changed_list=$(cat "$ct_output_file")
-          echo "Raw output from ct list-changed:"
-          echo "---START CT OUTPUT---"
-          echo "$changed_list"
-          echo "---END CT OUTPUT---"
-
+          # This is the critical change: Use --target-branch to explicitly compare
+          # against the current branch (main). This allows ct to correctly identify
+          # changes when pushing directly to main.
+          changed_list=$(ct list-changed --target-branch ${{ github.ref_name }})
+          
+          echo "Charts detected as changed: $changed_list"
+          
           if [ -n "$changed_list" ]; then
-            echo "Charts were detected as changed."
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "changed_charts=$changed_list" >> $GITHUB_OUTPUT
           else
-            echo "No charts detected as changed by ct list-changed."
+            echo "No charts detected as changed."
             echo "changed=false" >> $GITHUB_OUTPUT
             echo "changed_charts=''" >> $GITHUB_OUTPUT
           fi
-        shell: bash # Explicitly set shell for clarity
+        shell: bash
 
       - name: Bump versions of changed charts
         if: steps.list-changed.outputs.changed == 'true'
