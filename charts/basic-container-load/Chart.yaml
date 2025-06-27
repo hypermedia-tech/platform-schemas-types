@@ -1,6 +1,6 @@
 apiVersion: v2
 appVersion: "1.0"
-description: Basic Container Service Template.
+description: Basic Container Service Template Right.
 name: basic-container-load
 version: 1.0.7
 maintainers:
