@@ -71,20 +71,19 @@ jobs:
       - name: Bump versions of changed charts
         if: steps.list-changed.outputs.changed == 'true'
         run: |
-          # This step works because 'yq' and 'awk' are pre-installed on GitHub-hosted runners.
-          # No extra installation step is needed.
           echo "Bumping versions for the following charts:"
           echo "${{ steps.list-changed.outputs.changed_charts }}"
-
-          for chart in ${{ steps.list-changed.outputs.changed_charts }}; do
-            chart_dir="charts/$chart"
-            echo "--> Bumping version for '$chart_dir'..."
-            current_version=$(yq e '.version' "$chart_dir/Chart.yaml")
+          
+          # The 'chart_path' variable from the previous step already contains the full path
+          # (e.g., "charts/basic-container-load"), so we use it directly.
+          for chart_path in ${{ steps.list-changed.outputs.changed_charts }}; do
+            echo "--> Bumping version for '$chart_path'..."
+            current_version=$(yq e '.version' "$chart_path/Chart.yaml")
             # Increment the patch version (e.g., 1.0.7 -> 1.0.8)
             new_version=$(echo "$current_version" | awk -F. -v OFS=. '{$NF++;print}')
             echo "    ($current_version -> $new_version)"
             # Update the Chart.yaml file in place with the new version
-            yq -i ".version = \"$new_version\"" "$chart_dir/Chart.yaml"
+            yq -i ".version = \"$new_version\"" "$chart_path/Chart.yaml"
           done
 
       - name: Commit and Push Version Bumps
