@@ -1,6 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "properties": {
+    "workloadType": {
+      "type": "string",
+      "const": "BASIC_CONTAINER_LOAD"
+    },
     "basicMonitoring": {
       "properties": {
         "enabled": {
@@ -179,12 +183,8 @@
         },
         "secretStore": {
           "properties": {
-            "selector": {
-              "type": "object",
-
-              "additionalProperties": {
-                "type": "string"
-              }
+            "name": {
+              "type":  "string"
             }
           },
           "type": "object",
