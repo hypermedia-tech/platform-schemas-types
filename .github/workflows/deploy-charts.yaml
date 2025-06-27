@@ -9,22 +9,24 @@ on:
 
 jobs:
   release:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Configure Git
         run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Install Helm
-        uses: azure/setup-helm@v1
+        uses: azure/setup-helm@v3
         with:
-          version: v3.4.0
+          version: v3.8.2
 
       - name: add repos
         run: |
@@ -43,6 +45,57 @@ jobs:
           helm repo add postgres https://charts.bitnami.com/bitnami
           helm repo add pgadmin4 https://helm.runix.net
           helm repo add kube-prometheus-stack https://prometheus-community.github.io/helm-charts
+          helm repo update
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.7.0
+
+      - name: Identify changed charts
+        id: list-changed
+        run: |
+          changed_list=$(ct list-changed)
+          if [ -n "$changed_list" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            # The output from 'ct list-changed' is the chart *directory* name,
+            # e.g., "basic-container-load"
+            echo "changed_charts=$changed_list" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "changed_charts=''" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bump versions of changed charts
+        if: steps.list-changed.outputs.changed == 'true'
+        run: |
+          # This step works because 'yq' and 'awk' are pre-installed on GitHub-hosted runners.
+          # No extra installation step is needed.
+          echo "Bumping versions for the following charts:"
+          echo "${{ steps.list-changed.outputs.changed_charts }}"
+
+          for chart in ${{ steps.list-changed.outputs.changed_charts }}; do
+            chart_dir="charts/$chart"
+            echo "--> Bumping version for '$chart_dir'..."
+            current_version=$(yq e '.version' "$chart_dir/Chart.yaml")
+            # Increment the patch version (e.g., 1.0.7 -> 1.0.8)
+            new_version=$(echo "$current_version" | awk -F. -v OFS=. '{$NF++;print}')
+            echo "    ($current_version -> $new_version)"
+            # Update the Chart.yaml file in place with the new version
+            yq -i ".version = \"$new_version\"" "$chart_dir/Chart.yaml"
+          done
+
+      - name: Commit and Push Version Bumps
+        if: steps.list-changed.outputs.changed == 'true'
+        run: |
+          git add charts/**/Chart.yaml
+          # Check if there are any changes to commit to avoid empty commits
+          if ! git diff --staged --quiet; then
+            echo "Committing and pushing version bumps..."
+            # The [skip ci] in the commit message is crucial to prevent an infinite loop of workflows.
+            git commit -m "ci: bump chart versions for release [skip ci]"
+            git push
+          else
+            echo "No version bumps to commit. Chart versions may have been manually updated."
+          fi
 
       - name: Run chart-releaser
         uses: stecky/yet-another-chart-releaser-action@v1
