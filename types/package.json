@@ -1,0 +1,25 @@
+{
+  "name": "@hypermedia-tech/catalog-workload-schemas",
+  "version": "1.0.0",
+  "description": "TypeScript types generated from Helm chart schemas that are used to drive catalogs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "generate": "node scripts/generate-types.js",
+    "build": "tsc",
+    "prebuild": "npm run generate",
+    "test": "tsc --noEmit",
+    "clean": "rm -rf src/ dist/",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "json-schema-to-typescript": "^15.0.4",
+    "typescript": "^5.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
