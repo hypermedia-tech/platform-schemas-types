@@ -247,9 +247,6 @@
       "type": "object",
       "additionalProperties": false
     },
-    "key": {
-      "type": "string"
-    },
     "nameOverride": {
       "type": "string"
     },

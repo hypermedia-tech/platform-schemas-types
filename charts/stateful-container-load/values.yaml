@@ -14,7 +14,6 @@ ingress:
   host: ""
 service:
   port: 80
-key: "abc"
 container:
   vault:
     key: "path_to_secret"
