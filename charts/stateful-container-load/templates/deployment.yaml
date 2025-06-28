@@ -1,0 +1,110 @@
+{{- if .Values.container.storage.enabled }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.serviceName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.serviceName }}
+    version: {{ .Values.container.image.tag | quote }}
+spec:
+  serviceName: {{ .Values.serviceName }}-headless
+  {{- if not .Values.container.hpa.enabled }}
+  replicas: {{ .Values.container.replicas }}
+  {{- end }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 2 }}
+  selector:
+    matchLabels:
+      app: {{ .Values.serviceName }}
+  template:
+    metadata:
+      annotations:
+        {{- if .Values.basicMonitoring.enabled }}
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "15020"
+        prometheus.io/path: /stats/prometheus
+        {{- end }}
+      labels:
+        app: {{ .Values.serviceName }}
+        version: {{ .Values.container.image.tag | quote }}
+        catalog: {{ .Values.serviceCatalog }}
+    spec:
+      {{- if .Values.serviceAccount }}
+      serviceAccountName: {{ .Values.serviceAccount }}
+      {{- end }}
+      imagePullSecrets:
+        - name: {{ .Values.serviceName }}-ghcr-docker-config
+      containers:
+        - name: {{ .Values.serviceName }}
+          image: {{ .Values.container.image.repository }}:{{ .Values.container.image.tag }}
+          imagePullPolicy: Always
+          ports:
+           {{- range .Values.container.containerPorts }}
+            - name: {{ .portName }}
+              containerPort: {{ .portNumber }}
+           {{- end }}
+          volumeMounts:
+            - name: {{ .Values.serviceName }}-storage
+              mountPath: {{ .Values.container.storage.mountPath }}
+          {{- if .Values.container.livenessProbe.enabled }}
+          livenessProbe:
+            {{- with .Values.container.livenessProbe}}
+            {{- if eq .type "http"}}
+            httpGet:
+              path: {{ .path }}
+              port: {{ .port }}
+              scheme: {{ .scheme }}
+            {{- end }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            failureThreshold: {{ .failureThreshold }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.container.readinessProbe.enabled }}
+          readinessProbe:
+            {{- with .Values.container.readinessProbe}}
+            {{- if eq .type "http"}}
+            httpGet:
+              path: {{ .path }}
+              port: {{ .port }}
+              scheme: {{ .scheme }}
+            {{- end }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            failureThreshold: {{ .failureThreshold }}
+            {{- end }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.container.resources | nindent 12 }}
+          {{- if or .Values.container.environment .Values.container.secrets }}
+          env:
+            {{- if .Values.container.environment }}
+            {{- range .Values.container.environment }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.container.secrets }}
+            {{- range .Values.container.secrets }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.serviceName }}-secrets
+                  key: {{ .secretKey }}
+            {{- end }}
+            {{- end }}
+          {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Values.serviceName }}-storage
+      spec:
+        accessModes:
+          - {{ .Values.container.storage.accessMode }}
+        storageClassName: {{ .Values.container.storage.storageClass }}
+        resources:
+          requests:
+            storage: {{ .Values.container.storage.size }}
+{{- end }}
