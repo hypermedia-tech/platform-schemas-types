@@ -180,7 +180,6 @@
         },
         "storage": {
           "properties": {
-            "required": [ "size", "storageClass", "mountPath", "accessMode" ],
             "size": {
               "type": "string"
             },
@@ -192,9 +191,10 @@
             },
             "accessMode": {
               "type": "string",
-              "enum": [ "ReadWriteOnce", "ReadWrite", "ReadOnlyMany" ]
+              "enum": [ "ReadWriteOnce", "ReadWriteMany", "ReadOnlyMany" ]
             }
           },
+          "required": [ "size", "storageClass", "mountPath", "accessMode" ],
           "type": "object",
           "additionalProperties": false
         },
@@ -229,6 +229,7 @@
           "additionalProperties": false
         }
       },
+      "required": ["storage", "image", "replicas", "resources"],
       "type": "object",
       "additionalProperties": false
     },
