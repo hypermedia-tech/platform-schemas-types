@@ -1837,6 +1837,18 @@ entries:
   stateful-container-load:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-06-28T06:53:15.952022704Z"
+    description: Stateful Container Service Template.
+    digest: 13269ba6b946d32e2cac1a09f6a9e91649b91749fd648a19631783a0e512498f
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: stateful-container-load
+    urls:
+    - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/stateful-container-load-1.0.2/stateful-container-load-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-06-28T06:50:09.802920464Z"
     description: Stateful Container Service Template.
     digest: d3779d361510354c3bee1f4bc12b86d0725d1999ad8231ec0e88887260ccb649
@@ -1847,4 +1859,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/stateful-container-load-1.0.1/stateful-container-load-1.0.1.tgz
     version: 1.0.1
-generated: "2025-06-28T06:50:09.803607391Z"
+generated: "2025-06-28T06:53:15.952570649Z"
