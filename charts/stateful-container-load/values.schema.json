@@ -180,9 +180,7 @@
         },
         "storage": {
           "properties": {
-            "enabled": {
-              "type": "boolean"
-            },
+            "required": [ "size", "storageClass", "mountPath", "accessMode" ],
             "size": {
               "type": "string"
             },

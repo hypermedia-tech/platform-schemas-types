@@ -39,7 +39,6 @@ container:
       cpu: "0.5"
       memory: "256Mi"
   storage:
-    enabled: true
     size: "10Gi"
     storageClass: "nfs-client"
     mountPath: "/data"
