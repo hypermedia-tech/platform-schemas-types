@@ -558,10 +558,6 @@ export const nonNullable = <T>( value: T ): value is NonNullable<T> => {
     return value != null;
 }
 
-export interface GitHubResponse<T> extends AsyncOperationResponse<T>{
-    errorType?: 'NOT_FOUND' | 'INVALID_YAML' | 'INVALID_RESPONSE' | 'NETWORK_ERROR';
-}
-
 export interface GitHubContent {
     [ key: string ]: any;
     sha?: string;
