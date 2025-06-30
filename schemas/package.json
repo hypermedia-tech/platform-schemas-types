@@ -1,0 +1,24 @@
+{
+  "name": "@hypermedia-tech/hyper-platform-schemas",
+  "version": "0.0.8",
+  "description": "TypeScript types and JSON schemas for Hyper platform workloads",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run validate && tsc --noEmit",
+    "validate": "node scripts/validate-schemas.js",
+    "clean": "rm -rf dist/",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "typescript": "^5.8.3"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
