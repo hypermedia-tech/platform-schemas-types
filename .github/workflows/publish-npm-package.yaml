@@ -5,10 +5,9 @@ on:
     branches:
       - main
     paths:
-      - schemas/src/**
-      - schemas/package.json
-      - schemas/tsconfig.json
-#      - charts/*/values.schema.json
+      - src/**
+      - package.json
+      - tsconfig.json
   workflow_dispatch:
 
 permissions:
@@ -21,8 +20,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -31,15 +28,12 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
 
       - name: Install dependencies
-        working-directory: ./schemas
         run: npm install
 
       #      - name: Run tests
-      #        working-directory: ./schemas
       #        run: npm test
 
       - name: Bump version
-        working-directory: ./schemas
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -48,18 +42,15 @@ jobs:
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
       - name: Build package
-        working-directory: ./schemas
         run: npm run build
 
       - name: Commit version bump
         run: |
-          git pull --rebase
-          git add schemas/package.json  # Update path
+          git add package.json
           git commit -m "Bump version to $NEW_VERSION [skip ci]"
           git push
 
       - name: Publish to GitHub Packages
-        working-directory: ./schemas
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GHCR_PAT }}

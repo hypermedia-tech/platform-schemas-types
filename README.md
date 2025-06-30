@@ -1,4 +1,4 @@
-## Hypermedia Au Base Helm Charts
+## Hypermedia Au Base Helm Charts nd NPM Module Home
 
 These charts are designed to drive argocd applicationSet and AppOfApp's deployments.
 
