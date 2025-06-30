@@ -53,4 +53,4 @@ jobs:
       - name: Publish to GitHub Packages
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GHCR_PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
