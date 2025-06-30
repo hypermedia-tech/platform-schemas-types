@@ -28,6 +28,9 @@ jobs:
           node-version: '20'
           registry-url: 'https://npm.pkg.github.com'
 
+      - name: Copy npm config
+        run: cp .npmrc schemas/.npmrc
+
       - name: Install dependencies
         working-directory: ./schemas
         run: npm install
