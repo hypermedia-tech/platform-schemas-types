@@ -51,6 +51,7 @@ jobs:
 
       - name: Commit version bump
         run: |
+          git pull --rebase
           git add schemas/package.json  # Update path
           git commit -m "Bump version to $NEW_VERSION [skip ci]"
           git push
