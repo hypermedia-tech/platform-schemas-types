@@ -28,9 +28,6 @@ jobs:
           node-version: '20'
           registry-url: 'https://npm.pkg.github.com'
 
-      - name: Copy npm config
-        run: cp .npmrc schemas/.npmrc
-
       - name: Install dependencies
         working-directory: ./schemas
         run: npm install
@@ -62,4 +59,4 @@ jobs:
         working-directory: ./schemas
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GHCR_PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
