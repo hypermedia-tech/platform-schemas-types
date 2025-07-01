@@ -548,6 +548,7 @@ export interface ValuesFileStrategy< T = object > {
         environment: string;
         stripe: string;
         containerPath: string;
+        serviceCatalogName: string;
     }): T;
 }
 
