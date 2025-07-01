@@ -671,3 +671,10 @@ export interface HelmRepositoryIndex {
     entries: Record<string, HelmChartVersion[]>;
     generated: string;
 }
+
+export const PlatformBaseCharts = {
+    BASIC_CONTAINER_LOAD: 'BASIC_CONTAINER_LOAD',
+    STATEFUL_CONTAINER_LOAD: 'STATEFUL_CONTAINER_LOAD'
+} as const;
+
+export type PlatformBaseChart = ( typeof PlatformBaseCharts )[ keyof typeof PlatformBaseCharts ];
