@@ -549,6 +549,7 @@ export interface ValuesFileStrategy< T = object > {
         stripe: string;
         containerPath: string;
         serviceCatalogName: string;
+        namespace: string
     }): T;
 }
 
