@@ -20,5 +20,8 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }

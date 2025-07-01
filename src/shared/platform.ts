@@ -1,3 +1,4 @@
+import { kebabCase } from 'lodash';
 import { WorkloadSchema } from "../workloadChartValues";
 export interface AsyncOperationResponse<T> {
     ok: boolean;
@@ -678,3 +679,15 @@ export const PlatformBaseCharts = {
 } as const;
 
 export type PlatformBaseChart = ( typeof PlatformBaseCharts )[ keyof typeof PlatformBaseCharts ];
+
+export const KebabCaseToPlatformChartMap = Object.keys(PlatformBaseCharts).reduce(
+    (acc, key) => {
+        const value = PlatformBaseCharts[key as keyof typeof PlatformBaseCharts];
+
+        const kebabCaseKey = kebabCase(key);
+
+        acc[kebabCaseKey] = value;
+        return acc;
+    },
+    {} as Record<string, PlatformBaseChart>, // The result is a strongly-typed record
+);
