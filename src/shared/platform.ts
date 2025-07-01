@@ -653,3 +653,21 @@ export const APPLICATION_SET_CONFIG_PATH_STRUCTURE = {
     FILENAME_INDEX: 5,
     EXPECTED_LENGTH: 6
 } as const;
+
+export interface HelmChartVersion {
+    apiVersion: string;
+    appVersion?: string;
+    created: string;
+    description: string;
+    digest: string;
+    name: string;
+    urls: string[];
+    version: string;
+    // other fields can exist but are not needed for this function
+}
+
+export interface HelmRepositoryIndex {
+    apiVersion: string;
+    entries: Record<string, HelmChartVersion[]>;
+    generated: string;
+}
