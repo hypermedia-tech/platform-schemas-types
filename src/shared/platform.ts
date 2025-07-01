@@ -691,3 +691,4 @@ export const KebabCaseToPlatformChartMap = Object.keys(PlatformBaseCharts).reduc
     },
     {} as Record<string, PlatformBaseChart>, // The result is a strongly-typed record
 );
+
