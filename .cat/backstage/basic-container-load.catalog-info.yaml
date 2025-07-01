@@ -8,15 +8,15 @@ metadata:
       title: Support Channel
       icon: chat
   annotations:
-    github.com/project-slug: hypermedia-tech/hyper-chart-repo
+    github.com/project-slug: hypermedia-tech/platform-schema-types
     hypermedia.au/chart-path: charts/basic-container-load
     hypermedia.au/workload-type: service
-    hypermedia.au/helm-registry: "https://hypermedia-tech.github.io/hyper-chart-repo"
+    hypermedia.au/helm-registry: "https://hypermedia-tech.github.io/platform-schema-types"
     backstage.io/techdocs-ref: dir:..
   labels:
     scaffold-eligible: "true"
 spec:
-  type: helm-chart
+  type: platform-base-chart
   owner: gitops-management
   lifecycle: production
   system: gitops-services

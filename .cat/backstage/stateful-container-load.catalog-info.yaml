@@ -1,0 +1,23 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: stateful-container-load
+  description: Base chart for stateful user space service workloads
+  links:
+    - url: https://hypertech.slack.com/messages/help-me
+      title: Support Channel
+      icon: chat
+  annotations:
+    github.com/project-slug: hypermedia-tech/platform-schema-types
+    hypermedia.au/chart-path: charts/stateful-container-load
+    hypermedia.au/workload-type: service
+    hypermedia.au/helm-registry: "https://hypermedia-tech.github.io/platform-schema-types"
+    backstage.io/techdocs-ref: dir:..
+  labels:
+    scaffold-eligible: "true"
+spec:
+  type: platform-base-chart
+  owner: gitops-management
+  lifecycle: production
+  system: gitops-services
+  domain: hyper-platform
