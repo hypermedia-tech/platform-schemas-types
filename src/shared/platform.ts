@@ -694,3 +694,9 @@ export const KebabCaseToPlatformChartMap = Object.keys(PlatformBaseCharts).reduc
     {} as Record<string, PlatformBaseChart>, // The result is a strongly-typed record
 );
 
+export interface EnvironmentMapping {
+    name: string;
+    environments: string[];
+}
+
+export type EnvironmentMap = EnvironmentMapping[];
