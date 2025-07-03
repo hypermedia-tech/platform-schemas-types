@@ -83,12 +83,12 @@ export const ORDERED_ENVIRONMENTS: Environment[] = [
     Environments.DEV,
     Environments.SYST,
     Environments.UAT
-]
+] as const;
 
 export const ORDERED_GITOPS_ENVIRONMENTS: Environment[] = [
     Environments.GITOPS_DEV,
     Environments.GITOPS
-]
+] as const;
 
 export interface HelmChartManifest {
     apiVersion: 'v1' | 'v2' | 'v3';
