@@ -337,7 +337,13 @@ export interface PlatformSystem {
     environments: Environment[];
 }
 
-export type EnvironmentSet = 'gitops' | 'main-userspace' | 'data-ops'
+export const EnvironmentSets = {
+    GITOPS: 'gitops',
+    MAIN_USERSPACE: 'main-userspace',
+    DATA_OPS: 'data-ops'
+} as const;
+
+export type EnvironmentSet =( typeof EnvironmentSets )[keyof typeof EnvironmentSets ]
 
 export interface EnvironmentMapping {
     name: EnvironmentSet;
