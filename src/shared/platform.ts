@@ -47,6 +47,7 @@ export const Environments = {
     DEV: 'dev',
     SYST: 'syst',
     UAT: 'uat',
+    PROD: 'prod',
     GITOPS: 'gitops',
     GITOPS_DEV: 'gitops-dev'
 } as const;
