@@ -337,8 +337,10 @@ export interface PlatformSystem {
     environments: Environment[];
 }
 
+export type EnvironmentSet = 'gitops' | 'main-userspace' | 'data-ops'
+
 export interface EnvironmentMapping {
-    name: string;
+    name: EnvironmentSet;
     environments: string[];
 }
 
