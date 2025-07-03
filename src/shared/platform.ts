@@ -336,9 +336,18 @@ export interface PlatformSystem {
     environments: Environment[];
 }
 
+export interface EnvironmentMapping {
+    name: string;
+    environments: string[];
+}
+
+export type EnvironmentMap = EnvironmentMapping[];
+
+
 export interface PlatformMetadata {
-    systems: PlatformSystem[]
-    clusters: ClusterMetadata[]
+    systems: PlatformSystem[];
+    clusters: ClusterMetadata[];
+    environmentMap: EnvironmentMap
 }
 
 export interface PlatformMetadataResponse extends PlatformMetadata {}
@@ -694,9 +703,4 @@ export const KebabCaseToPlatformChartMap = Object.keys(PlatformBaseCharts).reduc
     {} as Record<string, PlatformBaseChart>, // The result is a strongly-typed record
 );
 
-export interface EnvironmentMapping {
-    name: string;
-    environments: string[];
-}
 
-export type EnvironmentMap = EnvironmentMapping[];
