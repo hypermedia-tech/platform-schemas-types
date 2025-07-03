@@ -347,7 +347,7 @@ export type EnvironmentSet =( typeof EnvironmentSets )[keyof typeof EnvironmentS
 
 export interface EnvironmentMapping {
     name: EnvironmentSet;
-    environments: string[];
+    environments: Environment[];
 }
 
 export type EnvironmentMap = EnvironmentMapping[];
