@@ -6,9 +6,14 @@ export interface AsyncOperationResponse<T> {
     error?: string;
 }
 
+export interface YamlFileContent {
+    path: string;
+    content: GitHubContent | null;
+    error?: string;
+}
 
 export interface GitHubResponse<T> extends AsyncOperationResponse<T>{
-    errorType?: 'NOT_FOUND' | 'INVALID_YAML' | 'INVALID_RESPONSE' | 'NETWORK_ERROR';
+    errorType?: 'NOT_FOUND' | 'INVALID_YAML' | 'INVALID_RESPONSE' | 'NETWORK_ERROR' | 'AGGREGATE_FAILURE' | 'CLIENT_INITIALIZATION_FAILED';
 }
 
 export interface WorkloadConfigurationDataProps {
@@ -131,10 +136,11 @@ export interface Kustomization extends KustomizeConfigBaseType {
 }
 
 export interface CatalogKustomization extends Kustomization {
-    helmGlobals: {
+    resources?: string[];
+    helmGlobals?: {
         chartHome: string;
     }
-    helmCharts: KustomizationHelmChart[]
+    helmCharts?: KustomizationHelmChart[]
 }
 
 export interface WorkloadEnvironmentConfig {
@@ -369,6 +375,10 @@ export interface CatalogConfig {
     environments: CatalogConfigEnvironmentMeta[];
 }
 
+export interface AddonCatalogConfig {
+    name: string;
+}
+
 export interface BootstrapCatalogConfig {
     name: string;
     catalogName: string;
@@ -396,6 +406,17 @@ export interface CatalogBootstrapResponse {
 
 export interface Manifest {
     apiVersion: string;
+}
+
+export interface KubernetesResource {
+    apiVersion: string;
+    kind: string;
+    metadata: {
+        name: string;
+        namespace?: string;
+        [ key: string ]: any;
+    };
+    [ key: string ]: any;
 }
 
 export interface PatchFile {
@@ -609,7 +630,7 @@ export interface GitHubTree {
 export interface GitHubTreeResponse<T> {
     data: T;
     ok: boolean;
-    errorType?: 'INVALID_RESPONSE' | 'NOT_FOUND' | 'NETWORK_ERROR';
+    errorType?: 'INVALID_RESPONSE' | 'NOT_FOUND' | 'NETWORK_ERROR' | 'AGGREGATE_FAILURE' | 'CLIENT_INITIALIZATION_FAILED';
     error?: string;
 }
 
