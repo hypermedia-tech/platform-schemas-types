@@ -143,6 +143,10 @@ export interface CatalogKustomization extends Kustomization {
     helmCharts?: KustomizationHelmChart[]
 }
 
+export interface SourceCatalogKustomization extends CatalogKustomization {
+    sha: string;
+}
+
 export interface WorkloadEnvironmentConfig {
     targetCluster: string;
     chartRepository: string;
@@ -417,6 +421,10 @@ export interface KubernetesResource {
         [ key: string ]: any;
     };
     [ key: string ]: any;
+}
+
+export interface SourceKubernetesResource extends KubernetesResource {
+    sha: string;
 }
 
 export interface PatchFile {
