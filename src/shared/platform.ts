@@ -149,14 +149,8 @@ export interface SourceCatalogKustomization extends CatalogKustomization {
 
 export interface WorkloadEnvironmentConfig {
     targetCluster: string;
-    chartRepository: string;
-    chartName: string;
-    chartVersion: string;
     env: Environment;
     stripe: Stripe;
-    projectName: string;
-    namespace: string;
-    releaseName: string;
 }
 
 export interface ArgoApplication {
@@ -444,6 +438,7 @@ export interface WorkloadConfigurationDataPayload {
     versions: ContainerVersionsList;
     valueFiles?: object[]; // We need to create an interface for all values Files
     applicationSet: ApplicationSet;
+    kustomization: CatalogKustomization;
 }
 
 export interface WorkloadConfigurationDataUpdate extends WorkloadConfigurationDataPayload {
