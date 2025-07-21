@@ -129,6 +129,7 @@ export interface KustomizationHelmChart {
     version: string;
     valuesFile: string;
     namespace: string;
+    releaseName?: string;
 }
 
 export interface Kustomization extends KustomizeConfigBaseType {
@@ -388,7 +389,7 @@ export interface ApplicationSetSummary {
     name: string;
     applicationSet: ApplicationSet;
     generatorConfigs: {
-        items: ApplicationSetConfigResult[]
+        items: ApplicationSetConfigResult[];
     }
 }
 
@@ -643,8 +644,6 @@ export const isSimpleApplicationSetConfig = (config: any): config is SimpleAppli
         && typeof config.targetCluster === 'string'
         && typeof config.env === 'string'
         && typeof config.stripe === 'string'
-        && typeof config.projectName === 'string'
-        && (config.namespace === undefined || typeof config.namespace === 'string');
 }
 
 export const isChartApplicationSetConfig = (config: any): config is ChartApplicationSetConfig => {
@@ -653,12 +652,6 @@ export const isChartApplicationSetConfig = (config: any): config is ChartApplica
         && typeof config.targetCluster === 'string'
         && typeof config.env === 'string'
         && typeof config.stripe === 'string'
-        && typeof config.projectName === 'string'
-        && (config.namespace === undefined || typeof config.namespace === 'string')
-        && typeof config.chartRepository === 'string'
-        && typeof config.chartName === 'string'
-        && typeof config.chartVersion === 'string'
-        && typeof config.releaseName === 'string';
 }
 
 
@@ -672,21 +665,15 @@ export interface SimpleApplicationSetConfig {
     targetCluster: string;
     env: Environment;
     stripe: Stripe;
-    projectName: string;
-    namespace?: string;
 }
 
-export interface ChartApplicationSetConfig extends SimpleApplicationSetConfig {
-    chartRepository: string;
-    chartName: string;
-    chartVersion: string;
-    releaseName: string;
-}
+export interface ChartApplicationSetConfig extends SimpleApplicationSetConfig {}
 
 export type ApplicationSetConfigResult = {
     name: string;
     record: (SimpleApplicationSetConfig | ChartApplicationSetConfig) | null;
     active: boolean | null;
+    kustomization?: SourceCatalogKustomization
 };
 
 export const APPLICATION_SET_CONFIG_PATH_STRUCTURE = {
