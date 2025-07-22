@@ -141,7 +141,8 @@ export interface CatalogKustomization extends Kustomization {
     helmGlobals?: {
         chartHome: string;
     }
-    helmCharts?: KustomizationHelmChart[]
+    helmCharts?: KustomizationHelmChart[];
+    commonAnnotations?: Record<string, string>;
 }
 
 export interface SourceCatalogKustomization extends CatalogKustomization {
@@ -233,14 +234,17 @@ export interface ApplicationSet {
         template: {
             metadata: {
                 name: string;
+                labels: any;
+                annotations: any;
             }
             spec: {
                 project: string;
-                sources: ApplicationSetSource[]
+                source?: KustomizedApplicationSetSource
+                sources?: ApplicationSetSource[];
                 destination: {
                     name?: string
                     server?: string
-                    namespace: string
+                    namespace?: string
                 }
                 syncPolicy: {
                     automated: {
@@ -263,6 +267,15 @@ export interface ApplicationSetSource {
         valueFiles?: string[];
     }
     ref?: string;
+}
+
+export interface KustomizedApplicationSetSource {
+    repoUrl: string;
+    targetRevision: string;
+    path: string;
+    plugin: {
+        name: string;
+    }
 }
 
 export interface ApplicationSetGenerator {
