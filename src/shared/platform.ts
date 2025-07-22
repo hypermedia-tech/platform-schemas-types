@@ -270,7 +270,7 @@ export interface ApplicationSetSource {
 }
 
 export interface KustomizedApplicationSetSource {
-    repoUrl: string;
+    repoURL: string;
     targetRevision: string;
     path: string;
     plugin: {
