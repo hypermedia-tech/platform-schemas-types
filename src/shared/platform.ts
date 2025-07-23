@@ -75,9 +75,9 @@ export const Stripes = {
 export type Stripe = ( typeof Stripes )[ keyof typeof Stripes ];
 
 export const ORDERED_STRIPES: Stripe[] = [
-    Stripes.INDIGO,
     Stripes.GREEN,
     Stripes.BLUE,
+    Stripes.INDIGO,
     Stripes.RED,
     Stripes.YELLOW,
     Stripes.VIOLET,
