@@ -157,6 +157,19 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/basic-container-load-0.0.1/basic-container-load-0.0.1.tgz
     version: 0.0.1
+  basic-container-rollout:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-07-27T11:10:53.972078697Z"
+    description: Basic Container Service Rollout Template,.
+    digest: 733944128320be3416efadc3b39057886375de32b38c6b80379192ab4c16a808
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: basic-container-rollout
+    urls:
+    - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/basic-container-rollout-1.0.1/basic-container-rollout-1.0.1.tgz
+    version: 1.0.1
   hyper-argo-workflows:
   - apiVersion: v2
     appVersion: "1.0"
@@ -1895,4 +1908,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/stateful-container-load-1.0.1/stateful-container-load-1.0.1.tgz
     version: 1.0.1
-generated: "2025-06-28T11:28:24.009860113Z"
+generated: "2025-07-27T11:10:53.972433464Z"
