@@ -15,7 +15,7 @@ spec:
             template:
               spec:
                 imagePullSecrets:
-                  - name: {{ .Values.imagePullSecrets }}
+                  - name: {{ .Values.serviceName }}-ghcr-docker-config
                 containers:
                   - name: k6
                     image: {{ .Values.container.image.repository }}-tester:{{ .Values.container.image.tag }}
