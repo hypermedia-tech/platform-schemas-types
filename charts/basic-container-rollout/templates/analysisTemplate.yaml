@@ -13,6 +13,9 @@ spec:
         job:
           spec:
             template:
+              metadata:
+                labels:
+                  k6-test: {{ .Values.serviceName | quote }}
               spec:
                 imagePullSecrets:
                   - name: {{ .Values.serviceName }}-ghcr-docker-config
