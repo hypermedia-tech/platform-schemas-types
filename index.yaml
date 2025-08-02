@@ -160,6 +160,18 @@ entries:
   basic-container-rollout:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-08-02T13:04:04.362671857Z"
+    description: Basic Container Service Rollout Template,.
+    digest: 0c046bd8e23d153e09534412759664b98167aacaecf3cc5c483371a240bff695
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: basic-container-rollout
+    urls:
+    - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/basic-container-rollout-1.0.3/basic-container-rollout-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-08-02T12:56:23.459052523Z"
     description: Basic Container Service Rollout Template,.
     digest: 605a0607fe7e67e2961c6e208720e6919d32026a8800ef7356b225b7451910a9
@@ -1920,4 +1932,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/stateful-container-load-1.0.1/stateful-container-load-1.0.1.tgz
     version: 1.0.1
-generated: "2025-08-02T12:56:23.459502964Z"
+generated: "2025-08-02T13:04:04.363108249Z"
