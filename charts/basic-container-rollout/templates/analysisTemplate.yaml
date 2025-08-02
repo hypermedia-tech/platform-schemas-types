@@ -43,7 +43,7 @@ spec:
       failureCondition: result[0] < {{ .Values.rollout.analysis.successRate | default 0.95 }}
       provider:
         prometheus:
-          address: "{{ .Values.rollout.analysis.prometheusAddress | default "http://prometheus.istio-system.svc.cluster.local:9090" }}"
+          address: "{{ .Values.rollout.analysis.prometheusAddress | default "http://prometheus-stack-kube-prom-prometheus.monitoring.svc.cluster.local:9090" }}"
           query: >-
             sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}",response_code!~"5.*"}[2m])) /
             sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}"}[2m]))
@@ -57,7 +57,7 @@ spec:
       failureCondition: result[0] > {{ .Values.rollout.analysis.maxP95Latency | default 500 }}
       provider:
         prometheus:
-          address: "{{ .Values.rollout.analysis.prometheusAddress | default "http://prometheus.istio-system.svc.cluster.local:9090" }}"
+          address: "{{ .Values.rollout.analysis.prometheusAddress | default "http://prometheus-stack-kube-prom-prometheus.monitoring.svc.cluster.local:9090"}}"
           query: >-
             histogram_quantile(0.95,sum(rate(istio_request_duration_milliseconds_bucket{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}"}[2m])) by (le))
 
@@ -70,7 +70,7 @@ spec:
       failureCondition: result[0] > {{ .Values.rollout.analysis.maxErrorRate | default 0.01 }}
       provider:
         prometheus:
-          address: "{{ .Values.rollout.analysis.prometheusAddress | default "http://prometheus.istio-system.svc.cluster.local:9090" }}"
+          address: "{{ .Values.rollout.analysis.prometheusAddress | default "http://prometheus-stack-kube-prom-prometheus.monitoring.svc.cluster.local:9090" }}"
           query: >-
             sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}",response_code=~"5.*"}[2m])) /
             sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}"}[2m]))
