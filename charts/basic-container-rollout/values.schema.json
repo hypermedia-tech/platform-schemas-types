@@ -9,6 +9,17 @@
       "type": "object",
       "description": "Argo Rollout strategy configuration. See https://argo-rollouts.readthedocs.io/en/stable/features/deployment-strategies/",
       "properties": {
+        "analysis": {
+          "type": "object",
+          "properties": {
+            "initialDelay": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        },
         "strategy": {
           "type": "object"
         }

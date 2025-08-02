@@ -1,0 +1,34 @@
+{{- if .Values.rollout.analysis.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: {{ .Values.serviceName }}-k6-analysis
+  namespace: {{ .Release.Namespace }}
+spec:
+  metrics:
+    - name: {{ .Values.serviceName }}-k6-smoke-test
+      count: 1
+      initialDelay: {{ .Values.rollout.analysis.initialDelay | default "30s" }}
+      provider:
+        job:
+          spec:
+            template:
+              spec:
+                imagePullSecrets:
+                  - name: {{ .Values.imagePullSecrets }}
+                containers:
+                  - name: k6
+                    image: {{ .Values.container.image.repository }}-tester:{{ .Values.container.image.tag }}
+                    args:
+                      - run
+                      - --quiet
+                      - /tests/smoke.js
+                    env:
+                      - name: TARGET_URL
+                        value: "http://{{ .Values.serviceName }}.{{ .Values.namespace }}.svc.cluster.local"
+                restartPolicy: Never
+            backoffLimit: 0
+            ttlSecondsAfterFinished: 300
+      successCondition: result.contains("PASS")
+      failureCondition: result.contains("FAIL")
+{{- end }}
