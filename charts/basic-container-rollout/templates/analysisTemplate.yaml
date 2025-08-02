@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   metrics:
-    - name: {{ .Values.serviceName }}-k6-smoke-test
+    - name: k6-test
       count: 1
       initialDelay: {{ .Values.rollout.analysis.initialDelay | default "30s" }}
       provider:
