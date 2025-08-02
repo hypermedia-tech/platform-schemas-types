@@ -34,4 +34,61 @@ spec:
             ttlSecondsAfterFinished: 300
       successCondition: result.contains("PASS")
       failureCondition: result.contains("FAIL")
+
+    - name: success-rate
+      initialDelay: {{ .Values.rollout.analysis.initialDelay | default "30s" }}
+      interval: 30s
+      count: {{ .Values.rollout.analysis.duration | default 5 }}
+      successCondition: result[0] >= {{ .Values.rollout.analysis.successRate | default 0.95 }}
+      failureCondition: result[0] < {{ .Values.rollout.analysis.successRate | default 0.95 }}
+      provider:
+        prometheus:
+          address: { { .Values.rollout.analysis.prometheusAddress | default "http://prometheus.istio-system.svc.cluster.local:9090" } }
+          query: |
+            sum(rate(istio_requests_total{
+              destination_service_name="{{ .Values.serviceName }}",
+              destination_service_namespace="{{ .Release.Namespace }}",
+              response_code!~"5.*"
+            }[2m])) /
+            sum(rate(istio_requests_total{
+              destination_service_name="{{ .Values.serviceName }}",
+              destination_service_namespace="{{ .Release.Namespace }}"
+            }[2m]))
+
+    - name: p95-latency
+      initialDelay: {{ .Values.rollout.analysis.initialDelay | default "30s" }}
+      interval: 30s
+      count: {{ .Values.rollout.analysis.duration | default 5 }}
+      successCondition: result[0] <= {{ .Values.rollout.analysis.maxP95Latency | default 500 }}
+      failureCondition: result[0] > {{ .Values.rollout.analysis.maxP95Latency | default 500 }}
+      provider:
+        prometheus:
+          address: {{ .Values.rollout.analysis.prometheusAddress | default "http://prometheus.istio-system.svc.cluster.local:9090" }}
+          query: |
+            histogram_quantile(0.95,
+              sum(rate(istio_request_duration_milliseconds_bucket{
+                destination_service_name="{{ .Values.serviceName }}",
+                destination_service_namespace="{{ .Release.Namespace }}"
+              }[2m])) by (le)
+            )
+
+    - name: error-rate
+      initialDelay: { { .Values.rollout.analysis.initialDelay | default "30s" } }
+      interval: 30s
+      count: {{ .Values.rollout.analysis.duration | default 5 }}
+      successCondition: result[0] <= {{ .Values.rollout.analysis.maxErrorRate | default 0.01 }}
+      failureCondition: result[0] > {{ .Values.rollout.analysis.maxErrorRate | default 0.01 }}
+      provider:
+        prometheus:
+          address: {{ .Values.rollout.analysis.prometheusAddress | default "http://prometheus.istio-system.svc.cluster.local:9090" }}
+          query: |
+            sum(rate(istio_requests_total{
+              destination_service_name="{{ .Values.serviceName }}",
+              destination_service_namespace="{{ .Release.Namespace }}",
+              response_code=~"5.*"
+            }[2m])) /
+            sum(rate(istio_requests_total{
+              destination_service_name="{{ .Values.serviceName }}",
+              destination_service_namespace="{{ .Release.Namespace }}"
+            }[2m]))
 {{- end }}

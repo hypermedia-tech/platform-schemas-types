@@ -17,6 +17,18 @@
             },
             "enabled": {
               "type": "boolean"
+            },
+            "duration": {
+              "type": "string"
+            },
+            "successRate": {
+              "type": "number"
+            },
+            "maxP95Latency": {
+              "type": "number"
+            },
+            "maxErrorRate": {
+              "type": "number"
             }
           }
         },
