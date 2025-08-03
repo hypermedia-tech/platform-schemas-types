@@ -28,7 +28,7 @@ spec:
                       - /tests/smoke.js
                     env:
                       - name: TARGET_URL
-                        value: "http://{{ .Values.serviceName }}.{{ .Values.namespace }}.svc.cluster.local"
+                        value: "http://{{ .Values.serviceName }}.{{ .Values.namespace }}.svc.cluster.local/v1"
                 restartPolicy: Never
             backoffLimit: 0
             ttlSecondsAfterFinished: 300
