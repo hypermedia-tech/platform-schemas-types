@@ -43,9 +43,10 @@ spec:
       provider:
         prometheus:
           address: "{{ .Values.rollout.analysis.prometheusAddress | default "http://prometheus-stack-kube-prom-prometheus.monitoring.svc.cluster.local:9090" }}"
-          query: >-
-            sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}",response_code!~"5.*"}[2m])) /
-            sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}"}[2m]))
+          query: |
+            (sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}",response_code!~"5.*"}[2m])) /
+            sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}"}[2m])))
+            or on() vector(1)
 
     # P95 latency threshold
     - name: p95-latency
@@ -57,9 +58,9 @@ spec:
       provider:
         prometheus:
           address: "{{ .Values.rollout.analysis.prometheusAddress | default "http://prometheus-stack-kube-prom-prometheus.monitoring.svc.cluster.local:9090"}}"
-          query: >-
-            histogram_quantile(0.95,sum(rate(istio_request_duration_milliseconds_bucket{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}"}[2m])) by (le))
-
+          query: |
+            histogram_quantile(0.95, sum(rate(istio_request_duration_milliseconds_bucket{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}"}[2m])) by (le))
+            or on() vector(0)
     # Error rate threshold
     - name: error-rate
       initialDelay: {{ .Values.rollout.analysis.initialDelay | default "30s" }}
@@ -70,8 +71,8 @@ spec:
       provider:
         prometheus:
           address: "{{ .Values.rollout.analysis.prometheusAddress | default "http://prometheus-stack-kube-prom-prometheus.monitoring.svc.cluster.local:9090" }}"
-          query: >-
-            sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}",response_code=~"5.*"}[2m])) /
-            sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}"}[2m]))
-
+          query: |
+            (sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}",response_code=~"5.*"}[2m])) /
+            sum(rate(istio_requests_total{destination_service_name="{{ .Values.serviceName }}",destination_service_namespace="{{ .Release.Namespace }}"}[2m])))
+            or on() vector(0)
 {{- end }}
