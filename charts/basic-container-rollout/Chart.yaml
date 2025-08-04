@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: "1.0"
 description: Basic Container Service Rollout Template.
 name: basic-container-rollout
-version: 1.0.13
+version: 1.0.14
 maintainers:
   - name: delProfundo
     email: bruno@hypermedia.au
