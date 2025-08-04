@@ -6,8 +6,7 @@ import {
     ContainerStorageProperties,
     Environment,
     EnvironmentVariableObj,
-    SecretObj,
-    Stripe
+    SecretObj
 } from "../shared";
 
 
@@ -15,7 +14,6 @@ export interface StatefulContainerLoadSchema {
     workloadType: "STATEFUL_CONTAINER_LOAD"
     serviceName: string;
     environment: Environment;
-    stripe: Stripe;
     namespace?: string;
     serviceCatalog: string;
     serviceAccount?: string;

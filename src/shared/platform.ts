@@ -18,7 +18,6 @@ export interface GitHubResponse<T> extends AsyncOperationResponse<T>{
 
 export interface WorkloadConfigurationDataProps {
     environment: Environment;
-    stripe?: Stripe;
     workloadName: string;
     catalogName: string;
 }
@@ -59,30 +58,6 @@ export const Environments = {
 
 export type Environment = ( typeof Environments )[ keyof typeof Environments ];
 
-export const Stripes = {
-    ACTIVE: "active",
-    UNDEFINED: "undefined",
-    INDIGO: "indigo",
-    GREEN: "green",
-    BLUE: "blue",
-    RED: "red",
-    YELLOW: "yellow",
-    VIOLET: "violet",
-    ORANGE: "orange",
-    WHITE: "white"
-} as const;
-
-export type Stripe = ( typeof Stripes )[ keyof typeof Stripes ];
-
-export const ORDERED_STRIPES: Stripe[] = [
-    Stripes.GREEN,
-    Stripes.BLUE,
-    Stripes.INDIGO,
-    Stripes.RED,
-    Stripes.YELLOW,
-    Stripes.VIOLET,
-    Stripes.ORANGE
-] as const;
 
 export const ORDERED_ENVIRONMENTS: Environment[] = [
     Environments.DEV,
@@ -106,7 +81,6 @@ export interface HelmChartManifest {
 export interface WorkloadConfigurationUpdateRequestPathParams {
     catalogName: string;
     environment: Environment;
-    stripe: Stripe;
     workloadName: string;
 }
 
@@ -114,7 +88,6 @@ export interface WorkloadConfigurationUpdateRequestPayload {
     catalogName: string;
     workloadName: string;
     environment: Environment;
-    stripe: Stripe;
     values: WorkloadSchema,
     updatedValues: WorkloadSchema
 }
@@ -152,7 +125,6 @@ export interface SourceCatalogKustomization extends CatalogKustomization {
 export interface WorkloadEnvironmentConfig {
     targetCluster: string;
     env: Environment;
-    stripe: Stripe;
 }
 
 export interface ArgoApplication {
@@ -331,13 +303,10 @@ export type DeploymentTrigger = ( typeof DeploymentTriggers )[ keyof typeof Depl
 
 export interface CatalogConfigEnvironmentMeta {
     environment: Environment;
-    activeStripe: Stripe;
     deploymentTrigger: DeploymentTrigger;
-    deployedStripes: Stripe[]
 }
 export interface PlatformEnvironment {
     environment: Environment;
-    stripe: Stripe;
 }
 export interface ClusterMetadata {
     name: string;
@@ -443,7 +412,6 @@ export interface PatchFile {
 export interface WorkloadConfigurationDataPayload {
     catalogName: string;
     environment: Environment;
-    stripe: Stripe;
     workloadName: string;
     catalogConfig: CatalogConfig;
     workloadEnvConfig: WorkloadEnvironmentConfig
@@ -512,7 +480,6 @@ export interface BasicContainerisedServiceSchema {
     serviceName?: string;
     namespace?: string;
     environment?: Environment;
-    stripe?: Stripe
     serviceAccount?: string;
     revisionHistoryLimit?: number;
     container: {
@@ -602,7 +569,6 @@ export interface ValuesFileStrategy< T = object > {
     generateValuesFile(variables: {
         serviceName: string;
         environment: string;
-        stripe: string;
         containerPath: string;
         serviceCatalogName: string;
         namespace: string
@@ -656,7 +622,6 @@ export const isSimpleApplicationSetConfig = (config: any): config is SimpleAppli
         && typeof config === 'object'
         && typeof config.targetCluster === 'string'
         && typeof config.env === 'string'
-        && typeof config.stripe === 'string'
 }
 
 export const isChartApplicationSetConfig = (config: any): config is ChartApplicationSetConfig => {
@@ -664,7 +629,6 @@ export const isChartApplicationSetConfig = (config: any): config is ChartApplica
         && typeof config === 'object'
         && typeof config.targetCluster === 'string'
         && typeof config.env === 'string'
-        && typeof config.stripe === 'string'
 }
 
 
@@ -677,7 +641,6 @@ export type ApplicationSetConfigFileInfo = {
 export interface SimpleApplicationSetConfig {
     targetCluster: string;
     env: Environment;
-    stripe: Stripe;
 }
 
 export interface ChartApplicationSetConfig extends SimpleApplicationSetConfig {}
@@ -694,7 +657,6 @@ export const APPLICATION_SET_CONFIG_PATH_STRUCTURE = {
     WORKLOAD_INDEX: 1,
     CONFIG_INDEX: 2,
     ENV_INDEX: 3,
-    STRIPE_INDEX: 4,
     FILENAME_INDEX: 5,
     EXPECTED_LENGTH: 6
 } as const;

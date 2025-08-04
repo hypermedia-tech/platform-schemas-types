@@ -5,7 +5,7 @@ import {
     ContainerResourceProperties,
     Environment,
     EnvironmentVariableObj,
-    SecretObj, Stripe
+    SecretObj
 } from "../shared";
 
 
@@ -13,7 +13,6 @@ export interface BasicContainerLoadSchema {
     workloadType: "BASIC_CONTAINER_LOAD"
     serviceName: string;
     environment: Environment;
-    stripe: Stripe;
     namespace?: string;
     serviceCatalog: string;
     serviceAccount?: string;

@@ -1,4 +1,4 @@
 import { BasicContainerLoadSchema } from "./basicContainerLoad";
-import { StatefulContainerLoadSchema } from './statefulContainerLoad'
+import { StatefulContainerLoadSchema } from './statefulContainerLoad';
 
-export type WorkloadSchema = BasicContainerLoadSchema | StatefulContainerLoadSchema
+export type WorkloadSchema = BasicContainerLoadSchema | StatefulContainerLoadSchema;
