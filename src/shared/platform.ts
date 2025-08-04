@@ -122,11 +122,6 @@ export interface SourceCatalogKustomization extends CatalogKustomization {
     sha: string;
 }
 
-export interface WorkloadEnvironmentConfig {
-    targetCluster: string;
-    env: Environment;
-}
-
 export interface ArgoApplication {
     apiVersion: 'argoproj.io/v1alpha1'
     kind: 'Application';
@@ -414,7 +409,6 @@ export interface WorkloadConfigurationDataPayload {
     environment: Environment;
     workloadName: string;
     catalogConfig: CatalogConfig;
-    workloadEnvConfig: WorkloadEnvironmentConfig
     valuesSchema: any;
     values: WorkloadSchema;
     versions: ContainerVersionsList;
