@@ -51,18 +51,3 @@ export interface BasicContainerLoadSchema {
         port?: number;
     };
 }
-
-// rollout:
-//     analysis:
-//         enabled: true
-// initialDelay: 30s
-// duration: "5"
-// successRate: 0.95
-// maxP95Latency: 500
-// maxErrorRate: 0.01
-// strategy:
-//     canary:
-//         maxUnavailable: 0
-// maxSurge: 1
-// steps:
-//     - pause: { duration: 5s }
