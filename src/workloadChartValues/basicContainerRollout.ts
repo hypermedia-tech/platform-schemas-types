@@ -5,14 +5,15 @@ import {
     ContainerResourceProperties,
     Environment,
     EnvironmentVariableObj,
-    SecretObj
+    SecretObj, Stripe
 } from "../shared";
 
 
-export interface BasicContainerLoadSchema {
+export interface BasicContainerRolloutSchema {
     workloadType: "BASIC_CONTAINER_LOAD"
     serviceName: string;
     environment: Environment;
+    stripe: Stripe;
     namespace?: string;
     serviceCatalog: string;
     serviceAccount?: string;
@@ -50,19 +51,21 @@ export interface BasicContainerLoadSchema {
     service?: {
         port?: number;
     };
+    rollout: {
+        analysis?: {
+            enabled: boolean;
+            initialDelay: string;
+            duration: string;
+            successRate: number;
+            maxP95Latency: number;
+            maxErrorRate: number;
+        };
+        strategy: {
+            canary: {
+                maxUnavailable: number;
+                maxSurge: number;
+                steps: [ any ]
+            }
+        }
+    }
 }
-
-// rollout:
-//     analysis:
-//         enabled: true
-// initialDelay: 30s
-// duration: "5"
-// successRate: 0.95
-// maxP95Latency: 500
-// maxErrorRate: 0.01
-// strategy:
-//     canary:
-//         maxUnavailable: 0
-// maxSurge: 1
-// steps:
-//     - pause: { duration: 5s }
