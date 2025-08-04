@@ -6,7 +6,6 @@ basicMonitoring:
   enabled: true
 namespace: default
 environment: unset
-stripe: unset
 serviceAccount: ""
 revisionHistoryLimit: 2
 ingress:

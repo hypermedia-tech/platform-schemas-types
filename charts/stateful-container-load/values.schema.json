@@ -271,9 +271,6 @@
     },
     "serviceName": {
       "type": "string"
-    },
-    "stripe": {
-      "type": "string"
     }
   },
   "type": "object",
