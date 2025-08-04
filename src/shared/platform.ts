@@ -270,8 +270,17 @@ export interface ApplicationSetMatrixGenerator {
     };
 }
 
+export interface GeneratorExpression {
+    key: string;
+    operator: string;
+    values: string[]
+}
 export interface ApplicationSetClustersGenerator {
-    clusters: {};
+    clusters: {
+        selector?: {
+            matchExpressions: GeneratorExpression[]
+        }
+    };
 }
 
 export interface ApplicationSetGeneratorFile {
