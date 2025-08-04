@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: "1.0"
 description: Stateful Container Service Template.
 name: stateful-container-load
-version: 1.0.5
+version: 1.0.6
 maintainers:
   - name: delProfundo
     email: bruno@hypermedia.au
