@@ -63,7 +63,7 @@ export interface BasicContainerRolloutSchema {
             canary: {
                 maxUnavailable: number;
                 maxSurge: number;
-                steps: [ any ]
+                steps: Record<string, any>[]
             }
         }
     }
