@@ -10,7 +10,7 @@ import {
 
 
 export interface BasicContainerRolloutSchema {
-    workloadType: "BASIC_CONTAINER_LOAD"
+    workloadType: "BASIC_CONTAINER_ROLLOUT"
     serviceName: string;
     environment: Environment;
     namespace?: string;
