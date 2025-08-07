@@ -702,4 +702,23 @@ export const KebabCaseToPlatformChartMap = Object.keys(PlatformBaseCharts).reduc
     {} as Record<string, PlatformBaseChart>, // The result is a strongly-typed record
 );
 
+export interface RolloutStep {
+    type: 'setWeight' | 'pause' | 'analysis';
+    weight?: number;
+    duration?: string;
+    templateName?: string;
+    requiresApproval?: boolean;
+};
+
+export interface RolloutConfig {
+    maxSurge: number;
+    maxUnavailable: number;
+    steps: RolloutStep[];
+    scaleDownDelaySeconds?: number;
+    revisionHistoryLimit?: number;
+    progressDeadlineSeconds?: number;
+    successfulRunHistoryLimit?: number;
+    unsuccessfulRunHistoryLimit?: number;
+};
+
 

@@ -5,9 +5,9 @@ import {
     ContainerResourceProperties,
     Environment,
     EnvironmentVariableObj,
-    SecretObj
+    SecretObj,
+    RolloutConfig
 } from "../shared";
-
 
 export interface BasicContainerRolloutSchema {
     workloadType: "BASIC_CONTAINER_ROLLOUT"
@@ -60,11 +60,12 @@ export interface BasicContainerRolloutSchema {
             maxErrorRate: number;
         };
         strategy: {
-            canary: {
-                maxUnavailable: number;
-                maxSurge: number;
-                steps: Record<string, any>[]
-            }
-        }
+            canary: RolloutConfig;
+        };
+        scaleDownDelaySeconds?: number;
+        revisionHistoryLimit?: number;
+        progressDeadlineSeconds?: number;
+        successfulRunHistoryLimit?: number;
+        unsuccessfulRunHistoryLimit?: number;
     }
 }
