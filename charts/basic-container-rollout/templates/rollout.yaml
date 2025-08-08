@@ -15,6 +15,10 @@ spec:
   selector:
     matchLabels:
       app: {{ .Values.serviceName }}
+  {{- if .Values.rollout.analysis }}
+  analysis:
+    {{- toYaml .Values.rollout.analysis | nindent 4 }}
+  {{- end }}
   strategy:
     {{- toYaml (required "A rollout strategy (.Values.rollout.strategy) must be provided." .Values.rollout.strategy) | nindent 4 }}
   template:
