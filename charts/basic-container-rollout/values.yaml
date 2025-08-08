@@ -68,13 +68,16 @@ container:
   environment: []
   secrets: []
 rollout:
-  analysis:
+  analysisTemplate:
     enabled: true
     initialDelay: 30s
     duration: "5"
     successRate: 0.95
     maxP95Latency: 500
     maxErrorRate: 0.01
+  analysis:
+    successfulRunHistoryLimit: 2
+    unsuccessfulRunHistoryLimit: 2
   strategy:
     canary:
       maxUnavailable: 0
