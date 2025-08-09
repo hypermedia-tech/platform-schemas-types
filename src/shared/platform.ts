@@ -702,23 +702,57 @@ export const KebabCaseToPlatformChartMap = Object.keys(PlatformBaseCharts).reduc
     {} as Record<string, PlatformBaseChart>, // The result is a strongly-typed record
 );
 
-export interface RolloutStep {
-    type: 'setWeight' | 'pause' | 'analysis';
-    weight?: number;
-    duration?: string;
-    templateName?: string;
-    requiresApproval?: boolean;
-};
+interface AnalysisTemplateConfig {
+    enabled: boolean;
+    initialDelay: string;
+    duration: string;
+    successRate: number;
+    maxP95Latency: number;
+    maxErrorRate: number;
+}
 
-export interface RolloutConfig {
-    maxSurge: number;
-    maxUnavailable: number;
-    steps: RolloutStep[];
-    scaleDownDelaySeconds?: number;
-    revisionHistoryLimit?: number;
-    progressDeadlineSeconds?: number;
+interface AnalysisConfig {
     successfulRunHistoryLimit?: number;
     unsuccessfulRunHistoryLimit?: number;
-};
+}
+
+interface SetWeightStep {
+    setWeight: number;
+}
+
+interface PauseStep {
+    pause: {
+        duration?: string;
+    } | {}; // empty object for manual approval
+}
+
+interface AnalysisStep {
+    analysis: {
+        templates: Array<{
+            templateName: string;
+        }>;
+    };
+}
+
+type RolloutStep = SetWeightStep | PauseStep | AnalysisStep;
+
+interface CanaryStrategy {
+    maxSurge: number;
+    maxUnavailable: number;
+    scaleDownDelaySeconds?: number;
+    steps: RolloutStep[];
+}
+
+interface RolloutStrategy {
+    canary: CanaryStrategy;
+}
+
+export interface RolloutConfig {
+    analysis: AnalysisConfig;
+    analysisTemplate: AnalysisTemplateConfig;
+    strategy: RolloutStrategy;
+    progressDeadlineSeconds?: number;
+}
+
 
 

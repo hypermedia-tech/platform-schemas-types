@@ -50,22 +50,5 @@ export interface BasicContainerRolloutSchema {
     service?: {
         port?: number;
     };
-    rollout: {
-        analysis?: {
-            enabled: boolean;
-            initialDelay: string;
-            duration: string;
-            successRate: number;
-            maxP95Latency: number;
-            maxErrorRate: number;
-        };
-        strategy: {
-            canary: RolloutConfig;
-        };
-        scaleDownDelaySeconds?: number;
-        revisionHistoryLimit?: number;
-        progressDeadlineSeconds?: number;
-        successfulRunHistoryLimit?: number;
-        unsuccessfulRunHistoryLimit?: number;
-    }
+    rollout: RolloutConfig
 }
