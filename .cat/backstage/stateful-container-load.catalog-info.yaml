@@ -4,7 +4,7 @@ metadata:
   name: stateful-container-load
   description: Base chart for stateful user space service workloads
   links:
-    - url: https://hypertech.slack.com/messages/help-me
+    - url: https://hypermediaau.slack.com/messages/gitops-general-support
       title: Support Channel
       icon: chat
   annotations:

@@ -4,7 +4,7 @@ metadata:
   name: basic-container-rollout
   description: Base chart for stateless user space service workloads managed by an Argo Rollout
   links:
-    - url: https://hypertech.slack.com/messages/help-me
+    - url: https://hypermediaau.slack.com/messages/gitops-general-support
       title: Support Channel
       icon: chat
   annotations:
