@@ -25,6 +25,7 @@ container:
   image:
     repository: unset
     tag: latest
+    digest: unset
   containerPorts:
     - portName: "http"
       portNumber: 8080
