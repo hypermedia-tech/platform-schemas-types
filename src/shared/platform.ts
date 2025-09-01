@@ -52,8 +52,8 @@ export const Environments = {
     SYST: 'syst',
     UAT: 'uat',
     PROD: 'prod',
-    GITOPS: 'gitops',
-    GITOPS_DEV: 'gitops-dev'
+    CORE: 'core',
+    CORE_DEV: 'core-dev'
 } as const;
 
 export type Environment = ( typeof Environments )[ keyof typeof Environments ];
@@ -65,9 +65,9 @@ export const ORDERED_ENVIRONMENTS: Environment[] = [
     Environments.UAT
 ] as const;
 
-export const ORDERED_GITOPS_ENVIRONMENTS: Environment[] = [
-    Environments.GITOPS_DEV,
-    Environments.GITOPS
+export const ORDERED_CORE_ENVIRONMENTS: Environment[] = [
+    Environments.CORE_DEV,
+    Environments.CORE
 ] as const;
 
 export interface HelmChartManifest {
