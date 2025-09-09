@@ -754,5 +754,7 @@ export interface RolloutConfig {
     progressDeadlineSeconds?: number;
 }
 
-
-
+export interface ApiResponse<T> {
+    statusCode: number;
+    item?: T;
+}
