@@ -757,4 +757,5 @@ export interface RolloutConfig {
 export interface ApiResponse<T> {
     statusCode: number;
     item?: T;
+    message?: string;
 }
