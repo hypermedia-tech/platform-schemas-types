@@ -759,3 +759,22 @@ export interface ApiResponse<T> {
     item?: T;
     message?: string;
 }
+
+export const InboundGitHubEventTypes = {
+    EVENT_REPO_PUSH: 'push',
+    EVENT_REPOSITORY: 'repository',
+    EVENT_TEST_COMPLETE: 'test_complete',
+    EVENT_REGISTRY_PACKAGE: 'registry_package'
+} as const;
+
+export type InboundGitHubEventType = ( typeof InboundGitHubEventTypes )[ keyof typeof InboundGitHubEventTypes ];
+
+export const InternalEventTypes = {
+    REPO_PUSHED: 'repo-pushed',
+    REPOSITORY_EVENT: 'repository',
+    TEST_COMPLETED: 'test-completed',
+    PACKAGE_PUBLISHED: 'package-published',
+    ENVIRONMENT_UPDATED: 'environment-updated'
+} as const;
+
+export type InternalEventType = ( typeof InternalEventTypes )[ keyof typeof InternalEventTypes ];
