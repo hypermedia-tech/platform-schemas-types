@@ -15,10 +15,6 @@ spec:
   serviceAccountTemplate:
     metadata:
       name: {{ .Values.postgres.dbname }}-sa
-  securityContext:
-    runAsUser: 1001
-    runAsGroup: 1001
-    fsGroup: 1001
   imageCatalogRef:
     apiGroup: postgresql.cnpg.io
     kind: ClusterImageCatalog
@@ -27,6 +23,13 @@ spec:
   storage:
     storageClass: {{ .Values.postgres.storageClass }}
     size: {{ .Values.postgres.storageSize }}
+    pvcTemplate:
+      metadata:
+        name: {{ .Values.serviceName }}-postgres-data
+  securityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
   resources:
   {{ .Values.postgres.resources | toYaml | nindent 2 }}
 {{- end }}
