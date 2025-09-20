@@ -27,5 +27,5 @@ spec:
       metadata:
         name: {{ .Values.serviceName }}-postgres-data
   resources:
-  {{ .Values.postgres.resources | toYaml | nindent 2 }}
+{{ .Values.postgres.resources | toYaml | nindent 4 }}
 {{- end }}
