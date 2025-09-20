@@ -6,6 +6,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   instances: {{ .Values.postgres.instances | default 1 }}
+  securityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
   bootstrap:
     initdb:
       database: {{ .Values.postgres.dbname }}
@@ -26,10 +30,6 @@ spec:
     pvcTemplate:
       metadata:
         name: {{ .Values.serviceName }}-postgres-data
-  securityContext:
-    runAsUser: 1001
-    runAsGroup: 1001
-    fsGroup: 1001
   resources:
   {{ .Values.postgres.resources | toYaml | nindent 2 }}
 {{- end }}
