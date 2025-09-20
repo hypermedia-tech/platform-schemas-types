@@ -26,6 +26,7 @@ spec:
     pvcTemplate:
       metadata:
         name: {{ .Values.serviceName }}-postgres-data
+        spec: {}
   resources:
 {{ .Values.postgres.resources | toYaml | nindent 4 }}
 {{- end }}
