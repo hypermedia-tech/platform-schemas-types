@@ -74,7 +74,7 @@ postgres:
   dbname: "postgres"
   #the owner name must match the username in the external secret
   owner: "postgres"
-  pgVersionMajor: "16"
+  pgVersionMajor: 16
   storageSize: "250Mi"
   storageClass: "nfs-client"
   resources:

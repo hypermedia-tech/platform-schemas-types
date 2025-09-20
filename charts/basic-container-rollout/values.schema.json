@@ -49,6 +49,62 @@
       },
       "additionalProperties": false
     },
+    "postgres": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "instances": {
+          "type": "integer"
+        },
+        "dbname": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string",
+          "description": "The owner name must match the username in the external secret"
+        },
+        "pgVersionMajor": {
+          "type": "integer"
+        },
+        "storageSize": {
+          "type": "string"
+        },
+        "storageClass": {
+          "type": "string"
+        },
+        "resources": {
+          "properties": {
+            "limits": {
+              "properties": {
+                "cpu": {
+                  "type": "string"
+                },
+                "memory": {
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "requests": {
+              "properties": {
+                "cpu": {
+                  "type": "string"
+                },
+                "memory": {
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        }
+      }
+    },
     "basicMonitoring": {
       "properties": {
         "enabled": {
