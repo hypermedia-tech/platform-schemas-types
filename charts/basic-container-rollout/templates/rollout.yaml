@@ -41,7 +41,7 @@ spec:
         - name: {{ .Values.serviceName }}-ghcr-docker-config
       containers:
           - name: {{ .Values.serviceName }}
-            image: {{ .Values.container.image.repository }}@{{ .Values.container.image.tag }}
+            image: {{ .Values.container.image.repository }}:{{ .Values.container.image.tag }}
             imagePullPolicy: Always
             ports:
               {{- range .Values.container.containerPorts }}
