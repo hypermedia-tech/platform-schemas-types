@@ -13,9 +13,9 @@ spec:
       secret:
         name: {{ .Values.postgres.dbname }}-db-secret
   securityContext:
-    runAsUser: 999
-    runAsGroup: 999
-    fsGroup: 999
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
   imageCatalogRef:
     apiGroup: postgresql.cnpg.io
     kind: ClusterImageCatalog
