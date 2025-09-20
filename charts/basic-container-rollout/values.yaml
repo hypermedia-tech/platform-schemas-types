@@ -76,7 +76,7 @@ postgres:
   owner: "postgres"
   pgVersionMajor: 16
   storageSize: "250Mi"
-  storageClass: "nfs-client"
+  storageClass: "nfs-db-storage"
   resources:
     requests:
       memory: "256Mi"
