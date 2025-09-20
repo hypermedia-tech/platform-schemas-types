@@ -68,6 +68,22 @@ container:
     maxReplicas: 3
   environment: []
   secrets: []
+postgres:
+  enabled: false
+  instances: 1
+  dbname: "postgres"
+  #the owner name must match the username in the external secret
+  owner: "postgres"
+  pgVersionMajor: "16"
+  storageSize: "250Mi"
+  storageClass: "nfs-client"
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
 rollout:
   analysisTemplate:
     enabled: true

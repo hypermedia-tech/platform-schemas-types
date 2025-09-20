@@ -1,0 +1,25 @@
+{{- if .Values.postgres.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Values.postgres.dbname }}-db-cluster
+  namespace: {{ .Release.Namespace }}
+spec:
+  instances: {{ .Values.postgres.instances | default 1 }}
+  bootstrap:
+    initdb:
+      database: {{ .Values.postgres.dbname }}
+      owner: {{ .Values.postgres.owner }}
+      secret:
+        name: {{ .Values.postgres.dbname }}-db-secret
+  imageCatalogRef:
+    apiGroup: postgresql.cnpg.io
+    kind: ClusterImageCatalog
+    name: postgresql
+    major: {{ .Values.postgres.pgVersionMajor }}
+  storage:
+    storageClass: {{ .Values.postgres.storageClass }}
+    size: {{ .Values.postgres.storageSize }}
+  resources:
+  {{ .Values.resources | toYaml | nindent 2 }}
+{{- end }}
