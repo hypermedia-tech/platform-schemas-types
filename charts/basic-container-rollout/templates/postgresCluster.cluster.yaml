@@ -12,6 +12,9 @@ spec:
       owner: {{ .Values.postgres.owner }}
       secret:
         name: {{ .Values.postgres.dbname }}-db-secret
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: {{ .Values.postgres.dbname }}-db-su-secret
   serviceAccountTemplate:
     metadata:
       name: {{ .Values.postgres.dbname }}-sa
