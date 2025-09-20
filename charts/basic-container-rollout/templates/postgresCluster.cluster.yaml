@@ -12,6 +12,9 @@ spec:
       owner: {{ .Values.postgres.owner }}
       secret:
         name: {{ .Values.postgres.dbname }}-db-secret
+  serviceAccountTemplate:
+    metadata:
+      name: {{ .Values.postgres.dbname }}-sa
   securityContext:
     runAsUser: 1001
     runAsGroup: 1001
