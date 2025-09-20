@@ -21,5 +21,5 @@ spec:
     storageClass: {{ .Values.postgres.storageClass }}
     size: {{ .Values.postgres.storageSize }}
   resources:
-  {{ .Values.resources | toYaml | nindent 2 }}
+  {{ .Values.postgres.resources | toYaml | nindent 2 }}
 {{- end }}
