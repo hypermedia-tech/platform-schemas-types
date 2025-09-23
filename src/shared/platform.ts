@@ -85,13 +85,16 @@ export interface WorkloadConfigurationUpdateRequestPathParams {
     workloadName: string;
 }
 
+export interface CatalogConfigRequestPathParams {
+    catalogName: string;
+}
+
 export interface WorkloadConfigurationUpdateRequestPayload {
     catalogName: string;
     workloadName: string;
     environment: Environment;
     values: WorkloadSchema,
-    updatedValues: WorkloadSchema,
-    updateType: UpdateType
+    updatedValues: WorkloadSchema
 }
 
 export interface WorkloadUpdateRequest {
