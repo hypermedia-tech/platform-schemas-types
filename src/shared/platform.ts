@@ -1,4 +1,5 @@
 import { kebabCase } from 'lodash';
+import { Octokit } from '@octokit/rest';
 import { WorkloadSchema } from "../workloadChartValues";
 export interface AsyncOperationResponse<T> {
     ok: boolean;
@@ -15,7 +16,7 @@ export interface YamlFileContent {
 export interface GitHubResponse<T> extends AsyncOperationResponse<T>{
     errorType?: 'NOT_FOUND' | 'INVALID_YAML' | 'INVALID_RESPONSE' | 'NETWORK_ERROR' | 'AGGREGATE_FAILURE' | 'CLIENT_INITIALIZATION_FAILED';
 }
-
+export type UpdateType = 'PUSH' | 'PULL_REQUEST';
 export interface WorkloadConfigurationDataProps {
     environment: Environment;
     workloadName: string;
@@ -89,7 +90,28 @@ export interface WorkloadConfigurationUpdateRequestPayload {
     workloadName: string;
     environment: Environment;
     values: WorkloadSchema,
-    updatedValues: WorkloadSchema
+    updatedValues: WorkloadSchema,
+    updateType: UpdateType
+}
+
+export interface WorkloadUpdateRequest {
+    catalogName: string;
+    environment: Environment;
+    workloadName: string;
+    updatedValues: any;
+    sha: string;
+    updateType: UpdateType;
+    octokit: Octokit;
+}
+
+export interface WorkloadUpdateResponse {
+    ok: boolean;
+    data?: {
+        sha?: string;
+        pullRequestUrl?: string;
+        pullRequestNumber?: number;
+    };
+    error?: string;
 }
 
 export interface KustomizeConfigBaseType {

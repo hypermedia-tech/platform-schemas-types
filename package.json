@@ -23,6 +23,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
+    "@octokit/rest": "^22.0.0",
     "lodash": "^4.17.21"
   }
 }
