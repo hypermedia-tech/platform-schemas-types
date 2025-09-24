@@ -14,9 +14,10 @@ export interface YamlFileContent {
 }
 
 export interface GitHubResponse<T> extends AsyncOperationResponse<T>{
-    errorType?: 'NOT_FOUND' | 'INVALID_YAML' | 'INVALID_RESPONSE' | 'NETWORK_ERROR' | 'AGGREGATE_FAILURE' | 'CLIENT_INITIALIZATION_FAILED';
+    errorType?: 'NOT_FOUND' | 'INVALID_YAML' | 'INVALID_RESPONSE' | 'NETWORK_ERROR' | 'AGGREGATE_FAILURE' | 'CLIENT_INITIALIZATION_FAILED' | 'PERMISSION_DENIED';
 }
 export type UpdateType = 'PUSH' | 'PULL_REQUEST';
+
 export interface WorkloadConfigurationDataProps {
     environment: Environment;
     workloadName: string;
