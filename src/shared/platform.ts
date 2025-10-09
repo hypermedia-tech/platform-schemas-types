@@ -742,17 +742,17 @@ interface AnalysisConfig {
     unsuccessfulRunHistoryLimit?: number;
 }
 
-interface SetWeightStep {
+export interface SetWeightStep {
     setWeight: number;
 }
 
-interface PauseStep {
+export interface PauseStep {
     pause: {
         duration?: string;
     } | {}; // empty object for manual approval
 }
 
-interface AnalysisStep {
+export interface AnalysisStep {
     analysis: {
         templates: Array<{
             templateName: string;
@@ -760,7 +760,7 @@ interface AnalysisStep {
     };
 }
 
-type RolloutStep = SetWeightStep | PauseStep | AnalysisStep;
+export type RolloutStep = SetWeightStep | PauseStep | AnalysisStep;
 
 interface CanaryStrategy {
     maxSurge: number;
