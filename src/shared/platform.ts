@@ -800,7 +800,8 @@ export const InternalEventTypes = {
     REPOSITORY_EVENT: 'repository',
     TEST_COMPLETED: 'test-completed',
     PACKAGE_PUBLISHED: 'package-published',
-    ENVIRONMENT_UPDATED: 'environment-updated'
+    ENVIRONMENT_UPDATED: 'environment-updated',
+    PR_OPENED: 'pr-opened'
 } as const;
 
 export type InternalEventType = ( typeof InternalEventTypes )[ keyof typeof InternalEventTypes ];
