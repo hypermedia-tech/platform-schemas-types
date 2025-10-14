@@ -786,6 +786,12 @@ export interface ApiResponse<T> {
     message?: string;
 }
 
+export interface ApiCollectionResponse<T> {
+    statusCode: number;
+    items: T[];
+    message?: string;
+}
+
 export const InboundGitHubEventTypes = {
     EVENT_REPO_PUSH: 'push',
     EVENT_REPOSITORY: 'repository',
