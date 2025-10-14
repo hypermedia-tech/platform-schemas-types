@@ -1,6 +1,6 @@
 {
   "name": "@hypermedia-tech/hyper-platform-schemas",
-  "version": "0.0.54",
+  "version": "0.0.55",
   "description": "TypeScript types and JSON schemas for Hyper platform workloads",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
