@@ -807,7 +807,8 @@ export const InternalEventTypes = {
     TEST_COMPLETED: 'test-completed',
     PACKAGE_PUBLISHED: 'package-published',
     ENVIRONMENT_UPDATED: 'environment-updated',
-    PR_OPENED: 'pr-opened'
+    PR_OPENED: 'pr-opened',
+    PR_CLOSED: "pr-closed"
 } as const;
 
 export type InternalEventType = ( typeof InternalEventTypes )[ keyof typeof InternalEventTypes ];
