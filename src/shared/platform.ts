@@ -106,6 +106,8 @@ export interface WorkloadUpdateRequest {
     sha: string;
     updateType: UpdateType;
     octokit: Octokit;
+    author?: string;
+    authorEmail?: string;
 }
 
 export interface WorkloadUpdateResponse {
