@@ -96,6 +96,8 @@ export interface WorkloadConfigurationUpdateRequestPayload {
     environment: Environment;
     values: WorkloadSchema,
     updatedValues: WorkloadSchema
+    userName: string;
+    email: string;
 }
 
 export interface WorkloadUpdateRequest {
