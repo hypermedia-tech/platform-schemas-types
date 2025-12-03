@@ -716,7 +716,8 @@ export const PlatformBaseCharts = {
     BASIC_CONTAINER_LOAD: 'BASIC_CONTAINER_LOAD',
     BASIC_CONTAINER_ROLLOUT: "BASIC_CONTAINER_ROLLOUT",
     STATEFUL_CONTAINER_LOAD: 'STATEFUL_CONTAINER_LOAD',
-    ML_INFERENCE_LOAD: 'ML_INFERENCE_LOAD'
+    ML_INFERENCE_LOAD: 'ML_INFERENCE_LOAD',
+    OLLAMA_INFERENCE_LOAD: 'OLLAMA_INFERENCE_LOAD'
 } as const;
 
 export type PlatformBaseChart = ( typeof PlatformBaseCharts )[ keyof typeof PlatformBaseCharts ];
