@@ -1,0 +1,75 @@
+workloadType: ML_INFERENCE_LOAD
+serviceName: &svcName ml-inference-service
+nameOverride: *svcName
+serviceCatalog: unset
+namespace: default
+environment: unset
+serviceAccount: ""
+revisionHistoryLimit: 2
+
+ingress:
+  enabled: false
+  host: ""
+
+service:
+  port: 80
+
+# ML-SPECIFIC: Model configuration
+model:
+  id: "unset"
+  revision: "main"
+
+# ML-SPECIFIC: Inference settings
+inference:
+  maxInputLength: 2048
+  maxTotalTokens: 4096
+
+# ML-SPECIFIC: GPU configuration
+gpu:
+  count: 1
+
+# Container configuration
+container:
+  secretStore:
+    name: vault-backend
+  replicas: 1
+  image:
+    repository: ghcr.io/huggingface/text-generation-inference
+    tag: "2.4.0"
+  containerPorts:
+    - portName: "http"
+      portNumber: 8080
+      protocol: "TCP"
+      servicePort: 80
+  resources:
+    requests:
+      cpu: "2"
+      memory: "8Gi"
+    limits:
+      cpu: "4"
+      memory: "16Gi"
+  secretRefreshInterval: 1h
+  livenessProbe:
+    enabled: true
+    type: "http"
+    path: "/health"
+    port: 8080
+    scheme: "HTTP"
+    initialDelaySeconds: 120
+    timeoutSeconds: 10
+    periodSeconds: 30
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    enabled: true
+    type: "http"
+    path: "/health"
+    port: 8080
+    scheme: "HTTP"
+    initialDelaySeconds: 120
+    timeoutSeconds: 10
+    periodSeconds: 30
+    successThreshold: 1
+    failureThreshold: 3
+  environment: []
+  secrets: []
