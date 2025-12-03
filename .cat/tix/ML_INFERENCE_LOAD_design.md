@@ -30,13 +30,14 @@ Text Generation Inference (TGI) is Hugging Face's production-ready inference ser
 
 ## 2. Kubernetes Manifests
 
-Following the existing chart patterns, we generate 5 manifests:
+Based on existing chart templates, we generate **8 manifests** (matching BASIC_CONTAINER_LOAD pattern exactly, plus GPU modifications):
 
 ### 2.1 Deployment
 
-The core workload. Key differences from `BASIC_CONTAINER_LOAD`:
+Based on `charts/basic-container-load/templates/deployment.yaml`:
 
 ```yaml
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -44,8 +45,12 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.serviceName }}
+    version: {{ .Values.container.image.tag | quote }}
 spec:
-  replicas: 1  # Fixed for v1 POC
+  {{- if not .Values.container.hpa.enabled }}
+  replicas: {{ .Values.container.replicas }}
+  {{- end }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 2 }}
   selector:
     matchLabels:
       app: {{ .Values.serviceName }}
@@ -54,34 +59,75 @@ spec:
       annotations:
         {{- if .Values.basicMonitoring.enabled }}
         prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
-        prometheus.io/path: /metrics
+        prometheus.io/port: "15020"
+        prometheus.io/path: /stats/prometheus
         {{- end }}
       labels:
         app: {{ .Values.serviceName }}
+        version: {{ .Values.container.image.tag | quote }}
         catalog: {{ .Values.serviceCatalog }}
     spec:
-      # GPU scheduling
+      # GPU-SPECIFIC: nvidia runtime class
       runtimeClassName: nvidia
+      # GPU-SPECIFIC: schedule on GPU nodes
       nodeSelector:
         nvidia.com/gpu.present: "true"
-
-      # Optional image pull secret
-      {{- if .Values.imagePullSecret.enabled }}
+      {{- if .Values.serviceAccount }}
+      serviceAccountName: {{ .Values.serviceAccount }}
+      {{- end }}
       imagePullSecrets:
         - name: {{ .Values.serviceName }}-ghcr-docker-config
-      {{- end }}
-
       containers:
         - name: {{ .Values.serviceName }}
-          image: {{ .Values.inference.image.repository }}:{{ .Values.inference.image.tag }}
+          image: {{ .Values.container.image.repository }}:{{ .Values.container.image.tag }}
           imagePullPolicy: Always
           ports:
-            - name: http
-              containerPort: 8080
-
+           {{- range .Values.container.containerPorts }}
+            - name: {{ .portName }}
+              containerPort: {{ .portNumber }}
+           {{- end }}
+          {{- if .Values.container.livenessProbe.enabled }}
+          livenessProbe:
+            {{- with .Values.container.livenessProbe }}
+            {{- if eq .type "http" }}
+            httpGet:
+              path: {{ .path }}
+              port: {{ .port }}
+              scheme: {{ .scheme }}
+            {{- end }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            failureThreshold: {{ .failureThreshold }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.container.readinessProbe.enabled }}
+          readinessProbe:
+            {{- with .Values.container.readinessProbe }}
+            {{- if eq .type "http" }}
+            httpGet:
+              path: {{ .path }}
+              port: {{ .port }}
+              scheme: {{ .scheme }}
+            {{- end }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            failureThreshold: {{ .failureThreshold }}
+            {{- end }}
+          {{- end }}
+          resources:
+            requests:
+              cpu: {{ .Values.container.resources.requests.cpu | quote }}
+              memory: {{ .Values.container.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.container.resources.limits.cpu | quote }}
+              memory: {{ .Values.container.resources.limits.memory | quote }}
+              # GPU-SPECIFIC: GPU resource limit
+              nvidia.com/gpu: {{ .Values.gpu.count }}
+          {{- if or .Values.container.environment .Values.container.secrets }}
           env:
-            # Model configuration
+            # ML-SPECIFIC: Model configuration
             - name: MODEL_ID
               value: {{ .Values.model.id | quote }}
             - name: REVISION
@@ -94,76 +140,54 @@ spec:
             - name: MAX_TOTAL_TOKENS
               value: {{ .Values.inference.maxTotalTokens | quote }}
             {{- end }}
-            # User-provided env vars (including secrets from Vault)
-            {{- range .Values.environment }}
+            {{- if .Values.container.environment }}
+            {{- range .Values.container.environment }}
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}
-            {{- range .Values.secrets }}
+            {{- end }}
+            {{- if .Values.container.secrets }}
+            {{- range .Values.container.secrets }}
             - name: {{ .name }}
               valueFrom:
                 secretKeyRef:
                   name: {{ $.Values.serviceName }}-secrets
                   key: {{ .secretKey }}
             {{- end }}
-
-          resources:
-            requests:
-              cpu: {{ .Values.resources.requests.cpu | quote }}
-              memory: {{ .Values.resources.requests.memory | quote }}
-            limits:
-              cpu: {{ .Values.resources.limits.cpu | quote }}
-              memory: {{ .Values.resources.limits.memory | quote }}
-              nvidia.com/gpu: {{ .Values.gpu.count }}
-
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: {{ .Values.healthCheck.initialDelaySeconds }}
-            periodSeconds: {{ .Values.healthCheck.periodSeconds }}
-            timeoutSeconds: {{ .Values.healthCheck.timeoutSeconds }}
-            failureThreshold: {{ .Values.healthCheck.failureThreshold }}
-
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: {{ .Values.healthCheck.initialDelaySeconds }}
-            periodSeconds: {{ .Values.healthCheck.periodSeconds }}
-            timeoutSeconds: {{ .Values.healthCheck.timeoutSeconds }}
-            failureThreshold: {{ .Values.healthCheck.failureThreshold }}
+            {{- end }}
+          {{- end }}
 ```
-
-**Why `runtimeClassName: nvidia`?**
-The NVIDIA GPU Operator installs a container runtime that handles GPU device mounting. Without this, containers can't access GPUs.
-
-**Why long `initialDelaySeconds`?**
-TGI downloads and loads the model on startup. For a 1B parameter model, this can take 1-3 minutes. Larger models take longer.
 
 ### 2.2 Service
 
-Standard ClusterIP service (matches existing pattern):
+Based on `charts/basic-container-load/templates/service.yaml`:
 
 ```yaml
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.serviceName }}
   namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.serviceName }}
+    catalog: {{ .Values.serviceCatalog }}
 spec:
+  ports:
+    {{- range .Values.container.containerPorts }}
+    - name: {{ .portName }}
+      protocol: {{ .protocol }}
+      port: {{ .servicePort }}
+      targetPort: {{ .portNumber }}
+    {{- end }}
+  type: NodePort
   selector:
     app: {{ .Values.serviceName }}
-  ports:
-    - name: http
-      port: {{ .Values.service.port | default 80 }}
-      targetPort: 8080
-      protocol: TCP
 ```
 
 ### 2.3 Gateway
 
-Per-service gateway for TLS termination (matches existing pattern):
+Based on `charts/basic-container-load/templates/gateway.yaml`:
 
 ```yaml
 {{- if .Values.ingress.enabled }}
@@ -190,7 +214,7 @@ spec:
 
 ### 2.4 HTTPRoute
 
-Routes traffic to the service (matches existing pattern):
+Based on `charts/basic-container-load/templates/httRoute.yaml`:
 
 ```yaml
 {{- if .Values.ingress.enabled }}
@@ -215,27 +239,91 @@ spec:
 {{- end }}
 ```
 
-### 2.5 ExternalSecret
+### 2.5 Certificate
 
-Pulls secrets from Vault (matches existing `secrets` array pattern):
+Based on `charts/basic-container-load/templates/ingressCert.yaml`:
 
 ```yaml
-{{- if .Values.secrets }}
+{{- if .Values.ingress.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.serviceName }}-tls-cert
+  namespace: {{ .Release.Namespace }}
+spec:
+  secretName: {{ .Values.serviceName }}-tls-cert
+  commonName: {{ .Values.ingress.host }}
+  dnsNames:
+    - {{ .Values.ingress.host }}
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+{{- end }}
+```
+
+### 2.6 ServiceAccount
+
+Based on `charts/basic-container-load/templates/serviceaccount.yaml`:
+
+```yaml
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.serviceName }}-external-secrets
+  namespace: {{ .Values.namespace }}
+```
+
+### 2.7 ExternalSecret (GHCR Docker Config)
+
+Based on `charts/basic-container-load/templates/ghcr.external-secret.yaml`:
+
+**NOTE:** Always created (not conditional). Hardcoded path to shared GHCR credentials.
+
+```yaml
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: {{ .Values.serviceName }}-ghcr-docker-config
+  namespace: {{ .Values.namespace }}
+spec:
+  secretStoreRef:
+    name: {{ .Values.container.secretStore.name }}
+    kind: ClusterSecretStore
+  target:
+    name: {{ .Values.serviceName }}-ghcr-docker-config
+    creationPolicy: Owner
+    template:
+      type: 'kubernetes.io/dockerconfigjson'
+  data:
+    - secretKey: .dockerconfigjson
+      remoteRef:
+        key: shared/ghcr/dockerconfigjson
+        property: dockerconfigjson
+  refreshInterval: 1m
+```
+
+### 2.8 ExternalSecret (Service Secrets)
+
+Based on `charts/basic-container-load/templates/ServiceExternalSecrets.yaml`:
+
+```yaml
+{{- if .Values.container.secrets }}
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: {{ .Values.serviceName }}-secrets
   namespace: {{ .Values.namespace }}
 spec:
-  refreshInterval: {{ .Values.secretRefreshInterval | default "1h" }}
+  refreshInterval: 1s
   secretStoreRef:
-    name: {{ .Values.secretStore.name }}
+    name: {{ .Values.container.secretStore.name }}
     kind: ClusterSecretStore
   target:
     name: {{ .Values.serviceName }}-secrets
     creationPolicy: Owner
   data:
-    {{- range .Values.secrets }}
+    {{- range .Values.container.secrets }}
     - secretKey: {{ .secretKey }}
       remoteRef:
         key: {{ .vaultPath }}
@@ -248,99 +336,98 @@ spec:
 
 ## 3. Values Schema
 
-Aligned with existing chart patterns:
+**Matching existing chart structure exactly**, with ML-specific additions:
 
 ```yaml
-# Required - identifies workload type
-workloadType: 'ML_INFERENCE_LOAD'
-
-# Service identity (matches existing patterns)
-serviceName: 'my-llm-service'
-serviceCatalog: 'ml-team'
-namespace: 'ml-inference'
-environment: 'prod'
-serviceAccount: ''  # Optional
-
-# Revision history (matches existing pattern)
+workloadType: ML_INFERENCE_LOAD
+serviceName: &svcName my-llm-service
+nameOverride: *svcName
+serviceCatalog: ml-team
+basicMonitoring:
+  enabled: true
+namespace: ml-inference
+environment: prod
+serviceAccount: ""
 revisionHistoryLimit: 2
 
-# Ingress (matches existing pattern)
 ingress:
   enabled: true
-  host: 'llm.example.com'
+  host: "llm.example.com"
 
-# Service port (matches existing pattern)
 service:
   port: 80
 
-# Model configuration (NEW - ML specific)
+# ML-SPECIFIC: Model configuration
 model:
-  id: 'meta-llama/Llama-3.2-1B'   # Required - HF model ID
-  revision: 'main'                 # Required - like image.tag
+  id: "meta-llama/Llama-3.2-1B"   # Required
+  revision: "main"                 # Required
 
-# Inference server configuration (NEW - ML specific)
+# ML-SPECIFIC: Inference settings
 inference:
-  image:
-    repository: 'ghcr.io/huggingface/text-generation-inference'
-    tag: '2.4.0'
   maxInputLength: 2048    # Optional
   maxTotalTokens: 4096    # Optional
 
-# GPU configuration (NEW - ML specific)
+# ML-SPECIFIC: GPU configuration
 gpu:
   count: 1
 
-# Resources (matches existing pattern, GPU added to limits)
-resources:
-  requests:
-    cpu: '2'
-    memory: '8Gi'
-  limits:
-    cpu: '4'
-    memory: '16Gi'
-
-# Health checks (simplified - TGI has fixed endpoints)
-healthCheck:
-  initialDelaySeconds: 120  # Models take time to load
-  periodSeconds: 30
-  timeoutSeconds: 10
-  failureThreshold: 3
-
-# Monitoring (matches existing pattern)
-basicMonitoring:
-  enabled: true
-
-# Vault connection (matches existing pattern)
-vault:
-  key: 'path_to_secret'
-  server: 'http://vault.vault.svc.cluster.local:8200'
-  role: 'external-secrets-role'
-
-# Secret store (matches existing pattern)
-secretStore:
-  name: 'vault-backend'
-
-# Secrets from Vault (matches existing pattern)
-# HF token goes here, not in a separate field
-secrets:
-  - name: HUGGING_FACE_HUB_TOKEN
-    secretKey: hf-token
-    vaultPath: /secret/shared/huggingface/token
-
-# Secret refresh interval (matches existing pattern)
-secretRefreshInterval: '1h'
-
-# Environment variables (matches existing pattern)
-# Quantization can be added here if needed
-environment: []
-# Example for quantization:
-# environment:
-#   - name: QUANTIZE
-#     value: bitsandbytes
-
-# Image pull secret (optional - for future private registry)
-imagePullSecret:
-  enabled: false
+# Container config (MATCHES EXISTING PATTERN EXACTLY)
+container:
+  vault:
+    key: "path_to_secret"
+    server: "http://vault.vault.svc.cluster.local:8200"
+    role: "external-secrets-role"
+  secretStore:
+    name: vault-backend
+  replicas: 1
+  image:
+    repository: ghcr.io/huggingface/text-generation-inference
+    tag: "2.4.0"
+  containerPorts:
+    - portName: "http"
+      portNumber: 8080
+      protocol: "TCP"
+      servicePort: 80
+  resources:
+    requests:
+      cpu: "2"
+      memory: "8Gi"
+    limits:
+      cpu: "4"
+      memory: "16Gi"
+  secretRefreshInterval: 5m
+  livenessProbe:
+    enabled: true
+    type: "http"
+    path: "/health"
+    port: 8080
+    scheme: "HTTP"
+    initialDelaySeconds: 120    # Longer for model loading
+    timeoutSeconds: 10
+    periodSeconds: 30
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    enabled: true
+    type: "http"
+    path: "/health"
+    port: 8080
+    scheme: "HTTP"
+    initialDelaySeconds: 120    # Longer for model loading
+    timeoutSeconds: 10
+    periodSeconds: 30
+    successThreshold: 1
+    failureThreshold: 3
+  hpa:
+    enabled: false
+    targetCpu: 80
+    minReplicas: 1
+    maxReplicas: 3
+  environment: []
+  secrets:
+    - name: HUGGING_FACE_HUB_TOKEN
+      secretKey: hf-token
+      vaultPath: /secret/shared/huggingface/token
 ```
 
 ---
@@ -351,6 +438,10 @@ imagePullSecret:
 // /src/workloadChartValues/mlInferenceLoad.ts
 
 import {
+    ContainerHpaProperties,
+    ContainerPortConfig,
+    ContainerProbeProperties,
+    ContainerResourceProperties,
     Environment,
     EnvironmentVariableObj,
     SecretObj
@@ -359,31 +450,22 @@ import {
 export interface MlInferenceLoadSchema {
     workloadType: "ML_INFERENCE_LOAD";
     serviceName: string;
-    serviceCatalog: string;
-    namespace?: string;
     environment: Environment;
+    namespace?: string;
+    serviceCatalog: string;
     serviceAccount?: string;
     revisionHistoryLimit?: number;
-
-    ingress?: {
+    basicMonitoring?: {
         enabled: boolean;
-        host: string;
     };
 
-    service?: {
-        port?: number;
-    };
-
+    // ML-specific
     model: {
-        id: string;       // HF model ID e.g. "meta-llama/Llama-3.2-1B"
-        revision: string; // Model version e.g. "main" or commit SHA
+        id: string;
+        revision: string;
     };
 
-    inference: {
-        image: {
-            repository: string;
-            tag: string;
-        };
+    inference?: {
         maxInputLength?: number;
         maxTotalTokens?: number;
     };
@@ -392,64 +474,56 @@ export interface MlInferenceLoadSchema {
         count: number;
     };
 
-    resources: {
-        requests: {
-            cpu: string;
-            memory: string;
+    // Standard container config (matches BasicContainerLoadSchema exactly)
+    container: {
+        vault?: {
+            key: string;
         };
-        limits: {
-            cpu: string;
-            memory: string;
+        secretStore?: {
+            name: string;
         };
+        replicas: number;
+        image: {
+            repository: string;
+            tag: string;
+        };
+        containerPorts?: ContainerPortConfig[];
+        hpa?: ContainerHpaProperties;
+        livenessProbe?: ContainerProbeProperties;
+        readinessProbe?: ContainerProbeProperties;
+        resources: ContainerResourceProperties;
+        secretRefreshInterval?: string;
+        environment?: EnvironmentVariableObj[];
+        secrets?: SecretObj[];
     };
 
-    healthCheck?: {
-        initialDelaySeconds?: number;
-        periodSeconds?: number;
-        timeoutSeconds?: number;
-        failureThreshold?: number;
-    };
-
-    basicMonitoring?: {
+    ingress?: {
         enabled: boolean;
-    };
-
-    vault?: {
-        key: string;
-    };
-
-    secretStore?: {
-        name: string;
-    };
-
-    secrets?: SecretObj[];
-    secretRefreshInterval?: string;
-    environment?: EnvironmentVariableObj[];
-
-    imagePullSecret?: {
-        enabled: boolean;
+        host: string;
     };
 
     nameOverride?: string;
+    service?: {
+        port?: number;
+    };
 }
 ```
 
 ---
 
-## 5. TGI Environment Variables
+## 5. Key Observations from Existing Charts
 
-The chart translates values to TGI env vars:
-
-| Values Path | Env Var | Required | Description |
-|-------------|---------|----------|-------------|
-| `model.id` | `MODEL_ID` | Yes | Hugging Face model identifier |
-| `model.revision` | `REVISION` | Yes | Model version/commit |
-| `inference.maxInputLength` | `MAX_INPUT_LENGTH` | No | Max input tokens |
-| `inference.maxTotalTokens` | `MAX_TOTAL_TOKENS` | No | Max total tokens |
-| `secrets[].name=HUGGING_FACE_HUB_TOKEN` | `HUGGING_FACE_HUB_TOKEN` | Yes* | Auth token for gated models |
-| `environment[].name=QUANTIZE` | `QUANTIZE` | No | Quantization method |
-
-*Required for gated/private models like Llama.
+| Pattern | Actual Implementation |
+|---------|----------------------|
+| Service type | `NodePort` (not ClusterIP) |
+| containerPorts | Array with `portName`, `portNumber`, `protocol`, `servicePort` |
+| Probes | Under `container.livenessProbe.*` with `enabled`, `type`, full config |
+| Monitoring annotations | Point to Istio sidecar: port `15020`, path `/stats/prometheus` |
+| GHCR ExternalSecret | Always created, not conditional |
+| Certificate | cert-manager with `letsencrypt-prod` ClusterIssuer |
+| ServiceAccount | Always created: `{{ .serviceName }}-external-secrets` |
+| `container.vault.*` | In values but NOT referenced in any template |
+| `container.secretStore.name` | Used in ExternalSecrets to reference ClusterSecretStore |
 
 ---
 
@@ -458,15 +532,14 @@ The chart translates values to TGI env vars:
 | Aspect | BASIC_CONTAINER_LOAD | ML_INFERENCE_LOAD |
 |--------|---------------------|-------------------|
 | K8s Primitive | Deployment | Deployment |
-| Replicas | Configurable + HPA | Fixed at 1 (v1) |
-| Runtime | Default | `nvidia` |
-| Node Selection | None | GPU nodes |
-| Resources | CPU/Memory only | CPU/Memory + GPU |
-| Probes | Configurable path/port | Fixed to `/health:8080` |
-| Probe Delay | 10s default | 120s default |
-| Secrets | `secrets` array | `secrets` array (same) |
-| Gateway | Per-service | Per-service (same) |
-| Monitoring | Annotations | Annotations (same) |
+| runtimeClassName | (none) | `nvidia` |
+| nodeSelector | (none) | `nvidia.com/gpu.present: "true"` |
+| Resource limits | CPU/Memory | CPU/Memory + `nvidia.com/gpu` |
+| Probe defaults | 10s initialDelay | 120s initialDelay (model load time) |
+| Extra env vars | (none) | `MODEL_ID`, `REVISION`, `MAX_INPUT_LENGTH`, `MAX_TOTAL_TOKENS` |
+| New values fields | (none) | `model.*`, `inference.*`, `gpu.*` |
+
+Everything else is identical: Service (NodePort), Gateway, HTTPRoute, Certificate, ServiceAccount, ExternalSecrets.
 
 ---
 
@@ -482,8 +555,10 @@ The chart translates values to TGI env vars:
     ├── service.yaml
     ├── gateway.yaml
     ├── httproute.yaml
-    ├── external-secret.yaml
-    └── ghcr.external-secret.yaml  # Optional, for private registry
+    ├── ingressCert.yaml
+    ├── serviceaccount.yaml
+    ├── ghcr.external-secret.yaml
+    └── ServiceExternalSecrets.yaml
 
 /src/workloadChartValues/
 ├── mlInferenceLoad.ts              # New file
@@ -495,120 +570,13 @@ The chart translates values to TGI env vars:
 
 ---
 
-## 8. Example Catalog Entry
-
-A complete values file for a catalog entry:
-
-```yaml
-workloadType: 'ML_INFERENCE_LOAD'
-serviceName: 'llama-inference'
-serviceCatalog: 'ml-platform'
-namespace: 'ml-inference'
-environment: 'prod'
-
-ingress:
-  enabled: true
-  host: 'llama.hypermedia.au'
-
-model:
-  id: 'meta-llama/Llama-3.2-1B'
-  revision: 'main'
-
-inference:
-  image:
-    repository: 'ghcr.io/huggingface/text-generation-inference'
-    tag: '2.4.0'
-  maxInputLength: 2048
-  maxTotalTokens: 4096
-
-gpu:
-  count: 1
-
-resources:
-  requests:
-    cpu: '2'
-    memory: '8Gi'
-  limits:
-    cpu: '4'
-    memory: '16Gi'
-
-healthCheck:
-  initialDelaySeconds: 180
-  periodSeconds: 30
-  timeoutSeconds: 10
-  failureThreshold: 3
-
-basicMonitoring:
-  enabled: true
-
-secretStore:
-  name: 'vault-backend'
-
-secrets:
-  - name: HUGGING_FACE_HUB_TOKEN
-    secretKey: hf-token
-    vaultPath: /secret/shared/huggingface/token
-
-environment: []
-
-imagePullSecret:
-  enabled: false
-```
-
----
-
-## 9. Future Enhancements (Out of Scope for v1)
-
-### 9.1 Model Caching (PVC)
-
-Add PVC to cache downloaded models:
-
-```yaml
-storage:
-  modelCache:
-    enabled: true
-    size: '50Gi'
-    storageClass: 'nfs'
-    mountPath: '/data'
-```
-
-This would:
-- Create a PVC
-- Mount it at `/data`
-- Set `HUGGINGFACE_HUB_CACHE=/data` env var
-- Survive pod restarts without re-downloading
-
-### 9.2 Dedicated Quantization Field
-
-If quantization becomes commonly used:
-
-```yaml
-model:
-  id: 'meta-llama/Llama-3.2-1B'
-  revision: 'main'
-  quantization: 'bitsandbytes'  # New field
-```
-
-### 9.3 HPA Support
-
-For high-traffic inference:
-
-```yaml
-hpa:
-  enabled: true
-  minReplicas: 1
-  maxReplicas: 3
-  targetCpu: 80
-```
-
----
-
-## 10. Testing Plan
+## 8. Testing Plan
 
 1. **Helm lint** - Validate chart syntax
-2. **Helm template** - Verify generated manifests
-3. **Deploy to dev** - Single GPU test environment
-4. **Verify model loading** - Check logs for successful model load
-5. **Test inference** - `curl POST /generate`
-6. **Test health endpoint** - Verify probes work
-7. **Test ingress** - External access via Gateway + HTTPRoute
+2. **Helm template** - Verify generated manifests match BASIC_CONTAINER_LOAD structure
+3. **Diff test** - Compare output to BASIC_CONTAINER_LOAD, verify only expected differences
+4. **Deploy to dev** - Single GPU test environment
+5. **Verify model loading** - Check logs for successful model load
+6. **Test inference** - `curl POST /generate`
+7. **Test health endpoint** - Verify probes work
+8. **Test ingress** - External access via Gateway + HTTPRoute
