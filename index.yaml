@@ -2276,6 +2276,20 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/hyper-promtail-0.0.1/hyper-promtail-0.0.1.tgz
     version: 0.0.1
+  ml-inference-load:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-12-03T08:07:51.876784954Z"
+    description: ML Inference Service Template for GPU workloads using Hugging Face
+      TGI.
+    digest: 71b6bb2d011bb1772dff7f508cf1a849c99500bea0f82cddd92f382eefa705b1
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: ml-inference-load
+    urls:
+    - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/ml-inference-load-0.0.2/ml-inference-load-0.0.2.tgz
+    version: 0.0.2
   proto:
   - apiVersion: v2
     appVersion: "1.0"
@@ -2364,4 +2378,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/stateful-container-load-1.0.1/stateful-container-load-1.0.1.tgz
     version: 1.0.1
-generated: "2025-09-20T12:26:42.751739717Z"
+generated: "2025-12-03T08:07:51.877382692Z"
