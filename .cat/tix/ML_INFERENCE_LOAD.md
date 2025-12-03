@@ -1,6 +1,6 @@
 # Story: Add ML_INFERENCE_LOAD Helm Chart
 
-**Status:** PENDING
+**Status:** IMPLEMENTED
 **Type:** Feature
 **Priority:** Normal
 
@@ -16,20 +16,20 @@ This chart is intentionally **minimal** - removing unused patterns from existing
 
 ## Acceptance Criteria
 
-- [ ] New Helm chart at `/charts/ml-inference-load/`
-- [ ] TypeScript interface `MlInferenceLoadSchema` in `/src/workloadChartValues/`
-- [ ] Union type updated in `workloadSchema.ts`
-- [ ] JSON Schema for values validation
-- [ ] Backstage catalog entry in `/.cat/backstage/`
-- [ ] Chart generates **6 templates**:
+- [x] New Helm chart at `/charts/ml-inference-load/`
+- [x] TypeScript interface `MlInferenceLoadSchema` in `/src/workloadChartValues/`
+- [x] Union type updated in `workloadSchema.ts`
+- [x] JSON Schema for values validation
+- [x] Backstage catalog entry in `/.cat/backstage/`
+- [x] Chart generates **6 templates**:
   - Deployment (with GPU: runtimeClassName, nodeSelector, nvidia.com/gpu limit)
   - Service (ClusterIP)
   - Gateway (gatewayClassName: istio)
   - HTTPRoute
   - Certificate (cert-manager, letsencrypt-prod)
   - ExternalSecret (for HF token via `container.secrets`)
-- [ ] GPU scheduling works (nvidia runtime, node selector, resource limits)
-- [ ] HF token pulled from Vault via `container.secrets` array pattern
+- [x] GPU scheduling works (nvidia runtime, node selector, resource limits)
+- [x] HF token pulled from Vault via `container.secrets` array pattern
 
 ---
 
