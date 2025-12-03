@@ -10,6 +10,8 @@
 
 Add a new workload type `ML_INFERENCE_LOAD` to the platform-schemas-types repository for deploying ML inference workloads that serve Hugging Face models via HTTP using Text Generation Inference (TGI).
 
+This chart is intentionally **minimal** - removing unused patterns from existing charts while adding GPU support.
+
 ---
 
 ## Acceptance Criteria
@@ -19,27 +21,38 @@ Add a new workload type `ML_INFERENCE_LOAD` to the platform-schemas-types reposi
 - [ ] Union type updated in `workloadSchema.ts`
 - [ ] JSON Schema for values validation
 - [ ] Backstage catalog entry in `/.cat/backstage/`
-- [ ] Chart generates 8 manifests (matching BASIC_CONTAINER_LOAD):
+- [ ] Chart generates **6 templates**:
   - Deployment (with GPU: runtimeClassName, nodeSelector, nvidia.com/gpu limit)
-  - Service (NodePort)
+  - Service (ClusterIP)
   - Gateway (gatewayClassName: istio)
   - HTTPRoute
   - Certificate (cert-manager, letsencrypt-prod)
-  - ServiceAccount
-  - ExternalSecret (GHCR docker config - always created)
-  - ExternalSecret (service secrets - conditional on `container.secrets`)
+  - ExternalSecret (for HF token via `container.secrets`)
 - [ ] GPU scheduling works (nvidia runtime, node selector, resource limits)
 - [ ] HF token pulled from Vault via `container.secrets` array pattern
-- [ ] Values structure matches existing chart patterns exactly
+
+---
+
+## Simplifications from Existing Charts
+
+| Removed | Reason |
+|---------|--------|
+| `container.vault.*` | Not used in any existing template (dead config) |
+| GHCR ExternalSecret | TGI image is public |
+| ServiceAccount template | Appears orphaned in existing charts |
+| NodePort → ClusterIP | Gateway handles external access |
+| Monitoring annotations | Add later when we understand what we need |
+| `imagePullSecrets` | No private registry for TGI |
 
 ---
 
 ## Out of Scope (v1)
 
 - PVC for model caching (deferred - downloading is cheap)
-- Dedicated quantization field (use `container.environment` array if needed)
+- Dedicated quantization field (use `container.environment` array)
 - HPA / multiple replicas (single replica POC)
-- Multiple GPU testing (chart supports it, but testing limited to 1 GPU)
+- Monitoring annotations (configure once deployed)
+- Multiple GPU testing (chart supports it, testing limited to 1 GPU)
 
 ---
 
@@ -55,72 +68,32 @@ See: [ML_INFERENCE_LOAD_design.md](./ML_INFERENCE_LOAD_design.md)
 - Cluster must have nodes with `nvidia.com/gpu.present: "true"` label
 - Vault must have HF token at configured path
 - `vault-backend` ClusterSecretStore must exist
-- `shared/ghcr/dockerconfigjson` must exist in Vault (used by all charts)
 
 ---
 
-## Resolved Questions
+## Design Decisions
 
-### Q1: ServiceMonitor ✓
+### Service Type: ClusterIP (not NodePort)
 
-**Resolution:** Use annotation-based monitoring via `basicMonitoring.enabled` pattern (same as existing charts). Note: annotations point to Istio sidecar (port 15020, path /stats/prometheus), not the app's own metrics. Prometheus agent in cluster uses annotations for discovery. If ServiceMonitor is needed later, it goes in catalog init workload, not individual workloads.
+Existing charts use NodePort, likely legacy from before Gateway API. With MetalLB + Gateway handling external access, ClusterIP is sufficient. Gateway gets the external IP, routes to ClusterIP service internally.
 
-### Q2: Gateway + HTTPRoute ✓
+### No GHCR Pull Secret
 
-**Resolution:** Follow existing pattern exactly:
-- Gateway with `gatewayClassName: istio`, TLS termination referencing Certificate
-- HTTPRoute referencing per-service gateway
-- Certificate from cert-manager with `letsencrypt-prod` ClusterIssuer
+TGI image is public (`ghcr.io/huggingface/text-generation-inference`). Can add back if we later point to a private registry.
 
-### Q3: Model ID + Revision ✓
+### No Monitoring Annotations
 
-**Resolution:** Both `model.id` and `model.revision` are required fields with no defaults. Catalog entry must specify both explicitly (like `container.image.repository` + `container.image.tag`).
+Existing charts scrape Istio sidecar (port 15020). For ML workloads, we may want app-level metrics (TGI's `/metrics`). Will configure once we have something running and understand requirements.
 
-### Q4: Quantization ✓
+### Model ID + Revision Required
 
-**Resolution:** No dedicated field for v1. Users can pass quantization via the `container.environment` array if needed:
-```yaml
-container:
-  environment:
-    - name: QUANTIZE
-      value: bitsandbytes
-```
-
-### Q5: HF Token via Secrets Array ✓
-
-**Resolution:** Use the existing `container.secrets` array pattern:
-```yaml
-container:
-  secrets:
-    - name: HUGGING_FACE_HUB_TOKEN
-      secretKey: hf-token
-      vaultPath: /secret/shared/huggingface/token
-```
-
-### Q6: GHCR Pull Secret ✓
-
-**Resolution:** GHCR ExternalSecret is **always created** (not conditional) - matches existing charts. It uses a hardcoded path `shared/ghcr/dockerconfigjson` and creates `{{ .serviceName }}-ghcr-docker-config` secret for imagePullSecrets.
-
----
-
-## Key Patterns Confirmed from Template Review
-
-| Pattern | Implementation |
-|---------|---------------|
-| Service type | `NodePort` |
-| containerPorts | Array: `portName`, `portNumber`, `protocol`, `servicePort` |
-| Probes | `container.livenessProbe.*` with `enabled`, `type`, full config |
-| Monitoring | Istio sidecar: port `15020`, path `/stats/prometheus` |
-| GHCR secret | Always created, hardcoded path |
-| Certificate | cert-manager, `letsencrypt-prod` ClusterIssuer |
-| ServiceAccount | Always created: `{{ .serviceName }}-external-secrets` |
-| `container.vault.*` | Present in values but NOT used in templates |
-| `container.secretStore.name` | Used by ExternalSecrets for ClusterSecretStore ref |
+Both `model.id` and `model.revision` are required with no defaults - explicit like `container.image.repository` + `container.image.tag`.
 
 ---
 
 ## Notes
 
 - This is a POC to understand ML inference on the platform
-- Start simple, iterate based on learnings
+- Start minimal, add complexity only when needed
 - GPU count configurable in values but testing limited to single GPU environment
+- Consider backporting simplifications (ClusterIP, removing dead config) to other charts
