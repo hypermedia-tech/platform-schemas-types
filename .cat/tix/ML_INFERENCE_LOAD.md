@@ -19,19 +19,20 @@ Add a new workload type `ML_INFERENCE_LOAD` to the platform-schemas-types reposi
 - [ ] Union type updated in `workloadSchema.ts`
 - [ ] JSON Schema for values validation
 - [ ] Backstage catalog entry in `/.cat/backstage/`
-- [ ] Chart generates: Deployment, Service, HTTPRoute, ExternalSecret
+- [ ] Chart generates: Deployment, Service, Gateway, HTTPRoute, ExternalSecret
 - [ ] GPU scheduling works (nvidia runtime, node selector, resource limits)
-- [ ] HF token pulled from Vault via ExternalSecret
+- [ ] HF token pulled from Vault via `secrets` array pattern
 - [ ] Values structure matches existing chart patterns
+- [ ] GHCR pull secret optional (for future private registry use)
 
 ---
 
 ## Out of Scope (v1)
 
 - PVC for model caching (deferred - downloading is cheap)
-- ServiceMonitor for Prometheus (needs cluster config discussion)
+- Dedicated quantization field (use `environment` array if needed)
 - HPA / multiple replicas (single replica POC)
-- Multiple GPU support (chart will support it, but testing limited to 1 GPU)
+- Multiple GPU testing (chart supports it, but testing limited to 1 GPU)
 
 ---
 
@@ -50,78 +51,46 @@ See: [ML_INFERENCE_LOAD_design.md](./ML_INFERENCE_LOAD_design.md)
 
 ---
 
-## Questions Requiring Answers
+## Resolved Questions
 
-### Q1: ServiceMonitor - Do we need it for v1?
+### Q1: ServiceMonitor ✓
 
-You mentioned an "agent running in the cluster that has the GPU."
+**Resolution:** Use annotation-based monitoring via `basicMonitoring.enabled` pattern (same as existing charts). Prometheus agent in cluster uses annotations for discovery. If ServiceMonitor is needed later, it goes in catalog init workload, not individual workloads.
 
-**Context:** A `ServiceMonitor` is a Prometheus Operator CRD that tells Prometheus to scrape metrics from a service. TGI exposes metrics at `GET /metrics`. For Prometheus to discover and scrape these metrics, one of these must be true:
+### Q2: Gateway + HTTPRoute ✓
 
-1. **ServiceMonitor approach:** We create a ServiceMonitor CRD, and your Prometheus Operator is configured to watch the namespace (via `serviceMonitorNamespaceSelector`)
-2. **Annotation approach:** We add `prometheus.io/scrape: "true"` annotations to the pod (like your existing charts do), and Prometheus is configured to discover via annotations
-3. **Manual approach:** Someone manually adds the scrape target to Prometheus config
+**Resolution:** Follow existing pattern exactly - Gateway + HTTPRoute. The Gateway uses `gatewayClassName: istio` and terminates TLS. HTTPRoute references the per-service gateway.
 
-**Question:** Which approach does your cluster use? If it's the annotation approach (like `basicMonitoring.enabled` in existing charts), we can skip ServiceMonitor entirely and just use annotations.
+### Q3: Model ID + Revision ✓
 
-### Q2: HTTPRoute parentRef - What Gateway?
+**Resolution:** Both `model.id` and `model.revision` are required fields with no defaults. Catalog entry must specify both explicitly (like `image.repository` + `image.tag`).
 
-Looking at your existing `httRoute.yaml`, it references:
+### Q4: Quantization ✓
+
+**Resolution:** No dedicated field for v1. Users can pass quantization via the `environment` array if needed:
 ```yaml
-parentRefs:
-  - name: {{ .Values.serviceName }}-gateway
+environment:
+  - name: QUANTIZE
+    value: bitsandbytes
 ```
 
-But you said "no gateway, just HTTPRoute" with Ambient Istio.
+### Q5: HF Token via Secrets Array ✓
 
-**Question:** In Ambient Istio, what should the `parentRef` point to? Is there a shared Gateway resource in the cluster, or does Ambient Istio not require a parentRef at all?
-
-### Q3: Model Image Pattern Clarification
-
-You said model revision should be like `image.repository` / `image.tag` - explicit, not defaulted. I agree.
-
-**Proposed structure:**
+**Resolution:** Use the existing `secrets` array pattern, not a separate vault path field. The `vault` section configures the Vault connection; `secrets` array specifies individual secrets:
 ```yaml
-model:
-  id: 'meta-llama/Llama-3.2-1B'    # Required - HF model ID
-  revision: 'main'                  # Required - explicit, like image.tag
+secrets:
+  - name: HUGGING_FACE_HUB_TOKEN
+    secretKey: hf-token
+    vaultPath: /secret/shared/huggingface/token
 ```
 
-Both required, no defaults. The catalog entry must specify both. Is this correct?
+### Q6: GHCR Pull Secret ✓
 
-### Q4: Quantization - Do we need it for v1?
-
-**What it is:** Quantization reduces model precision (e.g., from 16-bit to 8-bit or 4-bit) to use less GPU memory. This lets you run larger models on smaller GPUs. TGI supports several methods:
-
-| Method | Description | Memory Savings |
-|--------|-------------|----------------|
-| `bitsandbytes` | 8-bit/4-bit quantization | ~50-75% |
-| `gptq` | 4-bit with calibration | ~75% |
-| `awq` | Activation-aware 4-bit | ~75% |
-| `eetq` | 8-bit optimized | ~50% |
-
-**Trade-off:** Lower precision = less memory but slightly lower quality outputs.
-
-**Question:** For v1 POC, do you want quantization support, or should we defer it? If deferred, users could still pass it via the `environment` array as a custom env var.
-
-### Q5: Vault Path Structure
-
-Your existing charts use:
+**Resolution:** Keep it optional. Currently TGI is public, but eventually may point to private registry. Pattern:
 ```yaml
-container:
-  vault:
-    key: "path_to_secret"
+imagePullSecret:
+  enabled: false  # Optional, for future private registry
 ```
-
-For HF token, the prompt suggested `/secret/shared/huggingface/token`.
-
-**Question:** Should this follow the same pattern as existing charts (configurable path), or is HF token path standardized across environments?
-
-### Q6: GHCR Pull Secret
-
-Existing charts create a `ghcr.external-secret.yaml` for pulling images from GHCR. TGI images are public on `ghcr.io/huggingface/text-generation-inference`.
-
-**Question:** Do we still need imagePullSecrets for public GHCR images, or can we skip that for TGI?
 
 ---
 
