@@ -1,0 +1,103 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.serviceName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.serviceName }}
+    version: {{ .Values.container.image.tag | quote }}
+spec:
+  replicas: {{ .Values.container.replicas }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 2 }}
+  selector:
+    matchLabels:
+      app: {{ .Values.serviceName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.serviceName }}
+        version: {{ .Values.container.image.tag | quote }}
+        catalog: {{ .Values.serviceCatalog }}
+    spec:
+      runtimeClassName: nvidia
+      nodeSelector:
+        nvidia.com/gpu.present: "true"
+      {{- if .Values.serviceAccount }}
+      serviceAccountName: {{ .Values.serviceAccount }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.serviceName }}
+          image: {{ .Values.container.image.repository }}:{{ .Values.container.image.tag }}
+          imagePullPolicy: Always
+          ports:
+           {{- range .Values.container.containerPorts }}
+            - name: {{ .portName }}
+              containerPort: {{ .portNumber }}
+           {{- end }}
+          {{- if .Values.container.livenessProbe.enabled }}
+          livenessProbe:
+            {{- with .Values.container.livenessProbe }}
+            {{- if eq .type "http" }}
+            httpGet:
+              path: {{ .path }}
+              port: {{ .port }}
+              scheme: {{ .scheme }}
+            {{- end }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            failureThreshold: {{ .failureThreshold }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.container.readinessProbe.enabled }}
+          readinessProbe:
+            {{- with .Values.container.readinessProbe }}
+            {{- if eq .type "http" }}
+            httpGet:
+              path: {{ .path }}
+              port: {{ .port }}
+              scheme: {{ .scheme }}
+            {{- end }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            failureThreshold: {{ .failureThreshold }}
+            {{- end }}
+          {{- end }}
+          resources:
+            requests:
+              cpu: {{ .Values.container.resources.requests.cpu | quote }}
+              memory: {{ .Values.container.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.container.resources.limits.cpu | quote }}
+              memory: {{ .Values.container.resources.limits.memory | quote }}
+              nvidia.com/gpu: {{ .Values.gpu.count }}
+          env:
+            - name: MODEL_ID
+              value: {{ .Values.model.id | quote }}
+            - name: REVISION
+              value: {{ .Values.model.revision | quote }}
+            {{- if .Values.inference.maxInputLength }}
+            - name: MAX_INPUT_LENGTH
+              value: {{ .Values.inference.maxInputLength | quote }}
+            {{- end }}
+            {{- if .Values.inference.maxTotalTokens }}
+            - name: MAX_TOTAL_TOKENS
+              value: {{ .Values.inference.maxTotalTokens | quote }}
+            {{- end }}
+            {{- if .Values.container.environment }}
+            {{- range .Values.container.environment }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.container.secrets }}
+            {{- range .Values.container.secrets }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.serviceName }}-secrets
+                  key: {{ .secretKey }}
+            {{- end }}
+            {{- end }}

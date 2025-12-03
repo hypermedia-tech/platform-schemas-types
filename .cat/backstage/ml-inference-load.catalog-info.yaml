@@ -1,0 +1,23 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ml-inference-load
+  description: Base chart for ML inference workloads using Hugging Face TGI on GPU
+  links:
+    - url: https://hypermediaau.slack.com/messages/gitops-general-support
+      title: Support Channel
+      icon: chat
+  annotations:
+    github.com/project-slug: hypermedia-tech/platform-schema-types
+    hypermedia.au/chart-path: charts/ml-inference-load
+    hypermedia.au/workload-type: ml-inference
+    hypermedia.au/helm-registry: "https://hypermedia-tech.github.io/platform-schemas-types"
+    backstage.io/techdocs-ref: dir:..
+  labels:
+    scaffold-eligible: "true"
+spec:
+  type: platform-base-chart
+  owner: gitops-management
+  lifecycle: production
+  system: gitops-services
+  domain: hyper-platform
