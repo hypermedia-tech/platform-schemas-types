@@ -15,9 +15,7 @@ export interface OllamaInferenceLoadSchema {
     serviceAccount?: string;
     revisionHistoryLimit?: number;
 
-    model: {
-        name: string;
-    };
+    model: string;
 
     gpu: {
         count: number;

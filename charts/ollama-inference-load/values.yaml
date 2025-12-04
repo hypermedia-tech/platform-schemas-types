@@ -14,9 +14,8 @@ ingress:
 service:
   port: 80
 
-# OLLAMA-SPECIFIC: Model to pull at startup
-model:
-  name: "phi"
+# OLLAMA-SPECIFIC: Model to pull at startup (e.g., "phi", "llama2:13b", "mistral:7b-instruct")
+model: "phi"
 
 # OLLAMA-SPECIFIC: GPU configuration
 gpu:
