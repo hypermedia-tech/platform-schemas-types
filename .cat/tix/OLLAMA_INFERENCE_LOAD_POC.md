@@ -201,6 +201,58 @@ We can onboard new workload types quickly because:
 
 This is why we're valuable before we have users: **the architecture is proven extensible**. Adding OLLAMA_INFERENCE_LOAD took hours, not weeks.
 
+### Schema-Driven UI: The DevEx Multiplier
+
+Here's where the architecture really pays off: **the TypeScript schemas don't just validate - they drive UI generation**.
+
+The Backstage workload configuration pages use the `workloadType` discriminator to dynamically render the right React components:
+
+```
+workloadType: "BASIC_CONTAINER_LOAD"     → Shows: container config, ingress, resources
+workloadType: "BASIC_CONTAINER_ROLLOUT"  → Shows: above + rollout strategy panel
+workloadType: "OLLAMA_INFERENCE_LOAD"    → Shows: above + model selector, GPU config
+```
+
+The schema fields map directly to UI elements:
+
+| Schema Field | UI Component |
+|--------------|--------------|
+| `model: string` | Model input field (with Ollama model suggestions) |
+| `gpu.count: number` | GPU count slider/input |
+| `container.resources` | Resource allocation panel |
+| `ingress.enabled` | Toggle switch |
+
+When `OLLAMA_INFERENCE_LOAD` lands in production:
+1. The TypeScript interface already defines `model` and `gpu`
+2. Backstage reads the schema
+3. ~2 hours of wiring to add model-specific UI components
+4. Users get a **purpose-built configuration screen** for ML inference
+
+No JSON editing. No documentation lookups. The UI guides them through exactly what this workload type needs.
+
+**This is the devex flywheel:**
+```
+New workload type
+       ↓
+TypeScript schema with explicit fields
+       ↓
+JSON Schema for validation
+       ↓
+Backstage reads schema
+       ↓
+UI components render dynamically
+       ↓
+Users configure via guided UI
+       ↓
+Validated YAML lands in catalog
+       ↓
+ArgoCD deploys
+```
+
+The explicit fields we debated earlier (`model` vs generic `environment`) aren't just about validation - they're **UI affordances**. A `model` field becomes a model picker. A `gpu.count` field becomes a slider with sane defaults. Generic environment arrays become... a generic key-value editor.
+
+This is why the "specific fields vs generic environment" decision matters more than it first appears. Every explicit field is a UI component waiting to be built. Every generic environment entry is friction for the user.
+
 ---
 
 ## Design Discussion: Specific Fields vs Generic Environment
