@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "workloadType": {
+      "type": "string",
+      "const": "OLLAMA_INFERENCE_LOAD"
+    },
+    "serviceCatalog": {
+      "type": "string"
+    },
+    "serviceName": {
+      "type": "string"
+    },
+    "nameOverride": {
+      "type": "string"
+    },
+    "namespace": {
+      "type": "string"
+    },
+    "environment": {
+      "type": "string"
+    },
+    "serviceAccount": {
+      "type": "string"
+    },
+    "revisionHistoryLimit": {
+      "type": "integer"
+    },
+    "model": {
+      "type": "string",
+      "description": "Ollama model to pull (e.g., 'phi', 'llama2:13b', 'mistral:7b-instruct')"
+    },
+    "gpu": {
+      "properties": {
+        "count": {
+          "type": "integer"
+        }
+      },
+      "required": ["count"],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "container": {
+      "properties": {
+        "containerPorts": {
+          "items": {
+            "properties": {
+              "portName": {
+                "type": "string"
+              },
+              "portNumber": {
+                "type": "integer"
+              },
+              "protocol": {
+                "type": "string"
+              },
+              "servicePort": {
+                "type": "integer"
+              }
+            },
+            "type": "object",
+            "additionalProperties": false
+          },
+          "type": "array"
+        },
+        "environment": {
+          "type": "array"
+        },
+        "image": {
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "livenessProbe": {
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "failureThreshold": {
+              "type": "integer"
+            },
+            "initialDelaySeconds": {
+              "type": "integer"
+            },
+            "path": {
+              "type": "string"
+            },
+            "periodSeconds": {
+              "type": "integer"
+            },
+            "port": {
+              "type": "integer"
+            },
+            "scheme": {
+              "type": "string"
+            },
+            "successThreshold": {
+              "type": "integer"
+            },
+            "timeoutSeconds": {
+              "type": "integer"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "readinessProbe": {
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "failureThreshold": {
+              "type": "integer"
+            },
+            "initialDelaySeconds": {
+              "type": "integer"
+            },
+            "path": {
+              "type": "string"
+            },
+            "periodSeconds": {
+              "type": "integer"
+            },
+            "port": {
+              "type": "integer"
+            },
+            "scheme": {
+              "type": "string"
+            },
+            "successThreshold": {
+              "type": "integer"
+            },
+            "timeoutSeconds": {
+              "type": "integer"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "replicas": {
+          "type": "integer"
+        },
+        "resources": {
+          "properties": {
+            "limits": {
+              "properties": {
+                "cpu": {
+                  "type": "string"
+                },
+                "memory": {
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "requests": {
+              "properties": {
+                "cpu": {
+                  "type": "string"
+                },
+                "memory": {
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ingress": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "host": {
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "service": {
+      "properties": {
+        "port": {
+          "type": "integer"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    }
+  },
+  "required": ["workloadType", "serviceName", "model", "gpu"],
+  "type": "object",
+  "additionalProperties": false
+}

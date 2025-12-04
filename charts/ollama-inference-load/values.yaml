@@ -1,0 +1,64 @@
+workloadType: OLLAMA_INFERENCE_LOAD
+serviceName: &svcName ollama-inference-service
+nameOverride: *svcName
+serviceCatalog: unset
+namespace: default
+environment: unset
+serviceAccount: ""
+revisionHistoryLimit: 2
+
+ingress:
+  enabled: false
+  host: ""
+
+service:
+  port: 80
+
+# OLLAMA-SPECIFIC: Model to pull at startup (e.g., "phi", "llama2:13b", "mistral:7b-instruct")
+model: "phi"
+
+# OLLAMA-SPECIFIC: GPU configuration
+gpu:
+  count: 1
+
+# Container configuration
+container:
+  replicas: 1
+  image:
+    repository: ollama/ollama
+    tag: "latest"
+  containerPorts:
+    - portName: "http"
+      portNumber: 11434
+      protocol: "TCP"
+      servicePort: 80
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "2Gi"
+    limits:
+      cpu: "2"
+      memory: "4Gi"
+  livenessProbe:
+    enabled: true
+    type: "http"
+    path: "/"
+    port: 11434
+    scheme: "HTTP"
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    enabled: true
+    type: "http"
+    path: "/"
+    port: 11434
+    scheme: "HTTP"
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 3
+  environment: []
