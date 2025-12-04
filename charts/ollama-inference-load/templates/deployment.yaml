@@ -26,6 +26,30 @@ spec:
       {{- if .Values.serviceAccount }}
       serviceAccountName: {{ .Values.serviceAccount }}
       {{- end }}
+      volumes:
+        - name: ollama-data
+          emptyDir: {}
+      initContainers:
+        - name: pull-model
+          image: {{ .Values.container.image.repository }}:{{ .Values.container.image.tag }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              ollama serve &
+              sleep 5
+              ollama pull {{ .Values.model.name }}
+          volumeMounts:
+            - name: ollama-data
+              mountPath: /root/.ollama
+          resources:
+            requests:
+              cpu: {{ .Values.container.resources.requests.cpu | quote }}
+              memory: {{ .Values.container.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.container.resources.limits.cpu | quote }}
+              memory: {{ .Values.container.resources.limits.memory | quote }}
+              nvidia.com/gpu: {{ .Values.gpu.count }}
       containers:
         - name: {{ .Values.serviceName }}
           image: {{ .Values.container.image.repository }}:{{ .Values.container.image.tag }}
@@ -35,6 +59,9 @@ spec:
             - name: {{ .portName }}
               containerPort: {{ .portNumber }}
            {{- end }}
+          volumeMounts:
+            - name: ollama-data
+              mountPath: /root/.ollama
           {{- if .Values.container.livenessProbe.enabled }}
           livenessProbe:
             {{- with .Values.container.livenessProbe }}

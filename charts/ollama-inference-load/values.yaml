@@ -14,6 +14,10 @@ ingress:
 service:
   port: 80
 
+# OLLAMA-SPECIFIC: Model to pull at startup
+model:
+  name: "phi"
+
 # OLLAMA-SPECIFIC: GPU configuration
 gpu:
   count: 1
