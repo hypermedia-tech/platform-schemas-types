@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: "1.0"
 description: ML Inference Service Template for GPU workloads using Hugging Face TGI.
 name: ml-inference-load
-version: 1.0.0
+version: 0.0.2
 maintainers:
   - name: delProfundo
     email: bruno@hypermedia.au
