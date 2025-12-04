@@ -143,5 +143,154 @@ src/workloadChartValues/
 
 ---
 
+## The Bigger Picture: Artifact + Config = Deployment
+
+### What This POC Really Proves
+
+This isn't just about running Ollama. It's proof that **our catalog architecture doesn't care what the artifact is**. If you have:
+
+1. A container image (the artifact)
+2. Some configuration (the values file)
+3. A chart that knows how to wire them together (the leaf)
+
+...then the catalog can deploy it. LLM inference is just the latest example. The same pattern works for:
+
+- Web services (BASIC_CONTAINER_LOAD)
+- Stateful workloads (STATEFUL_CONTAINER_LOAD)
+- Canary deployments (BASIC_CONTAINER_ROLLOUT)
+- ML inference - PyTorch stack (ML_INFERENCE_LOAD)
+- ML inference - llama.cpp stack (OLLAMA_INFERENCE_LOAD)
+- Anything else with a container and config
+
+The catalog system is **artifact-agnostic**. The charts are just adapters that translate declarative config into Kubernetes resources.
+
+### Structural Similarity Across Workload Types
+
+Compare the catalog leaves across chart types:
+
+| Field | BASIC_CONTAINER_LOAD | ML_INFERENCE_LOAD | OLLAMA_INFERENCE_LOAD |
+|-------|---------------------|-------------------|----------------------|
+| `workloadType` | ✓ | ✓ | ✓ |
+| `serviceName` | ✓ | ✓ | ✓ |
+| `serviceCatalog` | ✓ | ✓ | ✓ |
+| `namespace` | ✓ | ✓ | ✓ |
+| `environment` | ✓ | ✓ | ✓ |
+| `container.image` | ✓ | ✓ | ✓ |
+| `container.resources` | ✓ | ✓ | ✓ |
+| `container.replicas` | ✓ | ✓ | ✓ |
+| `container.environment` | ✓ | ✓ | ✓ |
+| `container.secrets` | ✓ | ✓ | - |
+| `ingress` | ✓ | ✓ | ✓ |
+| `model` | - | ✓ (object) | ✓ (string) |
+| `gpu` | - | ✓ | ✓ |
+
+~80% of the schema is identical. The ML charts add `model` and `gpu`. That's it.
+
+This structural consistency is the architecture working as designed:
+- **Common concerns** (networking, resources, secrets) are handled the same way everywhere
+- **Domain-specific concerns** (model config, GPU allocation) are additive, not different
+
+### What This Means For The Platform
+
+We can onboard new workload types quickly because:
+
+1. **Copy-paste-modify** - New chart starts from existing chart, change the domain-specific bits
+2. **TypeScript schemas** - Type safety catches mismatches at development time, not deployment time
+3. **Consistent UX** - Users learn the pattern once, apply it everywhere
+4. **Backstage integration** - Every chart is discoverable and scaffoldable
+
+This is why we're valuable before we have users: **the architecture is proven extensible**. Adding OLLAMA_INFERENCE_LOAD took hours, not weeks.
+
+---
+
+## Design Discussion: Specific Fields vs Generic Environment
+
+The `model` field in OLLAMA_INFERENCE_LOAD raises an architectural question: should workload-specific config be explicit schema fields, or should we push everything through `container.environment` and `container.secrets`?
+
+### Case For Specific Fields (Current Approach)
+
+**Discoverability** - When a user looks at the schema, they see `model: string` and immediately understand what's needed. Compare:
+
+```yaml
+# Explicit (current)
+model: "phi:latest"
+
+# Generic alternative
+container:
+  environment:
+    - name: OLLAMA_MODEL
+      value: "phi:latest"
+```
+
+The explicit version is self-documenting. The generic version requires documentation to explain that `OLLAMA_MODEL` is required and what it does.
+
+**Validation** - TypeScript interfaces and JSON schemas can enforce required fields, valid types, and relationships. With generic environment arrays, validation is limited to "is this an array of name/value pairs?"
+
+**Abstraction** - The chart can translate high-level intent into low-level config. `model: "phi"` becomes an init container, a volume mount, and a pull command. Users don't need to understand the implementation.
+
+**IDE Support** - Explicit fields get autocomplete, type hints, and inline documentation. Generic arrays don't.
+
+**Evolution** - When the chart changes implementation (e.g., switching from init container to sidecar), the interface stays stable. Users don't need to update their values files.
+
+### Case For Generic Environment/Secrets (Alternative Approach)
+
+**Flexibility** - Any new feature the underlying runtime supports is immediately available. No chart changes needed to pass a new flag.
+
+```yaml
+# If Ollama adds OLLAMA_FLASH_ATTENTION tomorrow:
+container:
+  environment:
+    - name: OLLAMA_FLASH_ATTENTION
+      value: "true"
+```
+
+With explicit fields, this requires a chart update, TypeScript interface change, JSON schema update, and release.
+
+**Reduced Chart Proliferation** - A generic "GPU container" chart could deploy TGI, Ollama, vLLM, or anything else. The runtime-specific config lives in environment variables, not chart structure.
+
+**Simpler Charts** - Charts become pure infrastructure concerns (networking, volumes, GPU allocation). Application config is passthrough.
+
+**Faster Iteration** - Platform team doesn't bottleneck application teams. They can experiment with new runtime flags without waiting for chart releases.
+
+**Consistency With Twelve-Factor** - Environment variables are the standard way to configure containers. Specific fields are a layer on top that may not match how users think about their applications.
+
+### The Tension
+
+This is fundamentally a trade-off between:
+
+| Explicit Fields | Generic Environment |
+|-----------------|---------------------|
+| Better UX for known use cases | Better flexibility for unknown use cases |
+| Platform team controls interface | Application team controls config |
+| Safer (validated) | More powerful (unrestricted) |
+| Requires releases for new features | Zero-friction feature adoption |
+| Opinionated | Unopinionated |
+
+### Possible Middle Ground
+
+1. **Required fields explicit, optional fields generic** - `model` is explicit because it's required. Runtime tuning flags go through `container.environment`.
+
+2. **Tiered charts** - `OLLAMA_INFERENCE_LOAD` for guided experience, `GPU_CONTAINER_LOAD` for power users who want raw control.
+
+3. **Escape hatch pattern** - Explicit fields for common cases, but `container.environment` always available for overrides and edge cases. (This is what we have now.)
+
+### Where We Are Today
+
+Current charts use hybrid approach:
+- Explicit fields for domain-specific required config (`model`, `gpu.count`)
+- Generic `container.environment` for optional/advanced config
+- Generic `container.secrets` for sensitive values from Vault
+
+This seems reasonable for now. The risk is scope creep - every new feature request becoming an explicit field until the schema is bloated.
+
+Recommendation: **Hold the line on explicit fields**. Only promote to explicit if:
+1. It's required for the workload to function
+2. It needs validation beyond "string exists"
+3. It abstracts implementation complexity users shouldn't see
+
+Everything else stays in `container.environment`.
+
+---
+
 *Created: 2025-12-04*
 *Status: POC Complete*
