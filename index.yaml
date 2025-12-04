@@ -2290,6 +2290,19 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/ml-inference-load-0.0.2/ml-inference-load-0.0.2.tgz
     version: 0.0.2
+  ollama-inference-load:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-12-04T02:48:45.276075172Z"
+    description: ML Inference Service Template for GPU workloads using Ollama.
+    digest: 831dd0c6eddadeaabab4dd0733ee57c537df703ae241008008edaae47a1ff689
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: ollama-inference-load
+    urls:
+    - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/ollama-inference-load-1.0.1/ollama-inference-load-1.0.1.tgz
+    version: 1.0.1
   proto:
   - apiVersion: v2
     appVersion: "1.0"
@@ -2378,4 +2391,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/stateful-container-load-1.0.1/stateful-container-load-1.0.1.tgz
     version: 1.0.1
-generated: "2025-12-03T08:07:51.877382692Z"
+generated: "2025-12-04T02:48:45.276735844Z"
