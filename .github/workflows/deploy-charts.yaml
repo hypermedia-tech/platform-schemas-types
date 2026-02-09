@@ -53,39 +53,36 @@ jobs:
       - name: Identify changed charts
         id: list-changed
         run: |
-          # Compare against the previous commit instead of the branch
           changed_list=$(ct list-changed --since HEAD~1)
-          
-          echo "Charts detected as changed: $changed_list"
+          echo "Charts detected as changed:"
+          echo "$changed_list"
           
           if [ -n "$changed_list" ]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-            # Use multi-line delimiter syntax to avoid 'Invalid format' errors
-            echo "changed_charts<<EOF" >> $GITHUB_OUTPUT
-            echo "$changed_list" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            delimiter="CHARTS_$(date +%s)"
+            echo "changed_charts<<${delimiter}" >> "$GITHUB_OUTPUT"
+            echo "$changed_list" >> "$GITHUB_OUTPUT"
+            echo "${delimiter}" >> "$GITHUB_OUTPUT"
           else
             echo "No charts detected as changed."
-            echo "changed=false" >> $GITHUB_OUTPUT
-            echo "changed_charts=" >> $GITHUB_OUTPUT
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
         shell: bash
 
       - name: Bump versions of changed charts
         if: steps.list-changed.outputs.changed == 'true'
+        env:
+          CHANGED_CHARTS: ${{ steps.list-changed.outputs.changed_charts }}
         run: |
           echo "Bumping versions for the following charts:"
-          echo "${{ steps.list-changed.outputs.changed_charts }}"
+          echo "$CHANGED_CHARTS"
           
-          # The 'chart_path' variable from the previous step already contains the full path
-          # (e.g., "charts/basic-container-load"), so we use it directly.
-          for chart_path in ${{ steps.list-changed.outputs.changed_charts }}; do
+          echo "$CHANGED_CHARTS" | while IFS= read -r chart_path; do
+            [ -z "$chart_path" ] && continue
             echo "--> Bumping version for '$chart_path'..."
             current_version=$(yq e '.version' "$chart_path/Chart.yaml")
-            # Increment the patch version (e.g., 1.0.7 -> 1.0.8)
             new_version=$(echo "$current_version" | awk -F. -v OFS=. '{$NF++;print}')
             echo "    ($current_version -> $new_version)"
-            # Update the Chart.yaml file in place with the new version
             yq -i ".version = \"$new_version\"" "$chart_path/Chart.yaml"
           done
 
