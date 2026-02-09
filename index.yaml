@@ -3,6 +3,18 @@ entries:
   basic-container-load:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2026-02-09T13:12:40.700561757Z"
+    description: Basic Container Service Template.
+    digest: d85f0c6e59e87c758f2f725f559b381226df9b52d304db025f428343f98b031a
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: basic-container-load
+    urls:
+    - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/basic-container-load-1.0.10/basic-container-load-1.0.10.tgz
+    version: 1.0.10
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-08-04T05:53:18.7962723Z"
     description: Basic Container Service Template.
     digest: f97e0969942bbfa2494a047f23bf4c71ea12c81517b1946dd73b36b8413a7202
@@ -170,6 +182,18 @@ entries:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/basic-container-load-0.0.1/basic-container-load-0.0.1.tgz
     version: 0.0.1
   basic-container-rollout:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2026-02-09T13:12:40.919033256Z"
+    description: Basic Container Service Rollout Template, can use any rollout strat.
+    digest: 296c0f455e1fdd2903ba29657eb462bea3b9ab2432a2a5f626c63d7e10fde603
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: basic-container-rollout
+    urls:
+    - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/basic-container-rollout-1.0.40/basic-container-rollout-1.0.40.tgz
+    version: 1.0.40
   - apiVersion: v2
     appVersion: "1.0"
     created: "2025-09-20T12:26:42.750851664Z"
@@ -2321,6 +2345,18 @@ entries:
   stateful-container-load:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2026-02-09T13:12:41.129723381Z"
+    description: Stateful Container Service Template.
+    digest: 2a136f336ecc9cb1d977d2394433d3ba37ccc7401cbedc37523bfae434df6b17
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: stateful-container-load
+    urls:
+    - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/stateful-container-load-1.0.7/stateful-container-load-1.0.7.tgz
+    version: 1.0.7
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-08-04T05:53:19.096029072Z"
     description: Stateful Container Service Template.
     digest: c9b00e309f56cdefc36f8ca18e8d4ee73aacbb377ac3b55d65d8701332cab7c3
@@ -2391,4 +2427,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/stateful-container-load-1.0.1/stateful-container-load-1.0.1.tgz
     version: 1.0.1
-generated: "2025-12-04T02:48:45.276735844Z"
+generated: "2026-02-09T13:12:41.130653222Z"
