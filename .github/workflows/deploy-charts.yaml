@@ -60,11 +60,14 @@ jobs:
           
           if [ -n "$changed_list" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
-            echo "changed_charts=$changed_list" >> $GITHUB_OUTPUT
+            # Use multi-line delimiter syntax to avoid 'Invalid format' errors
+            echo "changed_charts<<EOF" >> $GITHUB_OUTPUT
+            echo "$changed_list" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
           else
             echo "No charts detected as changed."
             echo "changed=false" >> $GITHUB_OUTPUT
-            echo "changed_charts=''" >> $GITHUB_OUTPUT
+            echo "changed_charts=" >> $GITHUB_OUTPUT
           fi
         shell: bash
 
