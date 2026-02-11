@@ -20,15 +20,27 @@ spec:
         version: {{ .Values.container.image.tag | quote }}
         catalog: {{ .Values.serviceCatalog }}
     spec:
+      {{- if .Values.gpu.enabled }}
+      {{- if eq .Values.gpu.type "nvidia" }}
       runtimeClassName: nvidia
       nodeSelector:
         nvidia.com/gpu.present: "true"
+      {{- else if eq .Values.gpu.type "amd" }}
+      nodeSelector:
+        amd.com/gpu.present: "true"
+      {{- end }}
+      {{- end }}
       {{- if .Values.serviceAccount }}
       serviceAccountName: {{ .Values.serviceAccount }}
       {{- end }}
       volumes:
         - name: ollama-data
+          {{- if .Values.storage.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.serviceName }}-olama-data
+          {{- else }}
           emptyDir: {}
+          {{- end }}
       initContainers:
         - name: pull-model
           image: {{ .Values.container.image.repository }}:{{ .Values.container.image.tag }}
@@ -37,8 +49,15 @@ spec:
             - -c
             - |
               ollama serve &
-              sleep 5
-              ollama pull {{ .Values.model }}
+              until curl -sf http://localhost:11434/ > /dev/null 2>&1; do
+                echo "Waiting for ollama to start..."
+                sleep 1
+              done
+              echo "Ollama is ready, pulling models..."
+              ollama pull {{ .Values.models.primary }}
+              {{- range .Values.models.additional }}
+              ollama pull {{ . }}
+              {{- end }}
           volumeMounts:
             - name: ollama-data
               mountPath: /root/.ollama
@@ -49,7 +68,13 @@ spec:
             limits:
               cpu: {{ .Values.container.resources.limits.cpu | quote }}
               memory: {{ .Values.container.resources.limits.memory | quote }}
+                {{- if .Values.gpu.enabled }}
+                {{- if eq .Values.gpu.type "nvidia" }}
               nvidia.com/gpu: {{ .Values.gpu.count }}
+                {{- else if eq .Values.gpu.type "amd" }}
+              amd.com/gpu: {{ .Values.gpu.count }}
+                {{- end }}
+                {{- end }}
       containers:
         - name: {{ .Values.serviceName }}
           image: {{ .Values.container.image.repository }}:{{ .Values.container.image.tag }}
@@ -92,6 +117,21 @@ spec:
             failureThreshold: {{ .failureThreshold }}
             {{- end }}
           {{- end }}
+          {{- if .Values.container.startupProbe.enabled }}
+          startupProbe:
+            {{- with .Values.container.startupProbe }}
+            {{- if eq .type "http" }}
+            httpGet:
+              path: {{ .path }}
+              port: {{ .port }}
+              scheme: {{ .scheme }}
+            {{- end }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            failureThreshold: {{ .failureThreshold }}
+            {{- end }}
+          {{- end }}
           resources:
             requests:
               cpu: {{ .Values.container.resources.requests.cpu | quote }}
@@ -102,8 +142,19 @@ spec:
               nvidia.com/gpu: {{ .Values.gpu.count }}
           {{- if .Values.container.environment }}
           env:
+            {{- if .Values.container.environment }}
             {{- range .Values.container.environment }}
             - name: {{ .name }}
               value: {{ .value | quote }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.container.secrets }}
+            {{- range .Values.container.secrets }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.serviceName }}-secrets
+                  key: {{ .secretKey }}
+            {{- end }}
             {{- end }}
           {{- end }}

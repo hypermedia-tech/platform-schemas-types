@@ -26,18 +26,38 @@
     "revisionHistoryLimit": {
       "type": "integer"
     },
-    "model": {
-      "type": "string",
-      "description": "Ollama model to pull (e.g., 'phi', 'llama2:13b', 'mistral:7b-instruct')"
-    },
     "gpu": {
       "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["nvidia", "amd"]
+        },
         "count": {
           "type": "integer"
         }
       },
-      "required": ["count"],
+      "required": ["enabled", "count"],
       "type": "object",
+      "additionalProperties": false
+    },
+    "storage": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "size": {
+          "type": "string"
+        },
+        "storageClass": {
+          "type": "string"
+        },
+        "accessMode": {
+          "type": "string"
+        }
+      },
       "additionalProperties": false
     },
     "container": {
@@ -64,6 +84,21 @@
           "type": "array"
         },
         "environment": {
+          "type": "array"
+        },
+        "secretRefreshInterval": {
+          "type": "string"
+        },
+        "secretStore": {
+          "properties": {
+            "name": {
+              "type":  "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "secrets": {
           "type": "array"
         },
         "image": {
@@ -115,6 +150,42 @@
           "additionalProperties": false
         },
         "readinessProbe": {
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "failureThreshold": {
+              "type": "integer"
+            },
+            "initialDelaySeconds": {
+              "type": "integer"
+            },
+            "path": {
+              "type": "string"
+            },
+            "periodSeconds": {
+              "type": "integer"
+            },
+            "port": {
+              "type": "integer"
+            },
+            "scheme": {
+              "type": "string"
+            },
+            "successThreshold": {
+              "type": "integer"
+            },
+            "timeoutSeconds": {
+              "type": "integer"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "startupProbe": {
           "properties": {
             "enabled": {
               "type": "boolean"
@@ -207,9 +278,26 @@
       },
       "type": "object",
       "additionalProperties": false
+    },
+    "models": {
+      "properties": {
+        "primary": {
+          "type": "string"
+        },
+        "additional": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      },
+      "description": "Ollama model to pull (e.g., 'phi', 'llama2:13b', 'mistral:7b-instruct')",
+      "type": "object",
+      "additionalProperties": false
     }
   },
-  "required": ["workloadType", "serviceName", "model", "gpu"],
+  "required": ["workloadType", "serviceName", "models", "gpu"],
   "type": "object",
   "additionalProperties": false
 }

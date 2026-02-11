@@ -15,11 +15,21 @@ service:
   port: 80
 
 # OLLAMA-SPECIFIC: Model to pull at startup (e.g., "phi", "llama2:13b", "mistral:7b-instruct")
-model: "phi"
+models:
+  primary: "phi"
+  additional: []
 
 # OLLAMA-SPECIFIC: GPU configuration
 gpu:
+  enabled: true
+  type: "nvidia"
   count: 1
+
+storage:
+  enabled: false
+  size: "10Gi"
+  storageClass: ""
+  accessMode: "ReadWriteOnce"
 
 # Container configuration
 container:
@@ -39,6 +49,8 @@ container:
     limits:
       cpu: "2"
       memory: "4Gi"
+  secretStore:
+    name: vault-backend
   livenessProbe:
     enabled: true
     type: "http"
@@ -61,4 +73,20 @@ container:
     periodSeconds: 10
     successThreshold: 1
     failureThreshold: 3
-  environment: []
+  startupProbe:
+    enabled: true
+    type: "http"
+    path: "/api/tags"
+    port: 11434
+    scheme: "HTTP"
+    initialDelaySeconds: 10
+    timeoutSeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 30
+  environment:
+    - name: OLLAMA_NUM_PARALLEL
+      value: 1
+    - name: OLLAMA_KEEP_ALIVE
+      value: 5m
+  secrets: []

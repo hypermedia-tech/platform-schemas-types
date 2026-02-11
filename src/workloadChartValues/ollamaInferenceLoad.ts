@@ -15,9 +15,14 @@ export interface OllamaInferenceLoadSchema {
     serviceAccount?: string;
     revisionHistoryLimit?: number;
 
-    model: string;
+    models: {
+        primary: string;
+        additional?: string[];
+    };
 
     gpu: {
+        enabled: boolean;
+        type?: "nvidia" | "amd";
         count: number;
     };
 
@@ -37,6 +42,13 @@ export interface OllamaInferenceLoadSchema {
     ingress?: {
         enabled: boolean;
         host: string;
+    };
+
+    storage?: {
+        enabled: boolean;
+        size: string;
+        storageClass?: string;
+        accessMode?: string;
     };
 
     nameOverride?: string;
