@@ -117,6 +117,21 @@ spec:
             failureThreshold: {{ .failureThreshold }}
             {{- end }}
           {{- end }}
+          {{- if .Values.container.startupProbe.enabled }}
+          startupProbe:
+            {{- with .Values.container.startupProbe }}
+            {{- if eq .type "http" }}
+            httpGet:
+              path: {{ .path }}
+              port: {{ .port }}
+              scheme: {{ .scheme }}
+            {{- end }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            failureThreshold: {{ .failureThreshold }}
+            {{- end }}
+          {{- end }}
           resources:
             requests:
               cpu: {{ .Values.container.resources.requests.cpu | quote }}
@@ -127,8 +142,19 @@ spec:
               nvidia.com/gpu: {{ .Values.gpu.count }}
           {{- if .Values.container.environment }}
           env:
+            {{- if .Values.container.environment }}
             {{- range .Values.container.environment }}
             - name: {{ .name }}
               value: {{ .value | quote }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.container.secrets }}
+            {{- range .Values.container.secrets }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.serviceName }}-secrets
+                  key: {{ .secretKey }}
+            {{- end }}
             {{- end }}
           {{- end }}
