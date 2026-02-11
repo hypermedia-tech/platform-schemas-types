@@ -26,10 +26,6 @@
     "revisionHistoryLimit": {
       "type": "integer"
     },
-    "model": {
-      "type": "string",
-      "description": "Ollama model to pull (e.g., 'phi', 'llama2:13b', 'mistral:7b-instruct')"
-    },
     "gpu": {
       "properties": {
         "enabled": {
@@ -231,9 +227,26 @@
       },
       "type": "object",
       "additionalProperties": false
+    },
+    "models": {
+      "properties": {
+        "primary": {
+          "type": "string"
+        },
+        "additional": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      },
+      "description": "Ollama model to pull (e.g., 'phi', 'llama2:13b', 'mistral:7b-instruct')",
+      "type": "object",
+      "additionalProperties": false
     }
   },
-  "required": ["workloadType", "serviceName", "model", "gpu"],
+  "required": ["workloadType", "serviceName", "models", "gpu"],
   "type": "object",
   "additionalProperties": false
 }

@@ -49,8 +49,15 @@ spec:
             - -c
             - |
               ollama serve &
-              sleep 5
-              ollama pull {{ .Values.model }}
+              until curl -sf http://localhost:11434/ > /dev/null 2>&1; do
+                echo "Waiting for ollama to start..."
+                sleep 1
+              done
+              echo "Ollama is ready, pulling models..."
+              ollama pull {{ .Values.models.primary }}
+              {{- range .Values.models.additional }}
+              ollama pull {{ . }}
+              {{- end }}
           volumeMounts:
             - name: ollama-data
               mountPath: /root/.ollama

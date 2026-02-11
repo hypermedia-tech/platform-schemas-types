@@ -15,7 +15,9 @@ service:
   port: 80
 
 # OLLAMA-SPECIFIC: Model to pull at startup (e.g., "phi", "llama2:13b", "mistral:7b-instruct")
-model: "phi"
+models:
+  primary: "phi"
+  additional: []
 
 # OLLAMA-SPECIFIC: GPU configuration
 gpu:
