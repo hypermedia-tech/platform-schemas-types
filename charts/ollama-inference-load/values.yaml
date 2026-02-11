@@ -19,6 +19,8 @@ model: "phi"
 
 # OLLAMA-SPECIFIC: GPU configuration
 gpu:
+  enabled: true
+  type: "nvidia"
   count: 1
 
 storage:

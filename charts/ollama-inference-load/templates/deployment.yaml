@@ -20,9 +20,16 @@ spec:
         version: {{ .Values.container.image.tag | quote }}
         catalog: {{ .Values.serviceCatalog }}
     spec:
+      {{- if .Values.gpu.enabled }}
+      {{- if eq .Values.gpu.type "nvidia" }}
       runtimeClassName: nvidia
       nodeSelector:
         nvidia.com/gpu.present: "true"
+      {{- else if eq .Values.gpu.type "amd" }}
+      nodeSelector:
+        amd.com/gpu.present: "true"
+      {{- end }}
+      {{- end }}
       {{- if .Values.serviceAccount }}
       serviceAccountName: {{ .Values.serviceAccount }}
       {{- end }}
@@ -54,7 +61,13 @@ spec:
             limits:
               cpu: {{ .Values.container.resources.limits.cpu | quote }}
               memory: {{ .Values.container.resources.limits.memory | quote }}
+                {{- if .Values.gpu.enabled }}
+                {{- if eq .Values.gpu.type "nvidia" }}
               nvidia.com/gpu: {{ .Values.gpu.count }}
+                {{- else if eq .Values.gpu.type "amd" }}
+              amd.com/gpu: {{ .Values.gpu.count }}
+                {{- end }}
+                {{- end }}
       containers:
         - name: {{ .Values.serviceName }}
           image: {{ .Values.container.image.repository }}:{{ .Values.container.image.tag }}

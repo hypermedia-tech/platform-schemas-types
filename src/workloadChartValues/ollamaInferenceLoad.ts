@@ -18,6 +18,8 @@ export interface OllamaInferenceLoadSchema {
     model: string;
 
     gpu: {
+        enabled: boolean;
+        type?: "nvidia" | "amd";
         count: number;
     };
 

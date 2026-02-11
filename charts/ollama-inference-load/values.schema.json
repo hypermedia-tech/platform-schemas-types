@@ -32,11 +32,18 @@
     },
     "gpu": {
       "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["nvidia", "amd"]
+        },
         "count": {
           "type": "integer"
         }
       },
-      "required": ["count"],
+      "required": ["enabled", "count"],
       "type": "object",
       "additionalProperties": false
     },
