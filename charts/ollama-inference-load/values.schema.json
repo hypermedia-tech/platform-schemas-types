@@ -292,7 +292,7 @@
           "default": []
         }
       },
-      "description": "Ollama model to pull (e.g., 'phi', 'llama2:13b', 'mistral:7b-instruct')",
+      "description": "Ollama model to pull (eg., 'phi', 'llama2:13b', 'mistral:7b-instruct')",
       "type": "object",
       "additionalProperties": false
     }
