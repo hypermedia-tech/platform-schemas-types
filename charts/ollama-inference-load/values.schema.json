@@ -40,6 +40,23 @@
       "type": "object",
       "additionalProperties": false
     },
+    "storage": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "size": {
+          "type": "string"
+        },
+        "storageClass": {
+          "type": "string"
+        },
+        "accessMode": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
     "container": {
       "properties": {
         "containerPorts": {

@@ -39,6 +39,13 @@ export interface OllamaInferenceLoadSchema {
         host: string;
     };
 
+    storage?: {
+        enabled: boolean;
+        size: string;
+        storageClass?: string;
+        accessMode?: string;
+    };
+
     nameOverride?: string;
     service?: {
         port?: number;

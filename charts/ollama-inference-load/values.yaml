@@ -21,6 +21,12 @@ model: "phi"
 gpu:
   count: 1
 
+storage:
+  enabled: false
+  size: "10Gi"
+  storageClass: ""
+  accessMode: "ReadWriteOnce"
+
 # Container configuration
 container:
   replicas: 1

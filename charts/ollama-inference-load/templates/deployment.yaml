@@ -28,7 +28,12 @@ spec:
       {{- end }}
       volumes:
         - name: ollama-data
+          {{- if .Values.storage.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.serviceName }}-olama-data
+          {{- else }}
           emptyDir: {}
+          {{- end }}
       initContainers:
         - name: pull-model
           image: {{ .Values.container.image.repository }}:{{ .Values.container.image.tag }}
