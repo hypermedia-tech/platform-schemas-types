@@ -3,6 +3,18 @@ entries:
   basic-container-load:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2026-03-15T06:00:21.785740666Z"
+    description: Basic Container Service Template.
+    digest: 51f5f3c091e8f6b4dbbb1295ef17a2a699b2de7a1a28e9ab2c1d1da28c60edc1
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: basic-container-load
+    urls:
+    - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/basic-container-load-1.0.11/basic-container-load-1.0.11.tgz
+    version: 1.0.11
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2026-02-09T13:12:40.700561757Z"
     description: Basic Container Service Template.
     digest: d85f0c6e59e87c758f2f725f559b381226df9b52d304db025f428343f98b031a
@@ -182,6 +194,18 @@ entries:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/basic-container-load-0.0.1/basic-container-load-0.0.1.tgz
     version: 0.0.1
   basic-container-rollout:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2026-03-15T06:00:21.903838125Z"
+    description: Basic Container Service Rollout Template, can use any rollout strat.
+    digest: 9f9283c3db8f32edc10cb3853087f5cd3f8955b655bec9eb76724c8a3c69acec
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: basic-container-rollout
+    urls:
+    - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/basic-container-rollout-1.0.41/basic-container-rollout-1.0.41.tgz
+    version: 1.0.41
   - apiVersion: v2
     appVersion: "1.0"
     created: "2026-02-09T13:12:40.919033256Z"
@@ -2303,6 +2327,19 @@ entries:
   ml-inference-load:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2026-03-15T06:00:22.035334331Z"
+    description: ML Inference Service Template for GPU workloads using Hugging Face
+      TGI.
+    digest: 1775ac3ce4149d0a0b86146ef0f4243f07d03c8dd6b0bf8674dcc86c6b2d423d
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: ml-inference-load
+    urls:
+    - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/ml-inference-load-0.0.3/ml-inference-load-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-12-03T08:07:51.876784954Z"
     description: ML Inference Service Template for GPU workloads using Hugging Face
       TGI.
@@ -2355,6 +2392,18 @@ entries:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/proto-0.0.1/proto-0.0.1.tgz
     version: 0.0.1
   stateful-container-load:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2026-03-15T06:00:22.155865471Z"
+    description: Stateful Container Service Template.
+    digest: 7bc3821305d82e116c43e8434dc43b921aadd3d2d16b616055cc7312dd2b7efc
+    maintainers:
+    - email: bruno@hypermedia.au
+      name: delProfundo
+    name: stateful-container-load
+    urls:
+    - https://github.com/hypermedia-tech/platform-schemas-types/releases/download/stateful-container-load-1.0.8/stateful-container-load-1.0.8.tgz
+    version: 1.0.8
   - apiVersion: v2
     appVersion: "1.0"
     created: "2026-02-09T13:12:41.129723381Z"
@@ -2439,4 +2488,4 @@ entries:
     urls:
     - https://github.com/hypermedia-tech/hyper-chart-repo/releases/download/stateful-container-load-1.0.1/stateful-container-load-1.0.1.tgz
     version: 1.0.1
-generated: "2026-02-11T15:32:49.250644164Z"
+generated: "2026-03-15T06:00:22.156690559Z"
