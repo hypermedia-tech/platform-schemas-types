@@ -49,7 +49,7 @@ spec:
             - -c
             - |
               ollama serve &
-              until curl -sf http://localhost:11434/ > /dev/null 2>&1; do
+              until ollama list > /dev/null 2>&1; do
                 echo "Waiting for ollama to start..."
                 sleep 1
               done
