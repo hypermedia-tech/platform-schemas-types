@@ -1,18 +1,18 @@
 {{- if .Values.storage.enabled }}
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: {{ .Values.serviceName }}-ollama-data
-    namespace: {{ .Values.namespace }}
-    labels:
-      app: {{ .Values.serviceName }}
-  spec:
-    accessModes:
-      - {{ .Values.storage.accessMode | default "ReadWriteOnce" }}
-    {{- if .Values.storage.storageClass }}
-    storageClassName: {{ .Values.storage.storageClass }}
-    {{- end }}
-    resources:
-      requests:
-        storage: {{ .Values.storage.size | default "10Gi" }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.serviceName }}-ollama-data
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.serviceName }}
+spec:
+  accessModes:
+    - {{ .Values.storage.accessMode | default "ReadWriteOnce" }}
+  {{- if .Values.storage.storageClass }}
+  storageClassName: {{ .Values.storage.storageClass }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.storage.size | default "10Gi" }}
 {{- end }}
