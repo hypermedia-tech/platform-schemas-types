@@ -8,7 +8,7 @@ metadata:
       title: Support Channel
       icon: chat
   annotations:
-    github.com/project-slug: hypermedia-tech/platform-schema-types
+    github.com/project-slug: hypermedia-tech/platform-schemas-types
     hypermedia.au/chart-path: charts/ml-inference-load
     hypermedia.au/workload-type: ml-inference
     hypermedia.au/helm-registry: "https://hypermedia-tech.github.io/platform-schemas-types"
