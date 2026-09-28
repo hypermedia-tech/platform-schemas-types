@@ -326,6 +326,9 @@
         },
         "host": {
           "type": "string"
+        },
+        "gatewayManagedCert": {
+          "type": "boolean"
         }
       },
       "type": "object",

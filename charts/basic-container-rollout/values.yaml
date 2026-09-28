@@ -11,6 +11,9 @@ revisionHistoryLimit: 2
 ingress:
   enabled: false
   host: ""
+  # true: annotate the Gateway and let cert-manager (gatewayAPI.enabled) issue the cert
+  # false: render a Certificate (works with any cert-manager config)
+  gatewayManagedCert: false
 service:
   port: 80
 key: "abc"

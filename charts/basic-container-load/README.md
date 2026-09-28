@@ -13,7 +13,8 @@ Values are validated against `values.schema.json` (unknown keys are rejected) an
 | ServiceAccount | `<serviceName>-external-secrets` | always |
 | ExternalSecret → image pull Secret | `<serviceName>-ghcr-docker-config` | always |
 | ExternalSecret → app Secret | `<serviceName>-secrets` | `container.secrets` is non-empty |
-| Gateway, HTTPRoute, Certificate | `<serviceName>-gateway`, `-http-route`, `-tls-cert` | `ingress.enabled` |
+| Gateway, HTTPRoute | `<serviceName>-gateway`, `-http-route` | `ingress.enabled` |
+| Certificate | `<serviceName>-tls-cert` | `ingress.enabled` and not `ingress.gatewayManagedCert` |
 | CNPG Cluster, RoleBinding, 2 ExternalSecrets | `<serviceName>-db-cluster`, … | `postgres.enabled` |
 
 ## How it works
@@ -37,8 +38,12 @@ The image pull secret always comes from Vault `shared/ghcr/dockerconfigjson` (pr
 With `ingress.enabled: true` and `ingress.host` set, the chart creates:
 
 - a Gateway on the `istio` GatewayClass with one HTTPS listener for `ingress.host`, terminating TLS with `<serviceName>-tls-cert`;
-- a Certificate for `ingress.host` from the `letsencrypt-prod` ClusterIssuer;
 - an HTTPRoute sending `/` to the Service on `service.port` (default `80`). That port must match a `servicePort` in `containerPorts`.
+
+The TLS certificate comes from the `letsencrypt-prod` ClusterIssuer in one of two ways:
+
+- `ingress.gatewayManagedCert: false` (default) — the chart renders a `Certificate` for `ingress.host`. Works with any cert-manager setup.
+- `ingress.gatewayManagedCert: true` — the chart annotates the Gateway with `cert-manager.io/cluster-issuer` and cert-manager creates the Certificate from the listener. Needs cert-manager's Gateway API support (`gatewayAPI.enabled` in its controller config). Switching an existing release to `true`: delete the old chart-rendered Certificate first, or cert-manager won't take over the name.
 
 If ExternalDNS watches `gateway-httproute`, the DNS record for `ingress.host` is created automatically.
 
@@ -130,7 +135,7 @@ postgres:
 ## Prerequisites
 
 - External Secrets with the ClusterSecretStore named in `container.secretStore.name`, and the Vault paths above.
-- For `ingress`: Istio with Gateway API, cert-manager with a `letsencrypt-prod` ClusterIssuer.
+- For `ingress`: Istio with Gateway API, cert-manager with a `letsencrypt-prod` ClusterIssuer (and Gateway API support if `gatewayManagedCert: true`).
 - For `postgres`: the CloudNativePG operator, its `cloudnative-pg` ClusterRole, and a `postgresql` ClusterImageCatalog.
 
 ## Gotchas

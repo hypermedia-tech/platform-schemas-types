@@ -26,10 +26,6 @@ spec:
   storage:
     storageClass: {{ .Values.postgres.storageClass }}
     size: {{ .Values.postgres.storageSize }}
-    pvcTemplate:
-      metadata:
-        name: {{ .Values.serviceName }}-postgres-data
-      spec: {}
   resources:
 {{ .Values.postgres.resources | toYaml | nindent 4 }}
 {{- end }}

@@ -46,6 +46,7 @@ export interface BasicContainerLoadSchema {
     ingress?: {
         enabled: boolean;
         host: string;
+        gatewayManagedCert?: boolean;
     };
     nameOverride?: string;
     service?: {

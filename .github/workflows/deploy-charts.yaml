@@ -95,6 +95,7 @@ jobs:
             echo "Committing and pushing version bumps..."
             # The [skip ci] in the commit message is crucial to prevent an infinite loop of workflows.
             git commit -m "ci: bump chart versions for release [skip ci]"
+            git pull --rebase origin main
             git push
           else
             echo "No version bumps to commit. Chart versions may have been manually updated."

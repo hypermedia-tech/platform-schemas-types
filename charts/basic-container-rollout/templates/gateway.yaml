@@ -4,6 +4,10 @@ kind: Gateway
 metadata:
   name: {{ .Values.serviceName }}-gateway
   namespace: {{ .Release.Namespace }}
+  {{- if .Values.ingress.gatewayManagedCert }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  {{- end }}
 spec:
   gatewayClassName: istio
   listeners:

@@ -48,6 +48,7 @@ jobs:
         run: |
           git add package.json
           git commit -m "Bump version to $NEW_VERSION [skip ci]"
+          git pull --rebase origin main
           git push
 
       - name: Publish to GitHub Packages
