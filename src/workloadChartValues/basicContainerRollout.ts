@@ -6,7 +6,8 @@ import {
     Environment,
     EnvironmentVariableObj,
     SecretObj,
-    RolloutConfig
+    RolloutConfig,
+    PostgresConfig
 } from "../shared";
 
 export interface BasicContainerRolloutSchema {
@@ -51,4 +52,5 @@ export interface BasicContainerRolloutSchema {
         port?: number;
     };
     rollout: RolloutConfig
+    postgres?: PostgresConfig;
 }

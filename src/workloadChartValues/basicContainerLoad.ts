@@ -5,7 +5,8 @@ import {
     ContainerResourceProperties,
     Environment,
     EnvironmentVariableObj,
-    SecretObj
+    SecretObj,
+    PostgresConfig
 } from "../shared";
 
 
@@ -50,4 +51,5 @@ export interface BasicContainerLoadSchema {
     service?: {
         port?: number;
     };
+    postgres?: PostgresConfig;
 }

@@ -1,0 +1,35 @@
+{{- if .Values.postgres.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Values.serviceName }}-db-cluster
+  namespace: {{ .Release.Namespace }}
+spec:
+  instances: {{ .Values.postgres.instances | default 1 }}
+  bootstrap:
+    initdb:
+      database: {{ .Values.postgres.dbname }}
+      owner: {{ .Values.postgres.owner }}
+      secret:
+        name: {{ .Values.postgres.dbname }}-db-secret
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: {{ .Values.postgres.dbname }}-db-su-secret
+  serviceAccountTemplate:
+    metadata:
+      name: {{ .Values.postgres.dbname }}-sa
+  imageCatalogRef:
+    apiGroup: postgresql.cnpg.io
+    kind: ClusterImageCatalog
+    name: postgresql
+    major: {{ .Values.postgres.pgVersionMajor }}
+  storage:
+    storageClass: {{ .Values.postgres.storageClass }}
+    size: {{ .Values.postgres.storageSize }}
+    pvcTemplate:
+      metadata:
+        name: {{ .Values.serviceName }}-postgres-data
+      spec: {}
+  resources:
+{{ .Values.postgres.resources | toYaml | nindent 4 }}
+{{- end }}

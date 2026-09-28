@@ -598,6 +598,18 @@ export interface ContainerStorageProperties {
     accessMode: string;
 }
 
+export interface PostgresConfig {
+    enabled: boolean;
+    instances?: number;
+    dbname: string;
+    // must match the username in the external secret
+    owner: string;
+    pgVersionMajor: number;
+    storageSize: string;
+    storageClass: string;
+    resources?: ContainerResourceProperties;
+}
+
 export interface ValuesFileStrategy< T = object > {
     generateValuesFile(variables: {
         serviceName: string;
